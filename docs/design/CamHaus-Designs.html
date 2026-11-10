@@ -1,0 +1,2186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>CamHaus Designs v2</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0}
+:root{color-scheme:light;--font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--bg:#e8e8ea;--window:#f6f6f7;--panel:#efeff1;--surface:#fff;--label:rgba(0,0,0,.86);--label-2:rgba(0,0,0,.56);--label-3:rgba(0,0,0,.3);--sep:rgba(0,0,0,.1);--fill:rgba(0,0,0,.045);--fill-2:rgba(0,0,0,.085);--control:#fff;--ring:0 0 0 .5px rgba(0,0,0,.18),0 .5px 1.5px rgba(0,0,0,.12);--accent:#007aff;--green:#34c759;--red:#ff3b30;--orange:#ff9500;--yellow:#ffcc00;--shadow:0 0 0 .5px rgba(0,0,0,.2),0 24px 60px -24px rgba(0,0,0,.42);--on:#fff;--on-2:rgba(255,255,255,.62);--on-3:rgba(255,255,255,.38);--nf:rgba(255,255,255,.08);--nf2:rgba(255,255,255,.15);--ngreen:#30d158;--nred:#ff453a;--norange:#ff9f0a;--nblue:#0a84ff;--notch-w:185px;--notch-h:32px;--menubar-h:36px;--cdelay:60ms;--tint:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#18181a;--window:#232325;--panel:#1e1e20;--surface:#2b2b2e;--label:rgba(255,255,255,.88);--label-2:rgba(255,255,255,.56);--label-3:rgba(255,255,255,.28);--sep:rgba(255,255,255,.09);--fill:rgba(255,255,255,.055);--fill-2:rgba(255,255,255,.1);--control:#4a4a4d;--ring:0 0 0 .5px rgba(0,0,0,.45),inset 0 .5px 0 rgba(255,255,255,.1);--accent:#0a84ff;--green:#30d158;--red:#ff453a;--orange:#ff9f0a;--yellow:#ffd60a;--shadow:0 0 0 .5px rgba(255,255,255,.12),0 24px 60px -24px rgba(0,0,0,.85)}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#18181a;--window:#232325;--panel:#1e1e20;--surface:#2b2b2e;--label:rgba(255,255,255,.88);--label-2:rgba(255,255,255,.56);--label-3:rgba(255,255,255,.28);--sep:rgba(255,255,255,.09);--fill:rgba(255,255,255,.055);--fill-2:rgba(255,255,255,.1);--control:#4a4a4d;--ring:0 0 0 .5px rgba(0,0,0,.45),inset 0 .5px 0 rgba(255,255,255,.1);--accent:#0a84ff;--green:#30d158;--red:#ff453a;--orange:#ff9f0a;--yellow:#ffd60a;--shadow:0 0 0 .5px rgba(255,255,255,.12),0 24px 60px -24px rgba(0,0,0,.85)}
+body{font:13px/1.4 var(--font);color:var(--label);background:var(--bg);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+button,input,select{font:inherit;color:inherit}
+button{cursor:default}
+button:disabled{opacity:.4}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 50%,transparent);outline-offset:1px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ic{display:block;flex:none}
+.shot{display:block;width:100%;height:100%}
+
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:30;height:52px;display:flex;align-items:center;gap:14px;padding:0 16px;background:color-mix(in srgb,var(--window) 84%,transparent);-webkit-backdrop-filter:saturate(1.8) blur(20px);backdrop-filter:saturate(1.8) blur(20px);border-bottom:1px solid var(--sep)}
+.brand{display:flex;align-items:center;gap:9px;min-width:0}
+.brand svg{display:block;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.25))}
+.brand h1{font-size:15px;font-weight:600;margin:0;letter-spacing:-.01em}
+.brand span{color:var(--label-2)}
+.toolbar .spacer{flex:1}
+.seg{display:inline-flex;padding:2px;border-radius:8px;background:var(--fill-2);gap:2px}
+.seg button{border:0;background:transparent;padding:3px 12px;border-radius:6px;font-size:12px;font-weight:500;min-height:22px;white-space:nowrap}
+.seg button[aria-pressed="true"],.seg button[aria-selected="true"]{background:var(--control);box-shadow:var(--ring)}
+.seg.sm button{padding:2px 9px;font-size:11.5px}
+.seg.full{display:flex}
+.seg.full button{flex:1}
+@media (max-width:720px){.toolbar{gap:8px;padding:0 10px}.brand span,.toolbar .appearance{display:none}}
+
+/* playground layout */
+.playground{display:grid;grid-template-columns:minmax(0,1fr) 316px;min-height:calc(100vh - 52px)}
+.stage-col{padding:20px 22px 30px;min-width:0}
+.inspector{background:var(--panel);border-left:1px solid var(--sep);padding:12px 14px 48px;overflow:auto;max-height:calc(100vh - 52px);position:sticky;top:52px}
+@media (max-width:980px){.playground{grid-template-columns:1fr}.inspector{position:static;max-height:none;border-left:0;border-top:1px solid var(--sep)}}
+
+/* stage */
+.stage{position:relative;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);outline:none;-webkit-user-select:none;user-select:none;height:560px}
+.stage:focus-visible{box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--accent) 50%,transparent)}
+.screen{position:relative;height:560px;transform-origin:0 0;overflow:hidden}
+.wallpaper{position:absolute;inset:0;background:radial-gradient(70% 60% at 18% 105%,#f7c6a3 0%,transparent 60%),radial-gradient(60% 70% at 92% 100%,#b6c9ff 0%,transparent 62%),linear-gradient(180deg,#7fa6e6 0%,#b9cdf3 42%,#ecd9d0 100%)}
+.screen[data-wall="night"] .wallpaper{background:radial-gradient(70% 60% at 15% 108%,#4a2f7d 0%,transparent 62%),radial-gradient(60% 70% at 92% 104%,#0d5a7a 0%,transparent 62%),linear-gradient(180deg,#0a1328 0%,#141d42 48%,#2a2351 100%)}
+.menubar{position:absolute;top:0;left:0;right:0;height:var(--menubar-h);display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:13px;color:#000;background:rgba(255,255,255,.2);-webkit-backdrop-filter:blur(24px) saturate(1.6);backdrop-filter:blur(24px) saturate(1.6);z-index:2}
+.screen[data-wall="night"] .menubar{color:#fff;background:rgba(0,0,0,.2)}
+.menus{display:flex;gap:18px;white-space:nowrap;overflow:hidden}
+.menus b{font-weight:700}
+.extras{display:flex;align-items:center;gap:14px;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* notch */
+.notch{position:absolute;top:0;z-index:6}
+.notch .shape{position:absolute;left:0;top:0;display:block}
+.notch .body{position:absolute;top:0;overflow:hidden;color:var(--on)}
+.layer{position:absolute;top:0;left:50%;opacity:0;transform:scale(.96);transform-origin:50% 0;filter:blur(5px);pointer-events:none;visibility:hidden;transition:opacity .12s ease-out,filter .12s ease-out,transform .16s ease-out,visibility 0s linear .16s}
+.layer.on{opacity:1;transform:none;filter:blur(0);pointer-events:auto;visibility:visible;transition:opacity .24s ease-out var(--cdelay),filter .28s ease-out var(--cdelay),transform .38s cubic-bezier(.2,.9,.25,1) var(--cdelay),visibility 0s}
+.rm .layer{transform:none;filter:none;transition:opacity .15s linear,visibility 0s linear .15s}
+.rm .layer.on{transition:opacity .15s linear,visibility 0s}
+.hc .notch{--nf:rgba(255,255,255,.17);--nf2:rgba(255,255,255,.28);--on-2:rgba(255,255,255,.84);--on-3:rgba(255,255,255,.66)}
+
+/* live activities */
+.live{display:flex;align-items:center;justify-content:space-between;padding:0 12px}
+.slot{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.slot.dim{color:var(--on-2);font-weight:500}
+.mini-art{width:20px;height:20px;border-radius:5px;object-fit:cover;display:block}
+.eq{display:flex;gap:2px;align-items:center;height:14px}
+.eq i{width:3px;height:14px;border-radius:2px;background:var(--tint);animation:eq 1s ease-in-out infinite}
+.eq i:nth-child(2){animation-duration:1.2s;animation-delay:-.3s}
+.eq i:nth-child(3){animation-duration:.8s;animation-delay:-.55s}
+.eq i:nth-child(4){animation-duration:1.05s;animation-delay:-.15s}
+@keyframes eq{0%,100%{transform:scaleY(.32)}50%{transform:scaleY(1)}}
+.paused .eq i{animation-play-state:paused}
+.rm .eq i{animation:none;transform:scaleY(.6)}
+.mini-shot{display:block;width:30px;height:19px;border-radius:4px;overflow:hidden;box-shadow:0 0 0 .5px rgba(255,255,255,.3)}
+.undo-chip{border:0;background:var(--nf2);color:var(--on);font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:999px}
+.undo-chip:hover{background:rgba(255,255,255,.24)}
+.green{color:var(--ngreen)}
+.ring{flex:none;transform:rotate(-90deg)}
+
+/* open panel */
+.open-head{height:var(--notch-h);display:grid;grid-template-columns:minmax(0,1fr) var(--notch-w) minmax(0,1fr);align-items:center;padding:0 12px}
+.head-left{display:flex;align-items:center;min-width:0}
+.tabs{display:flex;gap:3px}
+.tab{position:relative;width:32px;height:24px;border:0;border-radius:7px;background:transparent;color:var(--on-3);display:grid;place-items:center;transition:background .15s,color .15s}
+.tab:hover{color:var(--on-2)}
+.tab[aria-selected="true"]{background:var(--nf2);color:var(--on)}
+.tab-badge{position:absolute;top:0;right:1px;min-width:13px;height:13px;border-radius:7px;background:var(--nblue);color:#fff;font-size:9px;font-weight:700;display:grid;place-items:center;padding:0 3px;line-height:1}
+.tab-badge:empty{display:none}
+.pods-title{display:none;font-weight:600;font-size:13px;padding-left:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.open[data-tab="airpods"] .tabs,.open[data-tab="settings"] .tabs{display:none}
+.open[data-tab="airpods"] .pods-title,.open[data-tab="settings"] .pods-title{display:block}
+.status{display:flex;justify-content:flex-end;align-items:center;gap:12px;font-size:11.5px;font-weight:500;color:var(--on-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.status .it{display:flex;align-items:center;gap:5px}
+.icon-btn{border:0;background:transparent;color:var(--on-3);width:22px;height:22px;border-radius:6px;display:grid;place-items:center;padding:0}
+.icon-btn:hover{color:var(--on);background:var(--nf)}
+.pods-status{display:none;align-items:center;gap:6px}
+.pods-status i{width:7px;height:7px;border-radius:50%;background:var(--ngreen)}
+.open[data-tab="airpods"] .status .it,.open[data-tab="airpods"] .status .icon-btn{display:none}
+.open[data-tab="airpods"] .pods-status{display:flex}
+.panes{position:relative;height:calc(var(--oh) - var(--notch-h))}
+.pane{position:absolute;inset:0;padding:8px 18px 16px;opacity:0;visibility:hidden;transition:opacity .16s,visibility 0s linear .16s}
+.pane.on{opacity:1;visibility:visible;transition:opacity .2s ease-out .04s,visibility 0s}
+.ntoast{position:absolute;left:50%;bottom:12px;z-index:3;transform:translate(-50%,8px);opacity:0;pointer-events:none;background:#fff;color:#000;border-radius:999px;padding:4px 5px 4px 12px;font-size:12px;font-weight:500;display:flex;gap:8px;align-items:center;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.4);transition:opacity .18s,transform .22s cubic-bezier(.2,.9,.25,1)}
+.ntoast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.ntoast button{border:0;background:var(--nblue);color:#fff;border-radius:999px;padding:2px 10px;font-weight:600;font-size:12px}
+.ntoast.plain{padding-right:12px}
+
+/* home */
+.home{display:grid;grid-template-columns:minmax(0,1fr) 216px;gap:16px;height:100%}
+.np{display:grid;grid-template-columns:88px minmax(0,1fr);gap:14px;align-items:center;min-width:0}
+.art{position:relative;width:88px;height:88px;border-radius:14px;overflow:hidden;background:#1c1c1e;box-shadow:0 10px 26px -10px rgba(0,0,0,.7)}
+.art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.art img.ambient{filter:blur(12px) saturate(1.5) brightness(.85);transform:scale(1.5)}
+.art img.inset{inset:auto;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:5px;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+.art .badge{position:absolute;right:5px;bottom:5px;width:20px;height:20px;border-radius:6px;background:rgba(28,28,30,.85);display:grid;place-items:center;color:#fff;box-shadow:0 0 0 .5px rgba(255,255,255,.2)}
+.np-meta{min-width:0}
+.np-meta h3{margin:0;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np-meta p{margin:1px 0 0;color:var(--on-2);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scrub{margin-top:11px}
+.bar{height:4px;border-radius:2px;background:var(--nf2);position:relative;overflow:hidden}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:var(--on);border-radius:2px}
+.times{display:flex;justify-content:space-between;font-size:10.5px;color:var(--on-3);margin-top:4px;font-variant-numeric:tabular-nums}
+.controls{display:flex;justify-content:center;align-items:center;gap:22px;margin-top:4px}
+.ctl{border:0;background:transparent;color:var(--on);width:32px;height:32px;display:grid;place-items:center;border-radius:50%;padding:0}
+.ctl:hover{background:var(--nf)}
+.side-card{background:var(--nf);border-radius:14px;padding:10px 12px;min-width:0}
+.side-card h4{margin:0 0 6px;font-size:11.5px;font-weight:600;color:var(--on-2)}
+.events{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.events li{display:grid;grid-template-columns:3px minmax(0,1fr);gap:8px}
+.events li > i{border-radius:2px;background:var(--c)}
+.events b{display:block;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.events small{font-size:11px;color:var(--on-2)}
+
+/* stash */
+.stash-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.stash-head h3{margin:0;font-size:13px;font-weight:600}
+.stash-head p{margin:0;color:var(--on-2);font-size:11.5px}
+.stash-actions{display:flex;gap:6px;align-items:center}
+.pill{border:0;background:var(--nf2);color:var(--on);font-size:11.5px;font-weight:500;padding:4px 10px;border-radius:999px;display:flex;gap:5px;align-items:center}
+.pill:hover:not(:disabled){background:rgba(255,255,255,.22)}
+.handle{border:0;background:var(--nblue);color:#fff;font-size:11.5px;font-weight:600;padding:4px 10px 4px 8px;border-radius:999px;display:flex;gap:5px;align-items:center;cursor:grab;touch-action:none}
+.handle:active{cursor:grabbing}
+.strip{display:flex;gap:10px;margin-top:6px;padding:7px 6px 6px;overflow-x:auto;scrollbar-width:none;touch-action:pan-x}
+.strip::-webkit-scrollbar{display:none}
+.thumb{position:relative;flex:none;width:112px;height:70px;border-radius:8px;background:#111;box-shadow:0 0 0 .5px rgba(255,255,255,.14);transition:width .18s ease,margin .18s ease,opacity .18s,transform .18s,box-shadow .12s;touch-action:none;outline:none}
+.thumb .img{position:absolute;inset:0;border-radius:8px;overflow:hidden}
+.thumb[aria-selected="true"]{box-shadow:0 0 0 2px var(--nblue)}
+.thumb .n{position:absolute;left:-6px;top:-6px;min-width:18px;height:18px;border-radius:9px;background:#fff;color:#000;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.thumb .x{position:absolute;right:4px;top:4px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;display:grid;place-items:center;opacity:0;transition:opacity .12s}
+.thumb:hover .x{opacity:1}
+.thumb.leaving{width:0;margin-right:-10px;opacity:0;transform:scale(.8)}
+.thumb.arrive{animation:arrive .32s cubic-bezier(.2,.9,.25,1)}
+@keyframes arrive{from{opacity:0;transform:scale(.7) translateY(-8px)}to{opacity:1;transform:none}}
+.rm .thumb.arrive{animation:none}
+.stash-foot{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:6px;color:var(--on-3);font-size:11px;align-items:center}
+.kbd{display:inline-block;min-width:18px;text-align:center;padding:0 5px;border-radius:5px;background:var(--nf2);color:var(--on-2);font-size:11px;line-height:17px;margin-right:4px;font-weight:500}
+.stash-empty{margin-top:10px;border:1.5px dashed rgba(255,255,255,.18);border-radius:14px;height:84px;display:grid;place-items:center;text-align:center;color:var(--on-2);font-size:12px;padding:0 20px}
+.primer{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--nf);border-radius:14px;padding:12px 14px;margin-top:10px}
+.primer .pi{width:34px;height:34px;border-radius:9px;background:var(--nblue);display:grid;place-items:center;color:#fff}
+.primer.denied .pi{background:#636366}
+.primer h4{margin:0;font-size:13px;font-weight:600}
+.primer p{margin:2px 0 0;font-size:11.5px;color:var(--on-2)}
+.primer .acts{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.nbtn{border:0;background:var(--nblue);color:#fff;border-radius:7px;padding:4px 12px;font-weight:600;font-size:12px;white-space:nowrap}
+.nbtn.ghost{background:transparent;color:var(--on-2);font-weight:500}
+
+/* shelf */
+.shelf{display:grid;grid-template-columns:128px minmax(0,1fr);gap:12px;height:100%}
+.airdrop{border:1.5px dashed transparent;border-radius:14px;background:var(--nf);display:grid;justify-items:center;align-content:center;gap:4px;text-align:center;color:var(--on-2);font-size:11.5px;padding:8px}
+.airdrop b{color:var(--on);font-weight:600;font-size:12.5px}
+.airdrop.drop{border-color:var(--nblue);background:rgba(10,132,255,.18);color:var(--on)}
+.ad-ic{width:38px;height:38px;border-radius:50%;background:linear-gradient(180deg,#5ac8fa,#0a84ff);display:grid;place-items:center;color:#fff;margin-bottom:2px}
+.files{display:grid;grid-template-columns:repeat(auto-fill,minmax(152px,1fr));gap:8px;align-content:start;overflow:auto;border:1.5px dashed transparent;border-radius:14px;padding:2px;scrollbar-width:none}
+.files.drop{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.04)}
+.file{position:relative;display:flex;gap:8px;align-items:center;background:var(--nf);border-radius:10px;padding:7px 8px;min-width:0}
+.file > span:nth-child(2){min-width:0}
+.file b{display:block;font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file small{color:var(--on-3);font-size:10.5px}
+.file .x{position:absolute;right:5px;top:5px;width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;opacity:0;transition:opacity .12s}
+.file:hover .x{opacity:1}
+.shelf-empty{grid-column:1 / -1;height:100%;min-height:120px;display:grid;place-items:center;text-align:center;color:var(--on-2);font-size:12px;border:1.5px dashed rgba(255,255,255,.18);border-radius:12px;padding:0 24px}
+
+/* airpods */
+.pods{height:100%;display:grid;grid-template-rows:1fr auto;justify-items:center}
+.pods-grid{display:grid;grid-template-columns:1fr 1fr;align-items:center;justify-items:center;gap:8px;width:100%;max-width:368px}
+.pods-grid.solo{grid-template-columns:1fr}
+.pod2{display:grid;justify-items:center;gap:7px}
+.pod-art{height:86px;display:flex;align-items:center;justify-content:center;color:var(--on)}
+.pod-art.none{height:0}
+.pod-art svg{display:block}
+.meters{display:flex;gap:14px;justify-content:center}
+.meter{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.meter small{font-size:11px;color:var(--on-2);font-weight:600}
+.pod-foot{margin:6px 0 0;text-align:center;font-size:11px;color:var(--on-3)}
+
+/* claude */
+.cl{display:grid;grid-template-columns:minmax(0,1fr) 198px;gap:14px;height:100%}
+.cl-sessions{display:grid;gap:8px;align-content:start;min-width:0}
+.cl-sess{background:var(--nf);border-radius:12px;padding:8px 11px 7px;display:grid;gap:4px;min-width:0}
+.cl-top{display:flex;align-items:center;gap:7px;min-width:0}
+.cl-dot{width:7px;height:7px;border-radius:50%;background:var(--ngreen);flex:none}
+.cl-dot.wait{background:var(--norange)}
+.cl-dot.done{background:rgba(255,255,255,.3)}
+.cl-dot.work{animation:clpulse 1.8s ease-in-out infinite}
+@keyframes clpulse{0%,100%{opacity:1}50%{opacity:.3}}
+.rm .cl-dot.work{animation:none}
+.cl-top b{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cl-chip{flex:none;font-size:10px;font-weight:700;padding:1.5px 7px;border-radius:999px;background:var(--nf2);color:var(--on-2);letter-spacing:.02em}
+.cl-top time{flex:none;margin-left:auto;font-size:11px;color:var(--on-3);font-variant-numeric:tabular-nums}
+.cl-act{font-size:11.5px;color:var(--on-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cl-sess.wait .cl-act{color:var(--norange)}
+.cl-ctx{display:flex;align-items:center;gap:8px;font-size:10.5px;color:var(--on-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.cl-ctx .bar{flex:1}
+.cl-limits{background:var(--nf);border-radius:12px;padding:9px 12px 10px;display:grid;gap:7px;align-content:start}
+.cl-limits h4{margin:0;font-size:11.5px;font-weight:600;color:var(--on-2)}
+.cl-lim{display:grid;gap:3px}
+.cl-lim .t{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--on-2)}
+.cl-lim .t b{color:var(--on);font-weight:600;font-variant-numeric:tabular-nums}
+.cl-lim small{font-size:10px;color:var(--on-3)}
+.cl-att{display:flex;gap:5px;align-items:center;font-size:10.5px;color:var(--on-3)}
+.cg{display:block;flex:none}
+.cg.spin{animation:cgspin 4s linear infinite;transform-origin:50% 50%}
+@keyframes cgspin{to{transform:rotate(360deg)}}
+.cg.pulse{animation:cgpulse 1.8s ease-in-out infinite}
+@keyframes cgpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.rm .cg.spin,.rm .cg.pulse{animation:none}
+.ctile{display:grid;place-items:center;flex:none;background:#D97757}
+
+/* Claude card on Home */
+.rail{display:grid;gap:8px;align-content:start;min-width:0}
+.cl-card{background:var(--nf);border-radius:14px;padding:9px 11px 10px;display:grid;gap:4px;min-width:0;text-align:left;border:0;color:inherit;font:inherit;width:100%}
+.cl-card:hover{background:var(--nf2)}
+.cl-card .r1{display:flex;align-items:center;gap:7px;min-width:0}
+.cl-card .r1 b{font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+.cl-card .act{font-size:11.5px;color:var(--on-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cl-card.wait{box-shadow:inset 0 0 0 1px rgba(255,159,10,.55)}
+.cl-card .ctxrow{display:flex;align-items:center;gap:7px;font-size:10.5px;color:var(--on-3);font-variant-numeric:tabular-nums}
+.cl-card .ctxrow .bar{flex:1;height:3px}
+.cl-card .more{font-size:10.5px;color:var(--on-3)}
+.rail .side-card{padding:9px 11px}
+
+/* screenshot tray */
+.tray{position:absolute;z-index:11;width:290px;border-radius:16px;background:rgba(30,30,32,.8);-webkit-backdrop-filter:blur(32px) saturate(1.8);backdrop-filter:blur(32px) saturate(1.8);box-shadow:0 0 0 .5px rgba(255,255,255,.18),0 20px 48px -14px rgba(0,0,0,.75);color:#fff;overflow:hidden;opacity:0;transform:translateY(12px) scale(.95);pointer-events:none;transition:opacity .18s ease-out,transform .34s cubic-bezier(.2,.9,.25,1)}
+.tray.on{opacity:1;transform:none;pointer-events:auto}
+.rm .tray{transition:opacity .15s linear}
+.rm .tray.on{transform:none}
+.tray-main{display:grid;grid-template-columns:104px minmax(0,1fr);gap:11px;padding:11px 12px 9px;align-items:center}
+.tray-shot{position:relative;display:block;width:104px;height:66px;border-radius:8px;overflow:hidden;box-shadow:0 0 0 .5px rgba(255,255,255,.32);cursor:grab;touch-action:none}
+.tray-shot:active{cursor:grabbing}
+.tray-meta{min-width:0;display:grid;gap:2px}
+.tray-meta b{font-size:13px;font-weight:600}
+.tray-dest{font-size:11.5px;color:var(--on-2);display:flex;align-items:center;gap:5px;min-width:0}
+.tray-dest em{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tray-hint{font-size:11px;color:var(--on-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tray-acts{display:flex;gap:6px;align-items:center;padding:0 12px 11px}
+.tray-send{flex:1;border:0;border-radius:8px;padding:5px 10px;background:var(--nblue);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;min-width:0}
+.tray-send:hover{filter:brightness(1.08)}
+.tray-send.done{background:rgba(48,209,88,.2);color:var(--ngreen)}
+.tray-send.done:hover{filter:none}
+.tray-ic{border:0;background:var(--nf2);color:var(--on);width:30px;height:26px;border-radius:8px;display:grid;place-items:center;flex:none;padding:0}
+.tray-ic:hover{background:rgba(255,255,255,.24)}
+.tray-timer{height:2px;background:rgba(255,255,255,.1)}
+.tray-timer i{display:block;height:100%;width:100%;background:var(--on-3);transform-origin:0 50%}
+.tray-timer i.run{animation:drain linear forwards}
+.tray.hold .tray-timer i{animation-play-state:paused}
+@keyframes drain{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+
+/* settings */
+.set{height:100%;display:grid;grid-template-columns:1fr 1fr;gap:0 16px;align-content:start;overflow:auto;scrollbar-width:none}
+.set::-webkit-scrollbar{display:none}
+.set-group{background:var(--nf);border-radius:12px;overflow:hidden;margin-bottom:8px}
+.set-row{display:flex;align-items:center;gap:9px;padding:6px 11px;min-height:34px;font-size:12px}
+.set-row + .set-row{box-shadow:0 -.5px 0 rgba(255,255,255,.09)}
+.set-row .si{width:21px;height:21px;border-radius:6px;display:grid;place-items:center;color:#fff;flex:none}
+.set-row b{font-weight:500;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.set-row .sv{color:var(--on-3);font-size:11.5px;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.set-foot{grid-column:1/-1;text-align:center;font-size:10.5px;color:var(--on-3);margin:2px 0 0}
+
+/* eyemac */
+.eyes{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);display:flex;gap:18px}
+.eye{position:relative;width:12px;height:12px;border-radius:50%;background:#fff;overflow:hidden;transition:transform .08s}
+.eye i{position:absolute;left:3.5px;top:3.5px;width:5px;height:5px;border-radius:50%;background:#000}
+.eyes.blink .eye{transform:scaleY(.12)}
+
+/* debug overlays */
+.housing{position:absolute;top:0;left:50%;transform:translateX(-50%);width:var(--notch-w);height:var(--notch-h);border-radius:0 0 var(--hr,10px) var(--hr,10px);background:repeating-linear-gradient(135deg,rgba(255,69,58,.55) 0 2px,transparent 2px 6px);box-shadow:inset 0 0 0 1px rgba(255,69,58,.95);z-index:7;pointer-events:none}
+.housing span{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);white-space:nowrap;font-size:11px;font-weight:600;color:#fff;background:rgba(255,69,58,.94);padding:2px 7px;border-radius:5px}
+.is-open .housing span{display:none}
+.grid{position:absolute;top:0;left:50%;transform:translateX(-50%);width:840px;height:300px;z-index:8;pointer-events:none;background-image:linear-gradient(to right,rgba(255,59,48,.38) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,59,48,.38) 1px,transparent 1px),linear-gradient(to right,rgba(255,59,48,.13) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,59,48,.13) 1px,transparent 1px);background-size:16px 16px,16px 16px,4px 4px,4px 4px;background-position:50% 0;-webkit-mask-image:radial-gradient(60% 90% at 50% 0,#000 40%,transparent 100%);mask-image:radial-gradient(60% 90% at 50% 0,#000 40%,transparent 100%)}
+.readout{position:absolute;left:50%;transform:translateX(-50%);z-index:9;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;color:#fff;background:rgba(255,59,48,.94);padding:3px 7px;border-radius:5px;white-space:nowrap;pointer-events:none}
+
+/* desktop window: chat drop target */
+.chat{position:absolute;left:28px;bottom:26px;width:320px;border-radius:12px;background:color-mix(in srgb,var(--surface) 90%,transparent);-webkit-backdrop-filter:blur(20px) saturate(1.5);backdrop-filter:blur(20px) saturate(1.5);box-shadow:0 0 0 .5px rgba(0,0,0,.22),0 18px 40px -12px rgba(0,0,0,.45);color:var(--label);overflow:hidden;z-index:3;transition:box-shadow .15s,transform .15s}
+.chat.target{box-shadow:0 0 0 2px var(--accent),0 18px 40px -12px rgba(0,0,0,.45);transform:scale(1.015)}
+.wbar{height:30px;display:flex;align-items:center;gap:10px;padding:0 10px;font-size:12px;font-weight:600;color:var(--label-2)}
+.lights{display:flex;gap:7px}
+.lights i{width:12px;height:12px;border-radius:50%;background:#ff5f57;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.15)}
+.lights i:nth-child(2){background:#febc2e}
+.lights i:nth-child(3){background:#28c840}
+.chat-body{padding:4px 12px 10px;min-height:76px;display:grid;align-content:center}
+.chat-hint{font-size:12px;color:var(--label-2);text-align:center;border:1.5px dashed var(--sep);border-radius:10px;padding:16px 10px}
+.chat-att{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.att{position:relative;width:52px;height:33px;border-radius:5px;overflow:hidden;box-shadow:0 0 0 .5px var(--sep)}
+.att b{position:absolute;left:2px;top:2px;min-width:13px;height:13px;border-radius:7px;background:#fff;color:#000;font-size:9px;display:grid;place-items:center;padding:0 3px;z-index:1}
+.chat-att p{flex-basis:100%;margin:2px 0 0;font-size:11.5px;color:var(--label-2)}
+.link{border:0;background:none;color:var(--accent);padding:0;font-size:inherit}
+.chat-input{margin:0 10px 10px;padding:7px 10px;border-radius:9px;background:var(--fill);font-size:12px;color:var(--label-3)}
+
+/* quick look */
+.quicklook{position:absolute;left:50%;top:228px;width:440px;max-width:86%;transform:translateX(-50%);border-radius:14px;background:rgba(36,36,38,.8);-webkit-backdrop-filter:blur(30px) saturate(1.6);backdrop-filter:blur(30px) saturate(1.6);box-shadow:0 0 0 .5px rgba(255,255,255,.14),0 30px 70px -20px rgba(0,0,0,.7);color:#fff;z-index:9;overflow:hidden;animation:qlin .22s cubic-bezier(.2,.9,.25,1)}
+@keyframes qlin{from{opacity:0;transform:translateX(-50%) scale(.94)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+.rm .quicklook{animation:none}
+.ql-bar{height:32px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;position:relative;font-variant-numeric:tabular-nums}
+.ql-x{position:absolute;left:10px;top:7px;width:18px;height:18px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;display:grid;place-items:center;padding:0}
+.ql-img{margin:0 12px 12px;border-radius:8px;overflow:hidden;aspect-ratio:16/10}
+
+/* drag ghost */
+.ghost{position:absolute;left:0;top:0;z-index:10;pointer-events:none;width:96px;height:60px;transform:translate(-50%,-50%) rotate(-3deg)}
+.ghost .g{position:absolute;inset:0;border-radius:7px;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.45),0 0 0 .5px rgba(255,255,255,.3)}
+.ghost .g:nth-child(2){transform:rotate(5deg) translate(4px,2px)}
+.ghost .g:nth-child(3){transform:rotate(-6deg) translate(-4px,3px)}
+.ghost .count{position:absolute;right:-8px;top:-8px;min-width:20px;height:20px;border-radius:10px;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;padding:0 5px;z-index:4}
+
+/* scenario chips */
+.scenarios{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:14px}
+.sgroup{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.sgroup > span{font-size:11.5px;color:var(--label-2);margin-right:2px}
+.chip{border:0;border-radius:999px;padding:4px 11px;font-size:12px;font-weight:500;background:var(--control);box-shadow:var(--ring)}
+.chip[aria-pressed="true"]{background:var(--accent);color:#fff;box-shadow:none}
+.fineprint{font-size:11.5px;color:var(--label-2);margin:12px 2px 0;max-width:90ch}
+.fineprint.center{text-align:center;margin:18px auto 0}
+
+/* inspector */
+.inspector h2{font-size:12px;font-weight:600;color:var(--label-2);margin:18px 6px 6px}
+.inspector section:first-child h2{margin-top:4px}
+.box{background:var(--surface);border-radius:10px;box-shadow:0 0 0 .5px var(--sep)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px 10px;padding:8px 12px;min-height:38px}
+.row + .row{border-top:1px solid var(--sep)}
+.row output{font-size:12px;color:var(--label-2);font-variant-numeric:tabular-nums}
+.row input[type=range]{grid-column:1 / -1;width:100%;accent-color:var(--accent);margin:0}
+.row .full{grid-column:1 / -1}
+.row .note{grid-column:1 / -1;font-size:11px;color:var(--label-2);margin:0}
+.row select{border:0;border-radius:6px;padding:3px 6px;background:var(--control);box-shadow:var(--ring);font-size:12px;max-width:170px}
+.switch{position:relative;display:inline-block;width:32px;height:19px;flex:none}
+.switch input{position:absolute;inset:0;opacity:0;margin:0;cursor:default;z-index:1}
+.switch span{position:absolute;inset:0;border-radius:10px;background:var(--fill-2);transition:background .2s}
+.switch span::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:transform .2s}
+.switch input:checked + span{background:var(--accent)}
+.switch input:checked + span::after{transform:translateX(13px)}
+.switch input:focus-visible + span{outline:3px solid color-mix(in srgb,var(--accent) 50%,transparent)}
+.btn{border:0;border-radius:6px;padding:4px 11px;font-size:12.5px;font-weight:500;background:var(--control);box-shadow:var(--ring);min-height:24px;white-space:nowrap}
+.btn:active{filter:brightness(.94)}
+.btn.primary{background:var(--accent);color:#fff;box-shadow:none}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.kb{display:inline-block;padding:0 5px;border-radius:5px;background:var(--fill-2);font-size:11px;line-height:17px;font-weight:500;color:var(--label)}
+
+/* onboarding */
+.ob-wrap{padding:40px 20px 60px;min-height:calc(100vh - 52px);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.window{position:relative;width:min(600px,100%);background:var(--window);border-radius:14px;box-shadow:0 0 0 .5px rgba(0,0,0,.22),0 30px 80px -20px rgba(0,0,0,.45);overflow:hidden}
+.ob-step{display:none;padding:2px 44px 6px;min-height:356px;text-align:center}
+.ob-step.on{display:block;animation:obin .3s ease-out}
+@keyframes obin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.ob-step.on{animation:none}}
+.ob-art{height:160px;display:grid;place-items:center}
+.ob-step h2{font-size:22px;font-weight:700;margin:4px 0 6px;letter-spacing:-.01em}
+.ob-step p{color:var(--label-2);max-width:46ch;margin:0 auto 14px}
+.ob-form{display:grid;gap:12px;justify-items:center}
+.ob-range{display:flex;gap:10px;align-items:center;font-size:12.5px;color:var(--label-2)}
+.ob-range input{width:180px;accent-color:var(--accent)}
+.ob-range output{min-width:52px;text-align:left;font-variant-numeric:tabular-nums}
+.ob-foot{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:14px 18px 16px;border-top:1px solid var(--sep)}
+.ob-foot .btns{justify-content:flex-end}
+.dots{display:flex;gap:6px}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--label-3);transition:background .2s}
+.dots i.on{background:var(--label)}
+.mini-screen{position:relative;width:300px;height:132px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#7fa6e6,#ecd9d0);box-shadow:0 0 0 .5px rgba(0,0,0,.2),0 12px 30px -12px rgba(0,0,0,.4)}
+.mini-screen::before{content:"";position:absolute;left:0;right:0;top:0;height:16px;background:rgba(255,255,255,.3)}
+.mini-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:62px;height:14px;background:#000;border-radius:0 0 7px 7px;animation:breathe 3.6s cubic-bezier(.3,.9,.3,1) infinite}
+@keyframes breathe{0%,22%{width:62px;height:14px;border-radius:0 0 7px 7px}38%,78%{width:200px;height:72px;border-radius:0 0 18px 18px}94%,100%{width:62px;height:14px;border-radius:0 0 7px 7px}}
+@media (prefers-reduced-motion:reduce){.mini-notch{animation:none;width:200px;height:72px;border-radius:0 0 18px 18px}}
+.mini-strip{display:flex;gap:12px}
+.mini-strip span{position:relative;width:96px;height:60px;border-radius:8px;overflow:hidden;box-shadow:0 0 0 .5px rgba(0,0,0,.2),0 8px 18px -8px rgba(0,0,0,.5)}
+.mini-strip b{position:absolute;left:4px;top:4px;min-width:16px;height:16px;border-radius:8px;background:#fff;color:#000;font-size:10px;display:grid;place-items:center;z-index:1;box-shadow:0 1px 2px rgba(0,0,0,.4)}
+.mini-pods{width:300px;height:140px;border-radius:22px;background:#000;color:#fff;display:grid;grid-template-columns:1fr 1fr;align-items:end;padding:14px 18px 16px;box-shadow:0 14px 34px -14px rgba(0,0,0,.6)}
+.sc-list{max-width:420px;margin:0 auto;text-align:left;background:var(--surface);border-radius:10px;box-shadow:0 0 0 .5px var(--sep)}
+.sc-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px}
+.sc-row + .sc-row{border-top:1px solid var(--sep)}
+.recorder{min-width:92px;border:0;border-radius:6px;padding:3px 10px;background:var(--fill-2);font-size:12.5px;font-weight:500;font-variant-numeric:tabular-nums}
+.recorder.rec{background:var(--accent);color:#fff}
+.done-check{width:84px;height:84px;border-radius:50%;background:var(--green);display:grid;place-items:center;color:#fff;box-shadow:0 12px 30px -10px color-mix(in srgb,var(--green) 70%,transparent)}
+.ob-toggle{display:inline-flex;gap:12px;align-items:center;font-size:13px;background:var(--surface);padding:9px 12px;border-radius:10px;box-shadow:0 0 0 .5px var(--sep)}
+.alert-back{position:absolute;inset:0;background:rgba(0,0,0,.18);display:grid;place-items:center;z-index:5}
+.alert{width:272px;background:color-mix(in srgb,var(--window) 94%,transparent);-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);border-radius:12px;box-shadow:0 0 0 .5px rgba(0,0,0,.25),0 20px 50px -10px rgba(0,0,0,.5);padding:20px 16px 16px;text-align:center;animation:qlin2 .2s ease-out}
+@keyframes qlin2{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+.alert .ai{display:grid;place-items:center;margin:0 auto 10px}
+.alert h4{margin:0 0 6px;font-size:13px;font-weight:700;line-height:1.3}
+.alert p{margin:0 0 14px;font-size:11px;color:var(--label-2)}
+.alert .btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* specs */
+.specs{max-width:1120px;margin:0 auto;padding:28px 24px 72px}
+.intro h2{font-size:26px;font-weight:700;letter-spacing:-.015em;margin:0 0 6px}
+.intro p{color:var(--label-2);max-width:64ch;margin:0 0 6px}
+.spec{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;padding:28px 0;border-top:1px solid var(--sep)}
+.spec h3{font-size:17px;font-weight:600;margin:0 0 4px}
+.spec .lede{color:var(--label-2);font-size:12.5px;margin:0;max-width:30ch}
+@media (max-width:820px){.spec{grid-template-columns:1fr;gap:12px}.spec .lede{max-width:none}}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--sep);vertical-align:top}
+th{font-weight:600;color:var(--label-2);font-size:12px}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.diagram{border-radius:12px;overflow:hidden;box-shadow:0 0 0 .5px var(--sep)}
+.diagram svg{display:block;width:100%;height:auto}
+pre{font:12px/1.55 var(--mono);background:var(--fill);padding:12px 14px;border-radius:10px;overflow:auto;margin:14px 0 0}
+code{font:12px/1.5 var(--mono)}
+.rules{margin:14px 0 0;padding-left:18px;color:var(--label);max-width:72ch}
+.rules li{margin:5px 0}
+.rules li::marker{color:var(--label-3)}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+.sw{display:grid;grid-template-columns:38px minmax(0,1fr);gap:10px;align-items:center}
+.sw i{width:38px;height:38px;border-radius:10px;box-shadow:0 0 0 .5px var(--sep)}
+.sw b{display:block;font-weight:600;font-size:12.5px}
+.sw small{display:block;color:var(--label-2);font-size:11.5px;line-height:1.35}
+.type-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--sep)}
+.type-row small{color:var(--label-2);font-size:11.5px;font-variant-numeric:tabular-nums}
+.demo{height:26px;display:flex;align-items:center}
+.demo span{display:block;height:18px;width:40px;border-radius:0 0 9px 9px;background:#000}
+.tiles{display:flex;flex-wrap:wrap;gap:12px}
+.tile{background:#000;color:#fff;border-radius:14px;padding:12px 14px;display:grid;justify-items:center;gap:6px;min-width:96px}
+.tile small{font-size:11px;color:var(--on-2)}
+.anatomy{display:flex;align-items:stretch;height:44px;border-radius:0 0 14px 14px;overflow:hidden;max-width:520px;font-size:11.5px;font-weight:600}
+.anatomy div{display:grid;place-items:center;color:#fff;background:#000}
+.anatomy .mid{background:repeating-linear-gradient(135deg,rgba(255,69,58,.55) 0 2px,#000 2px 6px)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-pod" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#eef0f3"/><stop offset="1" stop-color="#c8ccd3"/></linearGradient>
+    <linearGradient id="g-case" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdfdfe"/><stop offset="1" stop-color="#d2d5db"/></linearGradient>
+    <linearGradient id="g-icon" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b3b40"/><stop offset="1" stop-color="#111113"/></linearGradient>
+    <radialGradient id="g-bud" cx="32%" cy="24%" r="92%"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#f3f4f7"/><stop offset=".85" stop-color="#d4d8df"/><stop offset="1" stop-color="#c2c6cf"/></radialGradient>
+    <linearGradient id="g-stem" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d9dce2"/><stop offset=".35" stop-color="#ffffff"/><stop offset=".7" stop-color="#eceef2"/><stop offset="1" stop-color="#c0c4cd"/></linearGradient>
+    <linearGradient id="g-case2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#eef0f3"/><stop offset="1" stop-color="#c6cad3"/></linearGradient>
+    <linearGradient id="g-lid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fefefe"/><stop offset="1" stop-color="#dde0e6"/></linearGradient>
+    <radialGradient id="g-tip" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d7dae0"/></radialGradient>
+    <linearGradient id="g-cup" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6f7f9"/><stop offset=".6" stop-color="#dfe2e8"/><stop offset="1" stop-color="#bfc3cc"/></linearGradient>
+    <radialGradient id="g-shadow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="rgba(0,0,0,.55)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/></radialGradient>
+  </defs>
+</svg>
+
+<header class="toolbar">
+  <div class="brand"><span id="brandIcon"></span><h1>CamHaus</h1><span>Designs</span></div>
+  <div class="spacer"></div>
+  <div class="seg" role="tablist" aria-label="Section">
+    <button role="tab" aria-selected="true" data-view="playground">Playground</button>
+    <button role="tab" aria-selected="false" data-view="onboarding">Onboarding</button>
+    <button role="tab" aria-selected="false" data-view="specs">Specs</button>
+  </div>
+  <div class="spacer"></div>
+  <div class="seg appearance" role="group" aria-label="Appearance">
+    <button data-theme-set="auto" aria-pressed="true">Auto</button>
+    <button data-theme-set="light" aria-pressed="false">Light</button>
+    <button data-theme-set="dark" aria-pressed="false">Dark</button>
+  </div>
+</header>
+
+<main>
+<!-- ============ PLAYGROUND ============ -->
+<section class="view playground" id="view-playground">
+  <div class="stage-col">
+    <div class="stage" id="stage" tabindex="0" aria-label="Simulated MacBook screen. Hover the notch to open it.">
+      <div class="screen" id="screen" data-wall="day">
+        <div class="wallpaper"></div>
+        <div class="menubar" aria-hidden="true">
+          <div class="menus"><b>Finder</b><span>File</span><span>Edit</span><span>View</span><span>Go</span><span>Window</span><span>Help</span></div>
+          <div class="extras" id="extras"></div>
+        </div>
+
+        <div class="notch" id="notch">
+          <svg class="shape" id="shapeSvg" aria-hidden="true"><path id="shapePath" fill="#000"/></svg>
+          <div class="body" id="notchBody">
+            <div class="layer live" data-layer="music">
+              <span class="slot"><img class="mini-art" id="miniArt" alt=""></span>
+              <span class="slot eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            </div>
+            <div class="layer live" data-layer="capture">
+              <span class="slot"><span class="mini-shot" id="miniShot"></span></span>
+              <span class="slot"><span id="capCount">4</span>&nbsp;in stack</span>
+            </div>
+            <div class="layer live" data-layer="trash">
+              <span class="slot" id="liveTrash"></span>
+              <span class="slot"><button class="undo-chip" data-act="undo">Undo</button></span>
+            </div>
+            <div class="layer live" data-layer="airpods">
+              <span class="slot" id="livePodsIcon"></span>
+              <span class="slot" id="livePods"></span>
+            </div>
+            <div class="layer live" data-layer="claude">
+              <span class="slot" id="liveClaudeIcon"></span>
+              <span class="slot" id="liveClaude"></span>
+            </div>
+            <div class="layer live" data-layer="charging">
+              <span class="slot green" id="liveBolt"></span>
+              <span class="slot"><span id="liveBatt">82%</span><span id="liveBattIcon"></span></span>
+            </div>
+
+            <div class="layer open" data-layer="open" id="openLayer" data-tab="home">
+              <div class="open-head">
+                <div class="head-left">
+                  <div class="tabs" role="tablist" aria-label="CamHaus sections">
+                    <button class="tab" role="tab" data-tab="home" aria-label="Home"></button>
+                    <button class="tab" role="tab" data-tab="stash" aria-label="Stash"><span class="tab-badge" id="tabBadge"></span></button>
+                    <button class="tab" role="tab" data-tab="shelf" aria-label="Shelf"></button>
+                    <button class="tab" role="tab" data-tab="claude" aria-label="Claude sessions"><span class="tab-badge" id="clBadge"></span></button>
+                  </div>
+                  <div class="pods-title" id="podsTitle">T’s AirPods</div>
+                </div>
+                <div aria-hidden="true"></div>
+                <div class="status">
+                  <span class="it" id="stPods" hidden><span id="stPodsIcon"></span><span id="stPodsPct"></span></span>
+                  <span class="it"><span id="stBattPct"></span><span id="stBattIcon"></span></span>
+                  <button class="icon-btn" data-act="appsettings" aria-label="Settings" id="gearBtn"></button>
+                  <span class="pods-status"><i></i>Connected</span>
+                </div>
+              </div>
+              <div class="panes">
+                <div class="pane" data-pane="home">
+                  <div class="home">
+                    <div class="np">
+                      <div class="art" id="art"></div>
+                      <div class="np-meta">
+                        <h3 id="npTitle"></h3>
+                        <p id="npArtist"></p>
+                        <div class="scrub"><div class="bar"><i id="npBar"></i></div><div class="times"><span id="npCur"></span><span id="npDur"></span></div></div>
+                        <div class="controls">
+                          <button class="ctl" data-act="prev" aria-label="Previous track" id="btnPrev"></button>
+                          <button class="ctl" data-act="play" aria-label="Play" id="npPlay"></button>
+                          <button class="ctl" data-act="next" aria-label="Next track" id="btnNext"></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="rail" id="homeRail"></div>
+                  </div>
+                </div>
+
+                <div class="pane" data-pane="stash" id="stashPane">
+                  <div class="stash-head">
+                    <div><h3 id="stackTitle">Stack 2</h3><p id="stackMeta"></p></div>
+                    <div class="stash-actions">
+                      <button class="pill" data-act="sendclaude" id="btnSend"></button>
+                      <button class="pill" data-act="copy" id="btnCopy"></button>
+                      <button class="pill" data-act="newstack">New stack</button>
+                      <button class="handle" id="stackHandle" aria-label="Drag the whole stack"></button>
+                    </div>
+                  </div>
+                  <div class="strip" id="strip" role="listbox" aria-label="Screenshots in this stack" aria-multiselectable="true"></div>
+                  <div class="stash-empty" id="stashEmpty" hidden>Take a screenshot with ⇧⌘4 and it lands here, in order.</div>
+                  <div class="primer" id="stashPrimer" hidden></div>
+                  <div class="stash-foot" id="stashFoot"><span><span class="kbd">⌫</span>Move to Trash</span><span><span class="kbd">⌘Z</span>Undo</span><span><span class="kbd">Space</span>Quick Look</span><span>Drag a shot, or the stack, into any app</span></div>
+                </div>
+
+                <div class="pane" data-pane="shelf">
+                  <div class="shelf">
+                    <div class="airdrop" id="airdrop" data-act="airdrop"><span class="ad-ic" id="adIcon"></span><b>AirDrop</b><span>Drop files to send</span></div>
+                    <div class="files" id="files" aria-label="Files on the shelf"></div>
+                  </div>
+                </div>
+
+                <div class="pane" data-pane="airpods">
+                  <div class="pods">
+                    <div class="pods-grid" id="podsGrid">
+                      <div class="pod2"><div class="pod-art" id="budsIll"></div><div class="meters" id="budMeters"></div></div>
+                      <div class="pod2" id="caseCol"><div class="pod-art" id="caseIll"></div><div class="meters" id="caseMeter"></div></div>
+                    </div>
+                    <p class="pod-foot" id="podFoot"></p>
+                  </div>
+                </div>
+
+                <div class="pane" data-pane="claude">
+                  <div class="cl">
+                    <div class="cl-sessions" id="clSessions"></div>
+                    <div class="cl-limits" id="clLimits"></div>
+                  </div>
+                </div>
+
+                <div class="pane" data-pane="settings">
+                  <div class="set" id="setPane"></div>
+                </div>
+              </div>
+              <div class="ntoast" id="ntoast" role="status"><span id="ntoastText"></span><button data-act="undo" id="ntoastUndo">Undo</button></div>
+            </div>
+
+            <div class="layer" data-layer="eyes"><div class="eyes" id="eyes"><span class="eye"><i></i></span><span class="eye"><i></i></span></div></div>
+          </div>
+        </div>
+
+        <div class="housing" id="housing" hidden><span>Camera housing: no pixels here</span></div>
+        <div class="grid" id="grid" hidden></div>
+        <div class="readout" id="readout" hidden></div>
+
+        <div class="chat" id="chat">
+          <div class="wbar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span>Claude</span></div>
+          <div class="chat-body">
+            <div class="chat-hint" id="chatHint">Drag screenshots here from the notch.</div>
+            <div class="chat-att" id="chatAtt" hidden></div>
+          </div>
+          <div class="chat-input">Describe what went wrong…</div>
+        </div>
+
+        <div class="quicklook" id="ql" hidden role="dialog" aria-label="Quick Look">
+          <div class="ql-bar"><button class="ql-x" data-act="qlclose" aria-label="Close Quick Look" id="qlX"></button><span id="qlTitle"></span></div>
+          <div class="ql-img" id="qlImg"></div>
+        </div>
+        <div class="tray" id="tray" role="status" aria-live="polite">
+          <div class="tray-main">
+            <span class="tray-shot" id="trayShot" role="button" tabindex="0" aria-label="Drag this screenshot anywhere"></span>
+            <span class="tray-meta"><b id="trayTitle"></b><span class="tray-dest" id="trayDest"></span><span class="tray-hint" id="trayHint"></span></span>
+          </div>
+          <div class="tray-acts">
+            <button class="tray-send" id="traySend" data-act="traysend"></button>
+            <button class="tray-ic" data-act="traycopy" aria-label="Copy" id="trayCopyBtn"></button>
+            <button class="tray-ic" data-act="traytrash" aria-label="Move to Trash" id="trayTrashBtn"></button>
+          </div>
+          <div class="tray-timer"><i id="trayTimer"></i></div>
+        </div>
+        <div class="ghost" id="ghost" hidden></div>
+      </div>
+    </div>
+
+    <div class="scenarios" id="scenarios">
+      <div class="sgroup"><span>Live activities</span>
+        <button class="chip" data-sc="idle">Idle</button>
+        <button class="chip" data-sc="music">Playing</button>
+        <button class="chip" data-sc="capture">New screenshot</button>
+        <button class="chip" data-sc="tray">Tray only</button>
+        <button class="chip" data-sc="trash">Moved to Trash</button>
+        <button class="chip" data-sc="pods">AirPods connect</button>
+        <button class="chip" data-sc="charging">Charging</button>
+        <button class="chip" data-sc="claudework">Claude working</button>
+        <button class="chip" data-sc="claudewait">Claude needs you</button>
+      </div>
+      <div class="sgroup"><span>Open</span>
+        <button class="chip" data-sc="home">Home</button>
+        <button class="chip" data-sc="stash">Stash</button>
+        <button class="chip" data-sc="shelf">Shelf</button>
+        <button class="chip" data-sc="podcard">AirPods card</button>
+        <button class="chip" data-sc="claude">Claude</button>
+        <button class="chip" data-sc="settings">Settings</button>
+      </div>
+      <div class="sgroup"><span>Effects</span>
+        <button class="chip" data-sc="expando">Expando</button>
+        <button class="chip" data-sc="eyemac">EyeMac</button>
+      </div>
+    </div>
+    <p class="fineprint" id="scaleNote"></p>
+    <p class="fineprint">Hover the notch to open it. In the stash, <span class="kb">⌫</span> moves to Trash, <span class="kb">⌘Z</span> undoes and <span class="kb">Space</span> opens Quick Look. Anywhere: <span class="kb" data-sclabel="open"></span> opens the stash, <span class="kb" data-sclabel="trashLast"></span> trashes the last shot. Drag files from Finder onto the screen to use the shelf.</p>
+  </div>
+
+  <aside class="inspector" aria-label="Inspector">
+    <section><h2>Display</h2>
+      <div class="box">
+        <div class="row"><span class="full">Scaling</span>
+          <div class="seg sm full" data-path="device.scaling" role="group" aria-label="Display scaling"><button data-value="larger">Larger text</button><button data-value="default">Default</button><button data-value="more">More space</button></div>
+          <p class="note">The notch's size in points changes with scaling. The app reads real values from NSScreen; these are estimates.</p>
+        </div>
+        <div class="row"><label for="i-nw">Notch width</label><output data-for="device.notchW" data-unit="pt"></output><input id="i-nw" type="range" min="130" max="260" step="1" data-path="device.notchW"></div>
+        <div class="row"><label for="i-nh">Notch height</label><output data-for="device.notchH" data-unit="pt"></output><input id="i-nh" type="range" min="22" max="44" step="1" data-path="device.notchH"></div>
+        <div class="row"><span>Wallpaper</span><div class="seg sm" data-path="wall" role="group" aria-label="Wallpaper"><button data-value="day">Day</button><button data-value="night">Night</button></div></div>
+        <div class="row"><label for="i-hous">Show camera housing</label><label class="switch"><input id="i-hous" type="checkbox" data-path="debug.housing"><span></span></label></div>
+        <div class="row"><label for="i-grid">Pixel grid and readout</label><label class="switch"><input id="i-grid" type="checkbox" data-path="debug.grid"><span></span></label></div>
+      </div>
+    </section>
+
+    <section><h2>Shape</h2>
+      <div class="box">
+        <div class="row"><label for="i-r">Corner radius, closed</label><output data-for="device.r" data-unit="pt"></output><input id="i-r" type="range" min="4" max="16" step="1" data-path="device.r"></div>
+        <div class="row"><label for="i-ro">Corner radius, open</label><output data-for="device.rOpen" data-unit="pt"></output><input id="i-ro" type="range" min="12" max="34" step="1" data-path="device.rOpen"></div>
+        <div class="row"><label for="i-ear">Ear radius</label><output data-for="device.ear" data-unit="pt"></output><input id="i-ear" type="range" min="0" max="12" step="1" data-path="device.ear"></div>
+        <div class="row"><label for="i-side">Live activity side width</label><output data-for="device.side" data-unit="pt"></output><input id="i-side" type="range" min="44" max="110" step="1" data-path="device.side"></div>
+      </div>
+    </section>
+
+    <section><h2>Motion</h2>
+      <div class="box">
+        <div class="row"><span class="full">Spring</span>
+          <div class="seg sm full" data-path="motion.preset" role="group" aria-label="Spring preset"><button data-value="snappy">Snappy</button><button data-value="smooth">Smooth</button><button data-value="bouncy">Bouncy</button></div>
+        </div>
+        <div class="row"><label for="i-resp">Response</label><output data-for="motion.response" data-unit="s"></output><input id="i-resp" type="range" min="0.15" max="1.2" step="0.01" data-path="motion.response"></div>
+        <div class="row"><label for="i-damp">Damping fraction</label><output data-for="motion.damping" data-unit="f"></output><input id="i-damp" type="range" min="0.3" max="1" step="0.01" data-path="motion.damping"></div>
+        <div class="row"><label for="i-delay">Content delay</label><output data-for="motion.delay" data-unit="ms"></output><input id="i-delay" type="range" min="0" max="200" step="5" data-path="motion.delay"></div>
+        <div class="row"><label for="i-rm">Reduce Motion</label><label class="switch"><input id="i-rm" type="checkbox" data-path="motion.reduce"><span></span></label></div>
+        <div class="row"><span class="note">Same parameters as SwiftUI's .spring(response:dampingFraction:).</span><button class="btn" data-act="replay">Replay</button></div>
+      </div>
+    </section>
+
+    <section><h2>Opening</h2>
+      <div class="box">
+        <div class="row"><span>Open on</span><div class="seg sm" data-path="opening.mode" role="group" aria-label="Open on"><button data-value="hover">Hover</button><button data-value="click">Click</button></div></div>
+        <div class="row"><label for="i-hd">Hover delay</label><output data-for="opening.hoverDelay" data-unit="ms"></output><input id="i-hd" type="range" min="0" max="600" step="10" data-path="opening.hoverDelay"></div>
+        <div class="row"><label for="i-cd">Close delay</label><output data-for="opening.closeDelay" data-unit="ms"></output><input id="i-cd" type="range" min="0" max="1000" step="10" data-path="opening.closeDelay"></div>
+        <div class="row"><label for="i-peek">Grow slightly while waiting</label><label class="switch"><input id="i-peek" type="checkbox" data-path="opening.peek"><span></span></label></div>
+      </div>
+    </section>
+
+    <section><h2>Now Playing</h2>
+      <div class="box">
+        <div class="row"><label for="i-play">Playing</label><label class="switch"><input id="i-play" type="checkbox" data-path="music.playing"><span></span></label></div>
+        <div class="row"><label for="i-mlive">Show in the closed notch</label><label class="switch"><input id="i-mlive" type="checkbox" data-path="music.live"><span></span></label></div>
+        <div class="row"><label for="i-track">Track</label><select id="i-track" data-path="music.track"><option value="0">Low Tide Radio</option><option value="1">Paper Satellites (browser)</option><option value="2">Night Shift (Live)</option></select></div>
+        <div class="row"><span>Artwork source</span><div class="seg sm" data-path="music.art" role="group" aria-label="Artwork source"><button data-value="high">High-res</button><button data-value="low">Low-res</button></div></div>
+        <div class="row"><span>Low-res artwork</span><div class="seg sm" data-path="music.lowRes" role="group" aria-label="Low-res handling"><button data-value="stretch">Stretch</button><button data-value="treat">CamHaus fix</button></div>
+          <p class="note" id="artNote"></p>
+        </div>
+      </div>
+    </section>
+
+    <section><h2>AirPods</h2>
+      <div class="box">
+        <div class="row"><label for="i-pm">Model</label><select id="i-pm" data-path="pods.model"><option value="gen2">AirPods (2nd gen)</option><option value="gen3">AirPods (3rd gen)</option><option value="gen4">AirPods 4</option><option value="pro2">AirPods Pro 2</option><option value="max">AirPods Max</option></select></div>
+        <div class="row"><label for="i-pc">Connected</label><label class="switch"><input id="i-pc" type="checkbox" data-path="pods.connected"><span></span></label></div>
+        <div class="row"><span class="full">Artwork</span>
+          <div class="seg sm full" data-path="pods.art" role="group" aria-label="AirPods artwork"><button data-value="symbols">SF Symbols</button><button data-value="none">Rings only</button></div>
+          <p class="note">Apple's product renders ship with the OS and aren't available to other apps. SF Symbols is Apple's own glyph set, so it's the native-looking option.</p>
+        </div>
+        <div class="row"><label for="i-pl">Left earbud</label><output data-for="pods.left" data-unit="%"></output><input id="i-pl" type="range" min="0" max="100" step="1" data-path="pods.left"></div>
+        <div class="row"><label for="i-pr">Right earbud</label><output data-for="pods.right" data-unit="%"></output><input id="i-pr" type="range" min="0" max="100" step="1" data-path="pods.right"></div>
+        <div class="row"><label for="i-pcase">Case</label><output data-for="pods.case" data-unit="%"></output><input id="i-pcase" type="range" min="0" max="100" step="1" data-path="pods.case"></div>
+        <div class="row"><label for="i-pcc">Case plugged in (USB-C)</label><label class="switch"><input id="i-pcc" type="checkbox" data-path="pods.caseCharging"><span></span></label></div>
+        <div class="row"><label for="i-pin">Earbuds in the case</label><label class="switch"><input id="i-pin" type="checkbox" data-path="pods.inCase"><span></span></label></div>
+        <div class="row"><label for="i-pcard">Show the card on connect</label><label class="switch"><input id="i-pcard" type="checkbox" data-path="pods.card"><span></span></label></div>
+        <div class="row"><span class="note">The model comes from the Bluetooth product ID (this card: see Specs). Artwork is CamHaus's own per model.</span><button class="btn" data-act="connect">Play connection</button></div>
+      </div>
+    </section>
+
+    <section><h2>Claude sessions</h2>
+      <div class="box">
+        <div class="row"><label for="i-cle">Show Claude in the notch</label><label class="switch"><input id="i-cle" type="checkbox" data-path="claude.enabled"><span></span></label></div>
+        <div class="row"><span class="full">CamHaus session state</span>
+          <div class="seg sm full" data-path="claude.phase" role="group" aria-label="Session state"><button data-value="working">Working</button><button data-value="waiting">Needs you</button><button data-value="idle">Idle</button></div>
+        </div>
+        <div class="row"><label for="i-clh">Claude card on Home</label><label class="switch"><input id="i-clh" type="checkbox" data-path="claude.onHome"><span></span></label></div>
+        <div class="row"><label for="i-clc">Context used</label><output data-for="claude.ctx" data-unit="%"></output><input id="i-clc" type="range" min="0" max="100" step="1" data-path="claude.ctx"></div>
+        <div class="row"><label for="i-cl5">Session (5 h)</label><output data-for="claude.s5" data-unit="%"></output><input id="i-cl5" type="range" min="0" max="100" step="1" data-path="claude.s5"></div>
+        <div class="row"><label for="i-clw">Weekly, all models</label><output data-for="claude.week" data-unit="%"></output><input id="i-clw" type="range" min="0" max="100" step="1" data-path="claude.week"></div>
+        <div class="row"><label for="i-clf">Weekly, Fable</label><output data-for="claude.fable" data-unit="%"></output><input id="i-clf" type="range" min="0" max="100" step="1" data-path="claude.fable"></div>
+        <div class="row"><span class="note">Context from the statusline JSON; limits from Claude Code's usage endpoint. Sources are in Specs.</span></div>
+      </div>
+    </section>
+
+    <section><h2>Screenshot tray</h2>
+      <div class="box">
+        <div class="row"><label for="i-tre">Show a tray after each capture</label><label class="switch"><input id="i-tre" type="checkbox" data-path="tray.enabled"><span></span></label></div>
+        <div class="row"><span class="full">Where it appears</span>
+          <div class="seg sm full" data-path="tray.place" role="group" aria-label="Tray placement"><button data-value="capture">By the capture</button><button data-value="corner">Bottom right</button><button data-value="pointer">At the pointer</button></div>
+          <p class="note">macOS puts its own thumbnail bottom right. Turn that one off in Screenshot's Options so you only get one.</p>
+        </div>
+        <div class="row"><label for="i-trd">Dismisses after</label><output data-for="tray.dismiss" data-unit="s0"></output><input id="i-trd" type="range" min="3" max="12" step="1" data-path="tray.dismiss"></div>
+        <div class="row"><span class="full">Where the screenshot goes</span>
+          <div class="seg sm full" data-path="tray.route" role="group" aria-label="Routing"><button data-value="hook">Hook</button><button data-value="mcp">MCP</button><button data-value="clipboard">Clipboard</button><button data-value="off">Manual</button></div>
+          <p class="note" id="routeNote"></p>
+        </div>
+        <div class="row"><span class="note">Needs Claude sessions on, above.</span><button class="btn primary" data-act="capture">Take a screenshot</button></div>
+      </div>
+    </section>
+
+    <section><h2>Stash</h2>
+      <div class="box">
+        <div class="row"><span class="full">Screenshots folder access</span>
+          <div class="seg sm full" data-path="stash.permission" role="group" aria-label="Folder access"><button data-value="ask">Not asked</button><button data-value="granted">Allowed</button><button data-value="denied">Denied</button></div>
+        </div>
+        <div class="row"><div class="btns full"><button class="btn primary" data-act="capture">Take a screenshot</button><button class="btn" data-act="newstack">New stack</button></div>
+          <p class="note">Shortcuts: <span class="kb" data-sclabel="open"></span> open the stash, <span class="kb" data-sclabel="trashLast"></span> trash the last shot, <span class="kb" data-sclabel="clear"></span> clear the stack. Change them in Onboarding.</p>
+        </div>
+      </div>
+    </section>
+
+    <section><h2>Mac</h2>
+      <div class="box">
+        <div class="row"><label for="i-batt">Battery</label><output data-for="mac.battery" data-unit="%"></output><input id="i-batt" type="range" min="1" max="100" step="1" data-path="mac.battery"></div>
+        <div class="row"><label for="i-chg">On power</label><label class="switch"><input id="i-chg" type="checkbox" data-path="mac.charging"><span></span></label></div>
+      </div>
+    </section>
+
+    <section><h2>Effects</h2>
+      <div class="box">
+        <div class="row"><span class="full">Pointer near the notch</span>
+          <div class="seg sm full" data-path="effect.kind" role="group" aria-label="Effect"><button data-value="none">None</button><button data-value="expando">Expando</button><button data-value="eyemac">EyeMac</button></div>
+          <p class="note">From Notchmeister. Effects draw only outside the camera housing.</p>
+        </div>
+        <div class="row"><label for="i-exp">Expando growth</label><output data-for="effect.strength" data-unit="x"></output><input id="i-exp" type="range" min="0.2" max="0.9" step="0.05" data-path="effect.strength"></div>
+      </div>
+    </section>
+
+    <section><h2>Accessibility</h2>
+      <div class="box">
+        <div class="row"><label for="i-hc">Increase Contrast</label><label class="switch"><input id="i-hc" type="checkbox" data-path="a11y.contrast"><span></span></label></div>
+        <div class="row"><span class="note">Reduce Motion lives under Motion and starts from your system setting.</span></div>
+      </div>
+    </section>
+  </aside>
+</section>
+
+<!-- ============ ONBOARDING ============ -->
+<section class="view" id="view-onboarding" hidden>
+  <div class="ob-wrap">
+    <div class="window" role="dialog" aria-label="CamHaus onboarding">
+      <div class="wbar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span></div>
+      <div class="ob-step" data-step="0">
+        <div class="ob-art"><div class="mini-screen"><div class="mini-notch"></div></div></div>
+        <h2>Welcome to CamHaus</h2>
+        <p>Your notch becomes a small, quiet workspace: your screenshots, what's playing and your AirPods, one hover away.</p>
+      </div>
+      <div class="ob-step" data-step="1">
+        <div class="ob-art"><div class="mini-screen"><div class="mini-notch" style="animation-duration:2.4s"></div></div></div>
+        <h2>Open it your way</h2>
+        <p>Pause on the notch and it opens. Move away and it closes again.</p>
+        <div class="ob-form">
+          <div class="seg" data-path="opening.mode" role="group" aria-label="Open on"><button data-value="hover">Hover</button><button data-value="click">Click</button></div>
+          <label class="ob-range">Hover delay<input type="range" min="0" max="600" step="10" data-path="opening.hoverDelay"><output data-for="opening.hoverDelay" data-unit="ms"></output></label>
+        </div>
+      </div>
+      <div class="ob-step" data-step="2">
+        <div class="ob-art"><div class="mini-strip" id="obStrip"></div></div>
+        <h2>Keep a stack of screenshots</h2>
+        <p>Every screenshot you take lands in order, ready to drag into a chat, a bug report or anywhere else. CamHaus needs to read the folder your screenshots are saved to.</p>
+      </div>
+      <div class="ob-step" data-step="3">
+        <div class="ob-art"><div class="mini-pods" id="obPods"></div></div>
+        <h2>See your AirPods at a glance</h2>
+        <p>When your AirPods connect, CamHaus shows each earbud's battery and the case's, including when they're charging. This uses Bluetooth.</p>
+      </div>
+      <div class="ob-step" data-step="4">
+        <div class="ob-art" style="height:40px"></div>
+        <h2>Shortcuts that work anywhere</h2>
+        <p>Click a shortcut and press new keys to change it. Use at least one of ⌃, ⌥ or ⌘.</p>
+        <div class="sc-list">
+          <div class="sc-row"><span>Open the stash</span><button class="recorder" data-shortcut="open"></button></div>
+          <div class="sc-row"><span>Move the last screenshot to Trash</span><button class="recorder" data-shortcut="trashLast"></button></div>
+          <div class="sc-row"><span>Clear the stack</span><button class="recorder" data-shortcut="clear"></button></div>
+        </div>
+      </div>
+      <div class="ob-step" data-step="5">
+        <div class="ob-art"><div class="done-check" id="obCheck"></div></div>
+        <h2>You're all set</h2>
+        <p>CamHaus lives in your notch. Settings are in the open panel, top right.</p>
+        <label class="ob-toggle">Open CamHaus at login<span class="switch"><input type="checkbox" checked aria-label="Open CamHaus at login"><span></span></span></label>
+      </div>
+      <div class="ob-foot">
+        <div><button class="btn" id="obBack">Back</button></div>
+        <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="btns"><button class="btn" id="obAlt">Not Now</button><button class="btn primary" id="obNext">Continue</button></div>
+      </div>
+      <div class="alert-back" id="alertBack" hidden>
+        <div class="alert" role="alertdialog" aria-labelledby="alertTitle" aria-describedby="alertBody">
+          <div class="ai" id="alertIcon"></div>
+          <h4 id="alertTitle"></h4>
+          <p id="alertBody"></p>
+          <div class="btns"><button class="btn" id="alertDeny">Don't Allow</button><button class="btn primary" id="alertAllow">Allow</button></div>
+        </div>
+      </div>
+    </div>
+    <p class="fineprint center">macOS draws the permission prompt. The gray line under its title is your app's purpose string from Info.plist, so write it as carefully as the onboarding copy.</p>
+  </div>
+</section>
+
+<!-- ============ SPECS ============ -->
+<section class="view" id="view-specs" hidden>
+  <div class="specs">
+    <header class="intro">
+      <h2>CamHaus design specs</h2>
+      <p>The rules the playground follows. Numbers tied to the inspector update as you change it.</p>
+    </header>
+
+    <section class="spec">
+      <div><h3>Geometry</h3><p class="lede">Measured from NSScreen at runtime, snapped to device pixels, recomputed when displays or scaling change.</p></div>
+      <div>
+        <div class="diagram" id="geoDiagram"></div>
+<pre><code>let left  = screen.auxiliaryTopLeftArea!   // visible strip left of the housing
+let right = screen.auxiliaryTopRightArea!  // visible strip right of it
+let h     = screen.safeAreaInsets.top
+let notch = NSRect(x: left.maxX, y: screen.frame.maxY - h,
+                   width: right.minX - left.maxX, height: h)</code></pre>
+        <ul class="rules">
+          <li>Nothing is drawn inside the camera housing: it has no pixels. Every open layout leaves a gap exactly the housing's width in its top row.</li>
+          <li>Closed, CamHaus matches the housing: pure black (#000000), concave ears where it meets the top edge, rounded bottom corners.</li>
+          <li>The housing's size in points changes with display scaling, and developers have measured different heights on different models. Never hard-code it.</li>
+          <li>Every edge lands on a device pixel. At rest, widths and heights are whole numbers of pixels.</li>
+          <li>Open, the panel background is the same pure black as the housing — never a tint, material or wallpaper bleed. Content sits on subtle elevated fills.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="spec">
+      <div><h3>Motion</h3><p class="lede">A small set of springs, all interruptible. Content follows the shape, never the other way round.</p></div>
+      <div>
+        <table id="motionTable"></table>
+        <ul class="rules">
+          <li>Open grows the black shape, then fades content in with a short blur-to-sharp. Close fades content first, then shrinks.</li>
+          <li>With Reduce Motion on, size changes are instant and content cross-fades in 150 ms.</li>
+          <li>Hover waits for intent (the hover delay), so a pointer flicking past doesn't open anything.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="spec">
+      <div><h3>Type</h3><p class="lede">System font through macOS text styles. Inside the notch, nothing smaller than 10 pt.</p></div>
+      <div id="typeSpec"></div>
+    </section>
+
+    <section class="spec">
+      <div><h3>Color</h3><p class="lede">The notch is always dark, so its content uses the dark variants of the system colors in both appearances.</p></div>
+      <div class="swatches" id="swatches"></div>
+    </section>
+
+    <section class="spec">
+      <div><h3>Components</h3><p class="lede">Battery rings follow Apple's battery colors. Live activities keep content out of the housing.</p></div>
+      <div>
+        <div class="tiles" id="ringTiles"></div>
+        <ul class="rules">
+          <li>Green above 20%, red at 20% or below, a bolt while charging.</li>
+          <li>The earbuds show one number when they're within 5% of each other, otherwise L and R separately.</li>
+        </ul>
+        <h4 style="margin:22px 0 8px;font-size:13px">Live activity anatomy</h4>
+        <div class="anatomy" id="anatomy"></div>
+      </div>
+    </section>
+
+    <section class="spec">
+      <div><h3>Getting a screenshot into Claude Code</h3><p class="lede">Four routes, each with a real failure mode. Switch between them in the inspector.</p></div>
+      <div>
+        <table>
+          <tr><th>Route</th><th>How it works</th><th>Catch</th></tr>
+          <tr><td>Hook</td><td>CamHaus installs a <code>UserPromptSubmit</code> hook that returns <code>hookSpecificOutput.additionalContext</code> naming the file, so the next thing you type carries the screenshot with it.</td><td>Fires on your next message, not the moment you capture. Reported to be dropped in the VS Code extension; the CLI is fine.</td></tr>
+          <tr><td>MCP</td><td>CamHaus runs a small MCP server with a <code>latest_screenshot</code> tool that returns an image content block. Whichever session is live pulls it.</td><td>The sturdiest of the four, but the session has to ask. Some clients show the image to the model and not to you.</td></tr>
+          <tr><td>Clipboard</td><td>The image goes on the pasteboard; you press ⌃V in the prompt.</td><td>Native on macOS, but paste is known to fail silently now and then.</td></tr>
+          <tr><td>Manual</td><td>The tray sits there. Drag it anywhere, or press Send.</td><td>Nothing automatic. The one that always works.</td></tr>
+        </table>
+        <ul class="rules">
+          <li>Typing into someone else's terminal is deliberately not on the list: it needs Accessibility, breaks on every terminal but the one you tested, and can't tell which pane holds the live session.</li>
+          <li>The tray appears where you captured. macOS shows its own thumbnail bottom right, so turn that one off in Screenshot's Options or you get two.</li>
+          <li>Routing never moves the original. Every screenshot is in the stash whichever route is on.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="spec">
+      <div><h3>Keyboard</h3><p class="lede">Standard Mac keys inside the notch. Global shortcuts always use a modifier and can be changed.</p></div>
+      <table id="kbdTable"></table>
+    </section>
+
+    <section class="spec">
+      <div><h3>AirPods: detection, battery, artwork</h3><p class="lede">Which AirPods are connected, their batteries, and where every image comes from.</p></div>
+      <div>
+        <table>
+          <tr><th>Signal</th><th>Source</th><th>Notes</th></tr>
+          <tr><td>Model</td><td class="num"><code>device_productID</code></td><td>Read from the paired device (IOBluetooth, or <code>system_profiler SPBluetoothDataType</code>), Apple vendor <code>0x004C</code>. Verified on this Mac: “T’s AirPods” report <code>0x2019</code>.</td></tr>
+          <tr><td>Battery while connected</td><td class="num"><code>ioreg</code> HID service</td><td><code>AppleDeviceManagementHIDEventService</code> exposes <code>BatteryPercentLeft/Right/Case</code>; system_profiler mirrors them as <code>device_batteryLevelLeft/Right/Case</code>.</td></tr>
+          <tr><td>Case-open card</td><td>BLE proximity-pairing advert</td><td>Apple Continuity message type <code>0x07</code> carries the model ID, left/right battery nibbles, case level, charging bits and lid state. Scanned with CoreBluetooth, no connection needed — this is why the iPhone card appears the moment the lid opens.</td></tr>
+          <tr><td>Artwork</td><td>CamHaus originals + SF Symbols</td><td>The renders in this file are original CamHaus vectors keyed off the product ID. SF Symbols ships model glyphs for small sizes (<code>airpods</code>, <code>airpods.gen3</code>, <code>airpods.gen4</code>, <code>airpods.pro</code>, <code>airpods.max</code>, charging-case variants). No Apple screenshots or other apps' assets are shipped.</td></tr>
+        </table>
+        <table style="margin-top:16px">
+          <tr><th>Product ID</th><th>Model</th><th>Confirmed by</th></tr>
+          <tr><td class="num"><code>0x2002</code></td><td>AirPods (1st gen)</td><td>The Apple Wiki</td></tr>
+          <tr><td class="num"><code>0x200F</code></td><td>AirPods (2nd gen)</td><td>The Apple Wiki</td></tr>
+          <tr><td class="num"><code>0x2013</code></td><td>AirPods (3rd gen)</td><td>The Apple Wiki</td></tr>
+          <tr><td class="num"><code>0x200E</code></td><td>AirPods Pro</td><td>The Apple Wiki, furiousMAC</td></tr>
+          <tr><td class="num"><code>0x2014</code></td><td>AirPods Pro 2 (Lightning)</td><td>The Apple Wiki</td></tr>
+          <tr><td class="num"><code>0x2024</code></td><td>AirPods Pro 2 (USB-C)</td><td>MacRumors (reported)</td></tr>
+          <tr><td class="num"><code>0x2019</code></td><td>AirPods 4</td><td>This Mac, via system_profiler</td></tr>
+          <tr><td class="num"><code>0x200A</code> / <code>0x201F</code></td><td>AirPods Max (Lightning / USB-C)</td><td>The Apple Wiki</td></tr>
+          <tr><td class="num">other <code>0x20xx</code></td><td>Unknown AirPods-class device</td><td>Falls back to generic artwork and logs the ID</td></tr>
+        </table>
+        <ul class="rules">
+          <li>Sources: <a href="https://theapplewiki.com/wiki/Bluetooth_PIDs">The Apple Wiki — Bluetooth PIDs</a> (ID table); <a href="https://github.com/furiousMAC/continuity">furiousMAC/continuity</a> (proximity-pairing message layout); <a href="https://github.com/librepods-org/librepods">librepods</a> (GPL-3.0) and <a href="https://github.com/lihaoyun6/AirBattery">AirBattery</a> (AGPL-3.0) as behavior references only — no code or assets reused; <a href="https://pypi.org/project/apple-ble/">apple-ble</a> (advert parser reference).</li>
+          <li>Unknown models never break the card: generic artwork, name from the device, batteries still shown.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="spec">
+      <div><h3>Claude in the notch</h3><p class="lede">Live sessions plus the three numbers that matter: context, the 5-hour session, and the weekly limits.</p></div>
+      <div>
+        <table>
+          <tr><th>Stat</th><th>Source</th><th>Fields</th></tr>
+          <tr><td>Context used</td><td>Statusline JSON</td><td>Claude Code pushes JSON to a configured statusline command: <code>context_window.used_percentage</code>, <code>total_input_tokens</code>, <code>context_window_size</code>, plus <code>model.display_name</code> and <code>cost.*</code>.</td></tr>
+          <tr><td>Session (5 h), Weekly, Fable weekly</td><td class="num"><code>GET /api/oauth/usage</code></td><td>On <code>api.anthropic.com</code>, bearer token from <code>~/.claude/.credentials.json</code>. The <code>limits[]</code> entries carry <code>kind</code>, <code>percent</code>, <code>resets_at</code>; model-scoped entries name the model — that row is the Fable gauge.</td></tr>
+          <tr><td>Sessions and phases</td><td>Claude Code hooks</td><td>SessionStart/Stop, tool and permission events over a local socket, with the transcript JSONL for history — Nook's approach, reimplemented fresh.</td></tr>
+          <tr><td>Screenshots into a session</td><td>Terminal input injection</td><td>There is no public API for injecting into a running interactive session, but Claude Code reads image <em>paths</em> typed into the prompt (drag-and-drop into the terminal inserts a path, and ⌃V pastes an image). “Send to Claude” therefore targets the session's terminal — <code>tmux send-keys</code> when the session runs in tmux (the hook event carries the pane), otherwise focus the terminal app and paste via scripting — and inserts the stack's file paths in order.</td></tr>
+        </table>
+        <ul class="rules">
+          <li>Sources: <a href="https://code.claude.com/docs/en/statusline">Claude Code statusline docs</a> (official field list); <a href="https://pypi.org/project/ccusage/">ccusage (PyPI)</a> and <a href="https://www.pkgstats.com/pkg:claude-limitline">claude-limitline</a>, which document the usage endpoint and its auth; <a href="https://github.com/oa1mgo/nook-notch">Nook</a> (GPL-3.0 — the sessions-in-the-notch idea, hook architecture and tmux terminal routing, no code reused).</li>
+          <li>The glyph is the official Claude Code pixel mark, path taken verbatim from <a href="https://lobehub.com/icons/claudecode">LobeHub's icon set</a> (<code>@lobehub/icons-static-svg</code>, MIT packaging; the logo itself is Anthropic's, shown here to represent Anthropic's own tool) in the brand terracotta <code>#D97757</code>. No animated version is published anywhere, so the walk-and-blink while a session is working is CamHaus's own, built by splitting the mark into body, eye and leg layers; it freezes under Reduce Motion.</li>
+          <li>The usage endpoint is Claude Code's own, not a public API: poll gently (on open, then every few minutes), expect it to change, and hide the card rather than show stale numbers.</li>
+          <li>Phases: working (green, pulsing), needs you (orange — also surfaces in the closed notch), idle (gray). A waiting session is the only thing allowed to keep a live activity up indefinitely.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="spec">
+      <div><h3>Where each piece comes from</h3><p class="lede">The best idea from each reference app, and what CamHaus changes about it.</p></div>
+      <table>
+        <tr><th>Piece</th><th>From</th><th>CamHaus change</th></tr>
+        <tr><td>Open and close animation</td><td>boring.notch</td><td>Named spring tokens, interruptible, a Reduce Motion fallback</td></tr>
+        <tr><td>Permission onboarding</td><td>boring.notch</td><td>Explain first, then ask at the moment of need; keeps working when denied</td></tr>
+        <tr><td>Notch sizing</td><td>boring.notch</td><td>Computed from NSScreen, pixel-snapped, recomputed on display changes</td></tr>
+        <tr><td>Now Playing</td><td>boring.notch, Nook</td><td>Artwork is never stretched; low-res sources get an ambient fill and a sharp inset</td></tr>
+        <tr><td>File shelf and AirDrop</td><td>NotchDrop, Nook</td><td>Same jobs, quieter layout; opens by itself when a drag hovers the notch</td></tr>
+        <tr><td>Glanceable widgets</td><td>Nook</td><td>One calm card beside Now Playing instead of a dashboard</td></tr>
+        <tr><td>Expando and EyeMac</td><td>Notchmeister</td><td>Opt-in, drawn only outside the housing; EyeMac here is a stand-in until it's matched to the source</td></tr>
+        <tr><td>Screenshot stash</td><td>CamHaus</td><td>Ordered stacks, instant delete with undo, drag a whole stack into a chat</td></tr>
+        <tr><td>Capture tray</td><td>macOS, CamHaus</td><td>Same idea as the system thumbnail, but it lands where you captured and routes the shot to Claude Code</td></tr>
+        <tr><td>Claude sessions</td><td>CamHaus</td><td>Live session, context and usage limits, with the active one summarised on Home</td></tr>
+        <tr><td>AirPods card</td><td>Apple's iOS case-open card (recreated)</td><td>Model detected from the Bluetooth product ID, then drawn as SF Symbols-style outline glyphs. The ID picks the glyph and never appears in the UI.</td></tr>
+        <tr><td>Claude sessions and limits</td><td>Nook (idea only; GPL-3.0, no code reused)</td><td>Sessions with phase and context, plus the 5-hour, weekly and Fable gauges from Claude Code's own usage data; calmer list, pure-black panel</td></tr>
+        <tr><td>In-notch settings</td><td>Nook</td><td>Grouped macOS-Settings-style rows inside the notch; the full Settings window stays on ⌘,</td></tr>
+      </table>
+    </section>
+  </div>
+</section>
+</main>
+<div class="sr" aria-live="polite" id="announcer"></div>
+
+<script>
+(() => {
+'use strict';
+/* ---------- helpers ---------- */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
+const root = document.documentElement;
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const dpr = () => window.devicePixelRatio || 1;
+const snap = v => Math.round(v * dpr()) / dpr();
+const fmt = v => String(Math.round(v * 10) / 10);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+const easeOut = t => 1 - Math.pow(1 - t, 3);
+const smooth = t => t * t * (3 - 2 * t);
+const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
+const reduceMQ = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+const getP = (o, p) => p.split('.').reduce((a, k) => (a == null ? a : a[k]), o);
+const setP = (o, p, v) => { const ks = p.split('.'); const last = ks.pop(); ks.reduce((a, k) => a[k], o)[last] = v; };
+
+/* ---------- icons ---------- */
+const P = {
+  home: '<path d="M2.5 7.2 8 2.6l5.5 4.6V13a.9.9 0 0 1-.9.9H9.8V10H6.2v3.9H3.4a.9.9 0 0 1-.9-.9Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
+  stash: '<rect x="3.6" y="4.6" width="10" height="8.6" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 10.6V4a1.6 1.6 0 0 1 1.6-1.6H11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="m5.4 11.4 2.2-2.5 1.6 1.7 1.2-1.2 1.6 2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>',
+  shelf: '<path d="M2.4 9.4h3.2l1 1.6h2.8l1-1.6h3.2M2.4 9.4l1.6-5.1a1 1 0 0 1 1-.7h6a1 1 0 0 1 1 .7l1.6 5.1v3.2a1 1 0 0 1-1 1H3.4a1 1 0 0 1-1-1Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
+  play: '<path d="M5 3.1v9.8a.6.6 0 0 0 .92.5l7.7-4.9a.6.6 0 0 0 0-1L5.92 2.6A.6.6 0 0 0 5 3.1Z" fill="currentColor"/>',
+  pause: '<rect x="4" y="3" width="2.8" height="10" rx=".8" fill="currentColor"/><rect x="9.2" y="3" width="2.8" height="10" rx=".8" fill="currentColor"/>',
+  prev: '<path d="M8 3.8v8.4L2 8Zm6.4 0v8.4L8.4 8Z" fill="currentColor"/>',
+  next: '<path d="M8 3.8v8.4L14 8ZM1.6 3.8v8.4L7.6 8Z" fill="currentColor"/>',
+  trash: '<path d="M3 4.5h10M6.3 4.5V3.2a.7.7 0 0 1 .7-.7h2a.7.7 0 0 1 .7.7v1.3M4.3 4.5l.6 8.3a1 1 0 0 0 1 .9h4.2a1 1 0 0 0 1-.9l.6-8.3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
+  bolt: '<path d="M9.2 1.5 3.8 9h3.6l-.8 5.5L12.2 7H8.5Z" fill="currentColor"/>',
+  airdrop: '<circle cx="8" cy="9.4" r="1.3" fill="currentColor"/><path d="M5.3 12.1a3.8 3.8 0 1 1 5.4 0M3.1 14.2a6.8 6.8 0 1 1 9.8 0" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>',
+  copy: '<rect x="5.5" y="5.5" width="8" height="8" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.6v-.4a1 1 0 0 0-1-1H3.2a1 1 0 0 0-1 1v6.3a1 1 0 0 0 1 1h.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>',
+  x: '<path d="m4.5 4.5 7 7m0-7-7 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+  pods: '<path d="M4.6 2.4a2.6 2.6 0 0 0-1.2 4.9v5.4a.9.9 0 0 0 1.8 0V7.5a2.6 2.6 0 0 0-.6-5.1Zm6.8 0a2.6 2.6 0 0 1 1.2 4.9v5.4a.9.9 0 0 1-1.8 0V7.5a2.6 2.6 0 0 1 .6-5.1Z" fill="currentColor"/>',
+  note: '<path d="M6 11.6V4.3l6-1.5v7.3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="4.5" cy="11.7" r="1.6" fill="currentColor"/><circle cx="10.5" cy="10.2" r="1.6" fill="currentColor"/>',
+  globe: '<circle cx="8" cy="8" r="5.6" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M2.4 8h11.2M8 2.4c1.7 1.6 2.6 3.5 2.6 5.6S9.7 12 8 13.6C6.3 12 5.4 10.1 5.4 8S6.3 4 8 2.4Z" fill="none" stroke="currentColor" stroke-width="1.2"/>',
+  folder: '<path d="M2 4.6a1.4 1.4 0 0 1 1.4-1.4h2.8l1.4 1.5h5a1.4 1.4 0 0 1 1.4 1.4v5.8a1.4 1.4 0 0 1-1.4 1.4H3.4A1.4 1.4 0 0 1 2 11.9Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
+  lock: '<rect x="3.5" y="7" width="9" height="6.8" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7" fill="none" stroke="currentColor" stroke-width="1.5"/>',
+  sliders: '<path d="M3 5h10M3 11h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="6" cy="5" r="1.8" fill="#000" stroke="currentColor" stroke-width="1.4"/><circle cx="10.5" cy="11" r="1.8" fill="#000" stroke="currentColor" stroke-width="1.4"/>',
+  check: '<path d="m3.5 8.4 2.9 2.8 6.1-6.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+  wifi: '<path d="M8 13.2a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4Z" fill="currentColor"/><path d="M4.3 8.6a5.2 5.2 0 0 1 7.4 0M2 6.2a8.5 8.5 0 0 1 12 0M6.3 10.6a2.4 2.4 0 0 1 3.4 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+  cc: '<rect x="1.8" y="2.6" width="12.4" height="4.4" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="4.1" cy="4.8" r="1.3" fill="currentColor"/><rect x="1.8" y="9" width="12.4" height="4.4" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="11.9" cy="11.2" r="1.3" fill="currentColor"/>',
+  search: '<circle cx="7" cy="7" r="4.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m10.2 10.2 3.3 3.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+  spark: '<path d="M8 1.2 9.9 6.1 14.8 8 9.9 9.9 8 14.8 6.1 9.9 1.2 8 6.1 6.1Z" fill="currentColor"/>',
+  chev: '<path d="m6.2 3.6 4.4 4.4-4.4 4.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+  power: '<path d="M8 1.8v5.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M11.4 3.9a5.4 5.4 0 1 1-6.8 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+  kbd: '<rect x="1.8" y="3.6" width="12.4" height="8.8" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M4.4 6.2h.1M7 6.2h.1M9.6 6.2h.1M12 6.2h.1M4.4 8.4h.1M7 8.4h.1M9.6 8.4h.1M12 8.4h.1M5 10.4h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>',
+  gear: '<path fill-rule="evenodd" fill="currentColor" d="M8 3.9a4.1 4.1 0 1 0 0 8.2 4.1 4.1 0 0 0 0-8.2Zm0 2.5a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2Z"/><g fill="currentColor"><rect x="7.2" y="1" width="1.6" height="2.4" rx=".7"/><rect x="7.2" y="12.6" width="1.6" height="2.4" rx=".7"/><rect x="7.2" y="1" width="1.6" height="2.4" rx=".7" transform="rotate(90 8 8)"/><rect x="7.2" y="12.6" width="1.6" height="2.4" rx=".7" transform="rotate(90 8 8)"/><rect x="7.2" y="1" width="1.6" height="2.4" rx=".7" transform="rotate(45 8 8)"/><rect x="7.2" y="12.6" width="1.6" height="2.4" rx=".7" transform="rotate(45 8 8)"/><rect x="7.2" y="1" width="1.6" height="2.4" rx=".7" transform="rotate(-45 8 8)"/><rect x="7.2" y="12.6" width="1.6" height="2.4" rx=".7" transform="rotate(-45 8 8)"/></g>'
+};
+const icon = (n, s = 16) => `<svg class="ic" width="${s}" height="${s}" viewBox="0 0 16 16" aria-hidden="true">${P[n]}</svg>`;
+/* Claude Code pixel mark — official path from @lobehub/icons-static-svg (MIT packaging; logo © Anthropic),
+   rebuilt in layers (body / eyes / legs) so CamHaus can animate it. Brand color #D97757. */
+const CLAUDE_ORANGE = '#D97757';
+/* Stylised Claude mark: a radial burst of tapered spokes. Anthropic's trademark —
+   fine in a personal mockup, but check their brand guidelines before shipping. */
+function claudeGlyph(s = 16, anim = '', color = 'currentColor') {
+  const n = 11, cx = 12, cy = 12, r0 = 1.5, r1 = 10.2, w0 = 0.78, w1 = 2.1, f = v => v.toFixed(2);
+  let d = '';
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * Math.PI * 2 - Math.PI / 2;
+    const ca = Math.cos(a), sa = Math.sin(a), px = -sa, py = ca;
+    const ix = cx + ca * r0, iy = cy + sa * r0, ox = cx + ca * r1, oy = cy + sa * r1;
+    d += `M${f(ix + px * w0)} ${f(iy + py * w0)}L${f(ox + px * w1)} ${f(oy + py * w1)}`
+       + `A${w1} ${w1} 0 0 0 ${f(ox - px * w1)} ${f(oy - py * w1)}`
+       + `L${f(ix - px * w0)} ${f(iy - py * w0)}A${w0} ${w0} 0 0 0 ${f(ix + px * w0)} ${f(iy + py * w0)}Z`;
+  }
+  return `<svg class="cg${anim ? ' ' + anim : ''}" width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}" style="fill:${color}"/></svg>`;
+}
+const claudeTile = (s = 20) => `<span class="ctile" style="width:${s}px;height:${s}px;border-radius:${(s * .28).toFixed(1)}px">${claudeGlyph(Math.round(s * .74), '', '#fff')}</span>`;
+const appIcon = s => `<svg width="${s}" height="${s}" viewBox="0 0 64 64" aria-hidden="true"><rect x="2" y="2" width="60" height="60" rx="14" fill="url(#g-icon)"/><path d="M16 2h32v7a7 7 0 0 1-7 7H23a7 7 0 0 1-7-7Z" fill="#000"/><circle cx="32" cy="8.6" r="2.3" fill="#18223d"/><circle cx="31.3" cy="7.9" r=".75" fill="#7d96ff"/><path d="M20 45.5 32 35l12 10.5V53a2.5 2.5 0 0 1-2.5 2.5h-19A2.5 2.5 0 0 1 20 53Z" fill="none" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" opacity=".94"/></svg>`;
+
+/* ---------- fake screenshots (generic UIs) ---------- */
+const TL = '<circle cx="6" cy="5" r="1.7" fill="#ff5f57"/><circle cx="11" cy="5" r="1.7" fill="#febc2e"/><circle cx="16" cy="5" r="1.7" fill="#28c840"/>';
+const SHOTS = [
+  `<svg class="shot" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="160" height="100" fill="#1f2029"/><rect width="160" height="10" fill="#2b2d38"/>${TL}<rect y="10" width="30" height="90" fill="#262833"/><g fill="#5a5f73"><rect x="5" y="16" width="18" height="2" rx="1"/><rect x="5" y="22" width="14" height="2" rx="1"/><rect x="5" y="28" width="20" height="2" rx="1"/><rect x="5" y="34" width="12" height="2" rx="1"/></g><rect x="38" y="17" width="26" height="2.4" rx="1.2" fill="#c792ea"/><rect x="67" y="17" width="34" height="2.4" rx="1.2" fill="#82aaff"/><rect x="44" y="24" width="40" height="2.4" rx="1.2" fill="#c3e88d"/><rect x="44" y="31" width="22" height="2.4" rx="1.2" fill="#f78c6c"/><rect x="69" y="31" width="30" height="2.4" rx="1.2" fill="#89ddff"/><rect x="44" y="38" width="52" height="2.4" rx="1.2" fill="#a6accd"/><rect x="38" y="45" width="10" height="2.4" rx="1.2" fill="#c792ea"/><rect x="38" y="56" width="30" height="2.4" rx="1.2" fill="#82aaff"/><rect x="44" y="63" width="46" height="2.4" rx="1.2" fill="#c3e88d"/><rect x="44" y="70" width="28" height="2.4" rx="1.2" fill="#a6accd"/><rect x="30" y="88" width="130" height="12" fill="#2b2d38"/><rect x="36" y="92" width="40" height="3" rx="1.5" fill="#ff5370"/></svg>`,
+  `<svg class="shot" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="160" height="100" fill="#f5f5f7"/><rect width="160" height="16" fill="#e4e4e8"/><circle cx="6" cy="8" r="1.7" fill="#ff5f57"/><circle cx="11" cy="8" r="1.7" fill="#febc2e"/><circle cx="16" cy="8" r="1.7" fill="#28c840"/><rect x="40" y="4" width="80" height="8" rx="4" fill="#fff"/><rect x="10" y="23" width="140" height="12" rx="3" fill="#ffe1df"/><rect x="15" y="27.5" width="62" height="3" rx="1.5" fill="#ff3b30"/><rect x="10" y="44" width="80" height="5" rx="2.5" fill="#1d1d1f"/><rect x="10" y="54" width="82" height="3" rx="1.5" fill="#86868b"/><rect x="10" y="61" width="70" height="3" rx="1.5" fill="#86868b"/><rect x="10" y="74" width="44" height="14" rx="7" fill="#0071e3"/><rect x="100" y="44" width="50" height="44" rx="6" fill="#dfe8ff"/></svg>`,
+  `<svg class="shot" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="160" height="100" fill="#0d0e10"/><rect width="160" height="10" fill="#1c1d21"/>${TL}<rect x="6" y="17" width="8" height="2.6" rx="1" fill="#30d158"/><rect x="17" y="17" width="58" height="2.6" rx="1" fill="#e5e5ea"/><rect x="6" y="25" width="96" height="2.6" rx="1" fill="#8e8e93"/><rect x="6" y="32" width="70" height="2.6" rx="1" fill="#8e8e93"/><rect x="6" y="39" width="110" height="2.6" rx="1" fill="#ff453a"/><rect x="6" y="46" width="84" height="2.6" rx="1" fill="#ff453a"/><rect x="6" y="53" width="64" height="2.6" rx="1" fill="#8e8e93"/><rect x="6" y="63" width="8" height="2.6" rx="1" fill="#30d158"/><rect x="17" y="63" width="40" height="2.6" rx="1" fill="#e5e5ea"/><rect x="60" y="62" width="4" height="4.6" fill="#e5e5ea"/></svg>`,
+  `<svg class="shot" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="160" height="100" fill="#e8e8ec"/><rect width="160" height="12" fill="#2c2c2e"/><rect x="58" y="3.5" width="44" height="5" rx="2.5" fill="#48484a"/><rect y="12" width="26" height="88" fill="#f8f8fa"/><rect x="134" y="12" width="26" height="88" fill="#f8f8fa"/><rect x="38" y="22" width="84" height="56" rx="4" fill="#fff"/><path d="M62 22h36v5a4 4 0 0 1-4 4H66a4 4 0 0 1-4-4Z" fill="#000"/><rect x="46" y="40" width="40" height="4" rx="2" fill="#1d1d1f"/><rect x="46" y="49" width="56" height="3" rx="1.5" fill="#aeaeb2"/><rect x="46" y="62" width="28" height="9" rx="4.5" fill="#0a84ff"/><rect x="5" y="20" width="16" height="3" rx="1.5" fill="#c7c7cc"/><rect x="5" y="27" width="12" height="3" rx="1.5" fill="#c7c7cc"/><rect x="139" y="20" width="16" height="3" rx="1.5" fill="#c7c7cc"/></svg>`
+];
+const shot = v => SHOTS[((v % SHOTS.length) + SHOTS.length) % SHOTS.length];
+
+/* ---------- data ---------- */
+const SCALING = { larger: [207, 36], default: [185, 32], more: [155, 27] };
+const PRESETS = { snappy: [0.3, 0.86], smooth: [0.42, 0.82], bouncy: [0.52, 0.64] };
+const OPEN = { home: [688, 232], stash: [660, 206], shelf: [600, 188], airpods: [480, 218], claude: [620, 212], settings: [560, 224] };
+const TRACKS = [
+  { title: 'Low Tide Radio', artist: 'Marlow & the Quiet Hours', dur: 252, badge: 'note', pal: ['#ff8a5c', '#5b2a86', '#ffd36e', '#ffffff'], tint: '#ffb27a', lowRes: false },
+  { title: 'Paper Satellites', artist: 'Ines Okafor', dur: 228, badge: 'globe', pal: ['#2a5da8', '#0f1a2c', '#7fd3ff', '#9ad1ff'], tint: '#8fd5ff', lowRes: true },
+  { title: 'Night Shift (Live)', artist: 'Coastline Trio', dur: 365, badge: 'note', pal: ['#2b6a44', '#0d1f17', '#e8f59a', '#c9f0a5'], tint: '#d9f28f', lowRes: false }
+];
+const state = {
+  view: 'playground',
+  device: { scaling: 'default', notchW: 185, notchH: 32, r: 10, ear: 6, rOpen: 24, side: 66 },
+  motion: { preset: 'smooth', response: 0.42, damping: 0.82, delay: 60, reduce: !!reduceMQ.matches },
+  opening: { mode: 'hover', hoverDelay: 140, closeDelay: 320, peek: true },
+  wall: 'day',
+  debug: { housing: false, grid: false },
+  a11y: { contrast: false },
+  effect: { kind: 'none', strength: 0.55 },
+  music: { playing: false, live: true, track: 0, art: 'high', lowRes: 'treat', pos: 96 },
+  pods: { connected: false, model: 'gen4', art: 'symbols', name: 'T’s AirPods', left: 84, right: 81, case: 62, caseCharging: true, inCase: false, card: true },
+  claude: { enabled: true, live: true, onHome: true, route: 'hook', phase: 'working', ctx: 38, s5: 34, week: 61, fable: 58, attached: 0 },
+  tray: { enabled: true, place: 'capture', dismiss: 6 },
+  app: { login: true },
+  mac: { battery: 82, charging: false },
+  stash: { permission: 'granted', no: 2, started: '2:14 PM', items: [], sel: new Set(), trash: [], unseen: 0 },
+  shelf: { files: [{ name: 'invoice-october.pdf', size: 248000 }, { name: 'notch-shapes.fig', size: 3400000 }, { name: 'release-notes.md', size: 6200 }] },
+  shortcuts: { open: { c: 1, a: 1, s: 0, m: 0, code: 'KeyS' }, trashLast: { c: 1, a: 1, s: 0, m: 0, code: 'Backspace' }, clear: { c: 1, a: 1, s: 1, m: 0, code: 'Backspace' } },
+  ui: { mode: 'closed', tab: 'home', live: null, pinned: false }
+};
+let seq = 0;
+const mk = (v, t) => ({ id: ++seq, v, t });
+const nowTime = () => new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+/* ---------- elements ---------- */
+const ids = ['stage', 'screen', 'notch', 'shapeSvg', 'shapePath', 'notchBody', 'openLayer', 'housing', 'grid', 'readout', 'chat', 'chatHint', 'chatAtt', 'ql', 'qlTitle', 'qlImg', 'qlX', 'ghost', 'scaleNote', 'extras', 'miniArt', 'miniShot', 'capCount', 'liveTrash', 'livePods', 'livePodsIcon', 'liveBolt', 'liveBatt', 'liveBattIcon', 'liveClaude', 'liveClaudeIcon', 'tabBadge', 'clBadge', 'stPods', 'stPodsIcon', 'stPodsPct', 'stBattPct', 'stBattIcon', 'gearBtn', 'art', 'npTitle', 'npArtist', 'npBar', 'npCur', 'npDur', 'npPlay', 'btnPrev', 'btnNext', 'stashPane', 'stackTitle', 'stackMeta', 'btnCopy', 'stackHandle', 'strip', 'stashEmpty', 'stashPrimer', 'stashFoot', 'btnSend', 'airdrop', 'adIcon', 'files', 'podsTitle', 'podsGrid', 'caseCol', 'budsIll', 'budMeters', 'caseIll', 'caseMeter', 'podFoot', 'clSessions', 'clLimits', 'setPane', 'homeRail', 'tray', 'trayShot', 'trayTitle', 'trayDest', 'trayHint', 'traySend', 'trayCopyBtn', 'trayTrashBtn', 'trayTimer', 'ntoast', 'ntoastText', 'ntoastUndo', 'eyes', 'artNote', 'announcer', 'brandIcon', 'obBack', 'obAlt', 'obNext', 'alertBack', 'alertIcon', 'alertTitle', 'alertBody', 'alertAllow', 'alertDeny', 'obStrip', 'obPods', 'obCheck', 'geoDiagram', 'motionTable', 'typeSpec', 'swatches', 'ringTiles', 'anatomy', 'kbdTable'];
+const els = {};
+ids.forEach(id => { els[id] = document.getElementById(id); });
+els.layers = $$('.layer', els.notchBody);
+els.tabs = $$('.tab', els.openLayer);
+els.panes = $$('.pane', els.openLayer);
+
+/* ---------- springs: SwiftUI-style response / damping fraction ---------- */
+const springs = { w: { x: 185, v: 0, t: 185 }, h: { x: 32, v: 0, t: 32 }, r: { x: 10, v: 0, t: 10 }, e: { x: 6, v: 0, t: 6 } };
+let raf = 0, lastT = 0, closing = false;
+function setTarget(t) {
+  const area = springs.w.t * springs.h.t;
+  closing = t.w * t.h < area - 1;
+  let changed = false;
+  for (const k in t) if (springs[k].t !== t[k]) { springs[k].t = t[k]; changed = true; }
+  if (state.motion.reduce) { for (const k in springs) { springs[k].x = springs[k].t; springs[k].v = 0; } drawShape(); return; }
+  if (changed && !raf) { lastT = performance.now(); raf = requestAnimationFrame(tick); }
+}
+function springK(resp, damp) { const r = Math.max(0.08, resp); return { k: Math.pow(2 * Math.PI / r, 2), c: 4 * Math.PI * damp / r }; }
+function tick(now) {
+  const dt = clamp((now - lastT) / 1000, 0.001, 0.05); lastT = now;
+  const m = state.motion;
+  const { k, c } = closing ? springK(m.response * 0.85, Math.min(1, m.damping + 0.06)) : springK(m.response, m.damping);
+  const n = Math.ceil(dt * 480), h = dt / n;
+  let moving = false;
+  for (const key in springs) {
+    const s = springs[key];
+    for (let i = 0; i < n; i++) { const a = -k * (s.x - s.t) - c * s.v; s.v += a * h; s.x += s.v * h; }
+    if (Math.abs(s.x - s.t) < 0.01 && Math.abs(s.v) < 0.05) { s.x = s.t; s.v = 0; } else moving = true;
+  }
+  drawShape();
+  raf = moving ? requestAnimationFrame(tick) : 0;
+}
+
+/* ---------- the notch shape ---------- */
+function notchPath(w, h, r, e) {
+  const x0 = e, x1 = e + w;
+  let d = 'M0,0';
+  d += e > 0 ? ` A${e},${e} 0 0 1 ${x0},${e}` : ` L${x0},0`;
+  d += ` L${x0},${h - r} A${r},${r} 0 0 0 ${x0 + r},${h} L${x1 - r},${h} A${r},${r} 0 0 0 ${x1},${h - r} L${x1},${e}`;
+  d += e > 0 ? ` A${e},${e} 0 0 1 ${x1 + e},0` : ` L${x1},0`;
+  return d + ' Z';
+}
+let screenW = 1000, scale = 1;
+function drawShape() {
+  const w = snap(springs.w.x), h = snap(springs.h.x);
+  const r = clamp(springs.r.x, 0, Math.min(h, w / 2));
+  const e = clamp(springs.e.x, 0, Math.max(0, h - r));
+  const W = w + 2 * e;
+  const left = snap((screenW - W) / 2);
+  els.notch.style.left = left + 'px'; els.notch.style.width = W + 'px'; els.notch.style.height = h + 'px';
+  els.shapeSvg.setAttribute('width', W); els.shapeSvg.setAttribute('height', h);
+  els.shapeSvg.setAttribute('viewBox', `0 0 ${W} ${h}`);
+  els.shapePath.setAttribute('d', notchPath(w, h, r, e));
+  const b = els.notchBody.style;
+  b.left = e + 'px'; b.width = w + 'px'; b.height = h + 'px'; b.borderRadius = `0 0 ${r}px ${r}px`;
+  if (state.debug.grid) {
+    els.readout.textContent = `${fmt(w)} × ${fmt(h)} pt, ${fmt(w * dpr())} × ${fmt(h * dpr())} px, x ${fmt(left + e)}`;
+    els.readout.style.top = (h + (state.debug.housing && state.ui.mode !== 'open' ? 34 : 10)) + 'px';
+  }
+}
+
+/* ---------- state to target ---------- */
+let prox = 0, transient = null, transientT = 0;
+const liveSide = k => { const s = state.device.side; return k === 'trash' ? s + 42 : k === 'capture' ? s + 14 : k === 'claude' ? s + 26 : s; };
+function liveKind() {
+  if (transient) return transient;
+  if (state.claude.enabled && state.claude.live && state.claude.phase === 'waiting') return 'claude';
+  if (state.music.playing && state.music.live) return 'music';
+  return null;
+}
+function computeTarget() {
+  const d = state.device, ui = state.ui;
+  if (ui.mode === 'open') { const [w, h] = OPEN[ui.tab]; return { w, h, r: d.rOpen, e: d.ear * 1.4 }; }
+  if (ui.live) return { w: d.notchW + 2 * liveSide(ui.live), h: d.notchH, r: d.r, e: d.ear };
+  if (ui.mode === 'peek') return { w: d.notchW + 18, h: d.notchH + 5, r: d.r + 2, e: d.ear };
+  if (state.effect.kind === 'expando' && prox > 0) {
+    const g = 1 + state.effect.strength * easeOut(prox);
+    return { w: d.notchW * g, h: d.notchH * (1 + (g - 1) * 1.3), r: d.r * g, e: d.ear * g };
+  }
+  if (state.effect.kind === 'eyemac' && prox > 0.04) {
+    const t = smooth(clamp(prox * 1.7, 0, 1));
+    return { w: d.notchW + 14 * t, h: d.notchH + 22 * t, r: d.r + 4 * t, e: d.ear };
+  }
+  return { w: d.notchW, h: d.notchH, r: d.r, e: d.ear };
+}
+function sizeLayers() {
+  const d = state.device;
+  els.layers.forEach(el => {
+    const k = el.dataset.layer; let w, h;
+    if (k === 'open') { const tab = state.ui.mode === 'open' ? state.ui.tab : (el.dataset.tab || 'home'); [w, h] = OPEN[tab]; el.style.setProperty('--oh', h + 'px'); }
+    else if (k === 'eyes') { w = d.notchW + 14; h = d.notchH + 22; }
+    else { w = d.notchW + 2 * liveSide(k); h = d.notchH; }
+    el.style.width = w + 'px'; el.style.height = h + 'px'; el.style.marginLeft = (-w / 2) + 'px';
+  });
+}
+function refresh() {
+  const d = state.device, ui = state.ui;
+  root.style.setProperty('--notch-w', d.notchW + 'px');
+  root.style.setProperty('--notch-h', d.notchH + 'px');
+  root.style.setProperty('--menubar-h', (d.notchH + 4) + 'px');
+  root.style.setProperty('--hr', d.r + 'px');
+  root.style.setProperty('--cdelay', state.motion.delay + 'ms');
+  ui.live = ui.mode === 'open' ? null : liveKind();
+  if (ui.live && ui.mode === 'peek') ui.mode = 'closed';
+  setTarget(computeTarget());
+  const name = ui.mode === 'open' ? 'open' : ui.live ? ui.live : (state.effect.kind === 'eyemac' && prox > 0.04 && ui.mode === 'closed' ? 'eyes' : null);
+  if (ui.mode === 'open') {
+    els.openLayer.dataset.tab = ui.tab;
+    els.podsTitle.textContent = ui.tab === 'settings' ? 'Settings' : state.pods.name;
+    els.tabs.forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === ui.tab)));
+    els.panes.forEach(p => p.classList.toggle('on', p.dataset.pane === ui.tab));
+  }
+  sizeLayers();
+  els.layers.forEach(el => el.classList.toggle('on', el.dataset.layer === name));
+  const s = els.screen.classList;
+  s.toggle('is-open', ui.mode === 'open'); s.toggle('rm', state.motion.reduce);
+  s.toggle('hc', state.a11y.contrast); s.toggle('paused', !state.music.playing);
+  els.housing.hidden = !state.debug.housing;
+  els.grid.hidden = !state.debug.grid; els.readout.hidden = !state.debug.grid;
+  if (state.debug.grid) drawShape();
+  syncChips();
+}
+
+/* ---------- opening and closing ---------- */
+let hoverT = 0, closeT = 0, autoT = 0, hovering = false;
+function openNotch(tab, opts = {}) {
+  clearTimeout(hoverT); clearTimeout(closeT); clearTimeout(autoT);
+  if (tab) state.ui.tab = tab; else if (state.ui.tab === 'airpods' || state.ui.tab === 'settings') state.ui.tab = 'home';
+  if (state.ui.tab !== 'airpods') clearTimeout(cardT);
+  if (state.ui.tab === 'stash') state.stash.unseen = 0;
+  state.ui.mode = 'open'; state.ui.pinned = !!opts.pinned;
+  if (opts.autoClose) autoT = setTimeout(() => { if (!hovering) closeNotch(); }, opts.autoClose);
+  renderBadge(); refresh();
+}
+function closeNotch() {
+  clearTimeout(hoverT); clearTimeout(closeT); clearTimeout(autoT);
+  closeQL(); hideToast();
+  if (state.ui.mode === 'closed') return;
+  state.ui.mode = 'closed'; state.ui.pinned = false;
+  refresh();
+}
+function flashLive(kind, ms) {
+  transient = kind; clearTimeout(transientT);
+  transientT = setTimeout(() => { transient = null; refresh(); }, ms);
+  if (state.ui.mode === 'peek') state.ui.mode = 'closed';
+  refresh();
+}
+els.notch.addEventListener('pointerenter', () => {
+  hovering = true; clearTimeout(closeT);
+  if (fileDrag) return;
+  if (state.ui.mode === 'open') { state.ui.pinned = false; clearTimeout(autoT); return; }
+  if (state.opening.mode !== 'hover') return;
+  if (state.opening.peek && !state.ui.live && state.ui.mode === 'closed') { state.ui.mode = 'peek'; refresh(); }
+  hoverT = setTimeout(() => openNotch(), state.opening.hoverDelay);
+});
+els.notch.addEventListener('pointerleave', () => {
+  hovering = false; clearTimeout(hoverT);
+  if (state.ui.mode === 'peek') { state.ui.mode = 'closed'; refresh(); return; }
+  if (state.ui.mode === 'open' && !state.ui.pinned && !(drag && drag.active) && !qlOpen) closeT = setTimeout(closeNotch, state.opening.closeDelay);
+});
+els.notch.addEventListener('click', e => {
+  if (state.opening.mode !== 'click') return;
+  if (state.ui.mode === 'open') { if (!e.target.closest('button, .thumb, .file, .airdrop, .strip, .art')) closeNotch(); }
+  else openNotch();
+});
+els.screen.addEventListener('pointerdown', e => {
+  if (e.target.closest('.notch, .chat, .quicklook')) return;
+  if (state.ui.mode === 'open') closeNotch();
+});
+els.tabs.forEach(t => t.addEventListener('click', () => {
+  state.ui.tab = t.dataset.tab;
+  if (state.ui.tab === 'stash') state.stash.unseen = 0;
+  renderBadge(); refresh();
+}));
+
+/* ---------- pointer effects: Expando and EyeMac ---------- */
+let pointer = { x: -999, y: -999 };
+function toScreen(e) { const r = els.screen.getBoundingClientRect(); return { x: (e.clientX - r.left) / scale, y: (e.clientY - r.top) / scale }; }
+els.screen.addEventListener('pointermove', e => {
+  pointer = toScreen(e);
+  if (state.effect.kind === 'none') return;
+  const d = state.device;
+  const dx = pointer.x - screenW / 2, dy = Math.max(0, pointer.y - d.notchH / 2);
+  const np = state.ui.mode === 'closed' && !state.ui.live ? clamp(1 - Math.hypot(dx, dy * 1.5) / 230, 0, 1) : 0;
+  if (Math.abs(np - prox) > 0.008 || (np === 0 && prox !== 0)) { prox = np; refresh(); }
+  if (state.effect.kind === 'eyemac') aimEyes();
+});
+els.screen.addEventListener('pointerleave', () => { if (prox) { prox = 0; refresh(); } });
+function aimEyes() {
+  const eyes = $$('.eye', els.eyes); const d = state.device;
+  const cy = d.notchH + 22 - 12, cxs = [screenW / 2 - 15, screenW / 2 + 15];
+  eyes.forEach((eye, i) => {
+    const dx = pointer.x - cxs[i], dy = pointer.y - cy, len = Math.hypot(dx, dy) || 1, m = Math.min(2.6, len / 30);
+    eye.firstElementChild.style.transform = `translate(${dx / len * m}px,${dy / len * m}px)`;
+  });
+}
+(function blinkLoop() {
+  setTimeout(() => {
+    if (state.effect.kind === 'eyemac' && !state.motion.reduce) { els.eyes.classList.add('blink'); setTimeout(() => els.eyes.classList.remove('blink'), 130); }
+    blinkLoop();
+  }, 2600 + Math.random() * 3200);
+})();
+
+/* ---------- now playing ---------- */
+const ART = {};
+function makeArt(p, size) {
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  const g = c.getContext && c.getContext('2d');
+  if (!g) return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+  const s = size;
+  const lin = g.createLinearGradient(0, 0, s, s); lin.addColorStop(0, p[0]); lin.addColorStop(1, p[1]);
+  g.fillStyle = lin; g.fillRect(0, 0, s, s);
+  g.globalAlpha = 0.92; g.fillStyle = p[2]; g.beginPath(); g.arc(s * 0.68, s * 0.34, s * 0.19, 0, Math.PI * 2); g.fill();
+  g.globalAlpha = 0.6; g.strokeStyle = p[3]; g.lineWidth = Math.max(1, s * 0.03);
+  for (let i = 0; i < 5; i++) {
+    g.beginPath();
+    for (let x = 0; x <= s; x += s / 48) { const y = s * (0.58 + i * 0.08) + Math.sin(x / s * Math.PI * 3 + i) * s * 0.02; if (x === 0) g.moveTo(x, y); else g.lineTo(x, y); }
+    g.stroke();
+  }
+  return c.toDataURL('image/png');
+}
+const artFor = (i, res) => ART[i + res] || (ART[i + res] = makeArt(TRACKS[i].pal, res === 'low' ? 48 : 360));
+function renderMusic() {
+  const m = state.music, t = TRACKS[m.track];
+  els.npTitle.textContent = t.title; els.npArtist.textContent = t.artist;
+  els.npPlay.innerHTML = icon(m.playing ? 'pause' : 'play', 24);
+  els.npPlay.setAttribute('aria-label', m.playing ? 'Pause' : 'Play');
+  const src = artFor(m.track, m.art), srcPx = m.art === 'low' ? 48 : 360, need = Math.round(88 * dpr());
+  let html, note;
+  if (m.art === 'low' && m.lowRes === 'treat') {
+    const inset = srcPx / dpr();
+    html = `<img class="ambient" src="${src}" alt=""><img class="inset" src="${src}" alt="" style="width:${inset}px;height:${inset}px">`;
+    note = `The source is ${srcPx} px but this tile needs ${need} px. CamHaus shows it at its native ${fmt(inset)} pt over a blurred fill instead of stretching it.`;
+  } else {
+    html = `<img src="${src}" alt="">`;
+    note = m.art === 'low' ? `A ${srcPx} px source stretched to ${need} px. This is the soft look in your boring.notch screenshot.` : `The source is ${srcPx} px and this tile needs ${need} px, so it stays sharp.`;
+  }
+  els.art.innerHTML = html + `<span class="badge">${icon(t.badge, 12)}</span>`;
+  els.artNote.textContent = note;
+  els.miniArt.src = src;
+  els.screen.style.setProperty('--tint', t.tint);
+  updateTime();
+}
+function updateTime() {
+  const t = TRACKS[state.music.track], pos = state.music.pos;
+  els.npBar.style.width = (pos / t.dur * 100) + '%';
+  els.npCur.textContent = mmss(pos); els.npDur.textContent = '-' + mmss(t.dur - pos);
+}
+function nextTrack(dir) {
+  const m = state.music;
+  m.track = (m.track + dir + TRACKS.length) % TRACKS.length;
+  m.art = TRACKS[m.track].lowRes ? 'low' : 'high'; m.pos = 0;
+  syncInputs(); renderMusic();
+}
+setInterval(() => {
+  if (!state.music.playing) return;
+  state.music.pos += 1;
+  if (state.music.pos >= TRACKS[state.music.track].dur) nextTrack(1); else updateTime();
+}, 1000);
+
+/* ---------- AirPods: battery rings ---------- */
+const C = 2 * Math.PI * 9.5;
+function ringSVG(p, color, size = 24, bolt = false) {
+  return `<svg class="ring" width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="3"/><circle cx="12" cy="12" r="9.5" fill="none" style="stroke:${color}" stroke-width="3" stroke-linecap="round" stroke-dasharray="${Math.max(0.01, clamp(p, 0, 100) / 100 * C)} ${C}"/>${bolt ? `<g transform="rotate(90 12 12)"><path d="M13.4 4.6 7.9 12h3.4l-1 7.4 5.8-8.2h-3.5Z" style="fill:${color}"/></g>` : ''}</svg>`;
+}
+const battColor = (p, charging) => (charging || p > 20 ? 'var(--ngreen)' : 'var(--nred)');
+const meter = (p, label, charging) => `<span class="meter">${ringSVG(p, battColor(p, charging), 24, charging)}${label ? `<small>${label}</small>` : ''}${Math.round(p)}%</span>`;
+
+/* ---------- AirPods: original CamHaus artwork, keyed by model ---------- */
+const PODS_MODELS = {
+  /* pid is how CamHaus tells the models apart from the Bluetooth record. It never reaches the UI. */
+  gen2: { label: 'AirPods (2nd gen)', pid: '0x200F' },
+  gen3: { label: 'AirPods (3rd gen)', pid: '0x2013' },
+  gen4: { label: 'AirPods 4', pid: '0x2019' },
+  pro2: { label: 'AirPods Pro 2', pid: '0x2024' },
+  max: { label: 'AirPods Max', pid: '0x201F' }
+};
+const GS = 'fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"';
+/* Outline glyphs in the shape of Apple's own SF Symbols AirPods set — in the real app
+   these are Image(systemName: "airpods.gen4") and friends, not hand-drawn paths. */
+function budPath(cx, cy, R, stemLen, flip) {
+  const xL = 1.2, xR = R * 0.84, rc = 2.3;
+  const yl = Math.sqrt(R * R - xL * xL), yr = Math.sqrt(R * R - xR * xR), yB = stemLen;
+  const f = v => v.toFixed(2);
+  const d = `M${xL} ${f(yl)}V${f(yB - rc)}a${rc} ${rc} 0 0 0 ${rc} ${rc}h${f(xR - xL - 2 * rc)}`
+    + `a${rc} ${rc} 0 0 0 ${rc} ${-rc}V${f(yr)}A${R} ${R} 0 1 0 ${xL} ${f(yl)}Z`;
+  return `<g transform="translate(${cx},${cy})${flip ? ' scale(-1,1)' : ''}"><path d="${d}" ${GS}/></g>`;
+}
+function budsGlyph(model, s = 1) {
+  const pro = model === 'pro2', R = pro ? 8 : 7.4, stem = pro ? 15 : 19.5;
+  const tip = (cx, flip) => pro ? `<ellipse cx="${cx + (flip ? 5.6 : -5.6)}" cy="-1.2" rx="3.4" ry="4.4" ${GS}/>` : '';
+  const h = 10 + stem + 4, w = 42;
+  return `<svg width="${Math.round(w * 2.1 * s)}" height="${Math.round(h * 2.1 * s)}" viewBox="0 0 ${w} ${h}" aria-hidden="true">`
+    + `<g transform="translate(0,9.5)">${budPath(12, 0, R, stem, false)}${tip(12, false)}${budPath(30, 0, R, stem, true)}${tip(30, true)}</g></svg>`;
+}
+function caseGlyph(model, light, s = 1) {
+  const tall = model === 'gen2';
+  const w = tall ? 26 : 36, h = tall ? 32 : 27, rx = tall ? 9.5 : 8.5, seam = h * 0.34;
+  const W = w + 6, H = h + 6, x = 3, y = 3;
+  const dot = light ? `<circle cx="${W / 2}" cy="${y + seam + (h - seam) * 0.5}" r="1.9" style="fill:${light};stroke:none"/>` : '';
+  return `<svg width="${Math.round(W * 2.1 * s)}" height="${Math.round(H * 2.1 * s)}" viewBox="0 0 ${W} ${H}" aria-hidden="true">`
+    + `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" ${GS}/><path d="M${x + 0.6} ${y + seam}H${x + w - 0.6}" ${GS}/>${dot}</svg>`;
+}
+function maxGlyph(s = 1) {
+  const W = 42, H = 40;
+  return `<svg width="${Math.round(W * 2.1 * s)}" height="${Math.round(H * 2.1 * s)}" viewBox="0 0 ${W} ${H}" aria-hidden="true">`
+    + `<path d="M8 21v-5a13 13 0 0 1 26 0v5" ${GS}/>`
+    + `<rect x="3.5" y="19" width="9.5" height="17.5" rx="4.75" ${GS}/>`
+    + `<rect x="29" y="19" width="9.5" height="17.5" rx="4.75" ${GS}/></svg>`;
+}
+function renderPods() {
+  const a = state.pods, M = PODS_MODELS[a.model] || PODS_MODELS.gen4;
+  const solo = a.model === 'max', budsCharging = a.inCase && !solo;
+  const art = a.art !== 'none';
+  els.podsGrid.classList.toggle('solo', solo);
+  els.caseCol.hidden = solo;
+  els.budsIll.classList.toggle('none', !art);
+  els.caseIll.classList.toggle('none', !art);
+  els.budsIll.innerHTML = !art ? '' : solo ? maxGlyph() : budsGlyph(a.model);
+  if (!solo) els.caseIll.innerHTML = !art ? '' : caseGlyph(a.model, a.caseCharging ? (a.case >= 100 ? 'var(--ngreen)' : 'var(--norange)') : null);
+  els.budMeters.innerHTML = solo
+    ? meter(a.left, '', a.caseCharging)
+    : (Math.abs(a.left - a.right) <= 5 ? meter(Math.min(a.left, a.right), '', budsCharging) : meter(a.left, 'L', budsCharging) + meter(a.right, 'R', budsCharging));
+  els.caseMeter.innerHTML = solo ? '' : meter(a.case, '', a.caseCharging);
+  let foot = M.label;
+  if (solo) foot += a.caseCharging ? ' · Charging' : ' · Connected to this Mac';
+  else if (a.caseCharging && a.inCase) foot += ' · Earbuds and case charging';
+  else if (a.caseCharging) foot += ' · Case charging';
+  else if (a.inCase) foot += ' · Earbuds charging in the case';
+  else foot += ' · Connected to this Mac';
+  const low = [['Left', a.left], ['Right', a.right]].filter(([, v]) => v <= 20 && !budsCharging).map(([n]) => n);
+  if (low.length && !solo) foot = `${M.label} · ${low.length === 2 ? 'Both earbuds are low' : low[0] + ' earbud is low'}`;
+  els.podFoot.textContent = foot;
+  const minBud = Math.min(a.left, a.right);
+  els.livePods.innerHTML = ringSVG(minBud, battColor(minBud, budsCharging), 18) + `<span>${Math.round(minBud)}%</span>`;
+  els.stPods.hidden = !a.connected;
+  els.stPodsPct.textContent = Math.round(minBud) + '%';
+}
+
+/* ---------- Claude sessions and limits ---------- */
+const limColor = p => (p >= 90 ? 'var(--nred)' : p >= 75 ? 'var(--norange)' : 'var(--on)');
+function claudeSessions() {
+  const c = state.claude;
+  return [
+    { name: 'CamHaus', model: 'Fable 5', phase: c.phase, ctx: c.ctx, t: '12m', act: c.phase === 'waiting' ? 'Approval needed: run xcodebuild test' : c.phase === 'working' ? 'Editing NotchGeometry.swift' : 'Finished: notch shell geometry spec' },
+    { name: 'lunazone-api', model: 'Sonnet 5.5', phase: 'idle', ctx: 71, t: '1h 8m', act: 'Finished: fixed the flaky auth test' }
+  ];
+}
+const phaseDot = p => (p === 'working' ? 'work' : p === 'waiting' ? 'wait' : 'done');
+function renderHomeRail() {
+  const c = state.claude, show = c.enabled && c.onHome, S = claudeSessions(), a = S[0];
+  const card = !show ? '' : `<button class="cl-card${a.phase === 'waiting' ? ' wait' : ''}" data-act="goclaude">
+      <span class="r1">${claudeTile(18)}<b>${a.name}</b><i class="cl-dot ${phaseDot(a.phase)}"></i></span>
+      <span class="act">${a.act}</span>
+      <span class="ctxrow"><span class="bar"><i style="width:${a.ctx}%;background:${limColor(a.ctx)}"></i></span>${Math.round(a.ctx)}%</span>
+      <span class="more">+${S.length - 1} more · ${Math.round(c.s5)}% of the 5 h window</span>
+    </button>`;
+  const ev = [['var(--nblue)', 'Design review', '3:30 PM, 45 min'], ['var(--norange)', 'Ship the notch shell', 'Tomorrow, all day']].slice(0, show ? 1 : 2);
+  els.homeRail.innerHTML = card + `<div class="side-card"><h4>Next up</h4><ul class="events">`
+    + ev.map(([col, t, w]) => `<li><i style="--c:${col}"></i><div><b>${t}</b><small>${w}</small></div></li>`).join('') + `</ul></div>`;
+}
+function renderClaude() {
+  const c = state.claude;
+  const sessions = claudeSessions();
+  renderHomeRail();
+  els.clSessions.innerHTML = sessions.map((s, i) => {
+    const dot = phaseDot(s.phase);
+    const att = i === 0 && c.attached ? `<div class="cl-att">${icon('stash', 11)}${plural(c.attached, 'screenshot')} from the stash, pasted into the prompt in order</div>` : '';
+    return `<div class="cl-sess${s.phase === 'waiting' ? ' wait' : ''}"><div class="cl-top"><i class="cl-dot ${dot}"></i><b>${s.name}</b><span class="cl-chip">${s.model}</span><time>${s.t}</time></div><div class="cl-act">${s.act}</div>${att}<div class="cl-ctx"><span>Context</span><div class="bar"><i style="width:${s.ctx}%;background:${limColor(s.ctx)}"></i></div><span>${Math.round(s.ctx)}% of 200k</span></div></div>`;
+  }).join('');
+  const lims = [['Session (5 h)', c.s5, 'Resets 6:00 PM'], ['Weekly · All models', c.week, 'Resets Thu 9:00 AM'], ['Weekly · Fable', c.fable, 'Resets Thu 9:00 AM']];
+  els.clLimits.innerHTML = '<h4>Usage limits</h4>' + lims.map(([n, p, r]) => `<div class="cl-lim"><div class="t"><span>${n}</span><b>${Math.round(p)}%</b></div><div class="bar"><i style="width:${p}%;background:${limColor(p)}"></i></div><small>${r}</small></div>`).join('');
+  const waiting = c.enabled && c.phase === 'waiting';
+  els.clBadge.textContent = waiting ? '1' : '';
+  els.liveClaudeIcon.innerHTML = `<span style="color:#D97757;display:flex">${claudeGlyph(17, c.phase === 'working' ? 'spin' : c.phase === 'waiting' ? 'pulse' : '')}</span>`;
+  els.liveClaude.innerHTML = waiting ? '<span style="color:var(--norange)">Needs you</span>' : c.phase === 'working' ? '<span>Working…</span>' : '<span class="dim">Idle</span>';
+}
+
+/* ---------- in-notch settings ---------- */
+function renderSettings() {
+  const row = (ich, color, label, ctl) => `<div class="set-row"><span class="si" style="background:${color}">${ich}</span><b>${label}</b><span class="sv">${ctl}</span></div>`;
+  const sw = path => `<label class="switch"><input type="checkbox" data-path="${path}" aria-label="Toggle"><span></span></label>`;
+  const chev = icon('chev', 10);
+  els.setPane.innerHTML =
+    `<div>
+      <div class="set-group">
+        ${row(icon('sliders', 12), '#8e8e93', 'Open on', 'Hover · 140 ms ' + chev)}
+        ${row(icon('note', 12), '#ff2d55', 'Now Playing while closed', sw('music.live'))}
+        ${row(icon('pods', 12), '#0a84ff', 'AirPods card on connect', sw('pods.card'))}
+        ${row(claudeGlyph(12, '', '#fff'), '#D97757', 'Claude sessions', sw('claude.enabled'))}
+      </div>
+    </div>
+    <div>
+      <div class="set-group">
+        ${row(icon('kbd', 12), '#5e5ce6', 'Shortcuts', '⌃⌥S · ⌃⌥⌫ ' + chev)}
+        ${row(icon('power', 12), '#30d158', 'Open at login', sw('app.login'))}
+        ${row(icon('folder', 12), '#64d2ff', 'Screenshots folder', 'Desktop ' + chev)}
+      </div>
+    </div>
+    <p class="set-foot">CamHaus 0.1 · Everything else lives in the Settings window, ⌘,</p>`;
+}
+let cardT = 0;
+function playConnect() {
+  state.pods.connected = true; syncInputs(); renderPods();
+  if (state.ui.mode === 'open') closeNotch();
+  flashLive('airpods', 2600);
+  clearTimeout(cardT);
+  if (state.pods.card) cardT = setTimeout(() => { transient = null; clearTimeout(transientT); openNotch('airpods', { pinned: true, autoClose: 5200 }); }, 1700);
+}
+
+/* ---------- Mac battery ---------- */
+function battGlyph(p, charging, onDark) {
+  const fill = charging ? (onDark ? '#30d158' : '#34c759') : p <= 20 ? (onDark ? '#ff453a' : '#ff3b30') : 'currentColor';
+  return `<svg class="ic" width="25" height="12" viewBox="0 0 25 12" aria-hidden="true"><rect x=".5" y=".5" width="21" height="11" rx="3.2" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="${Math.max(1.5, 18 * p / 100)}" height="8" rx="1.8" style="fill:${fill}"/><path d="M23.2 4.2v3.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".45"/>${charging ? '<path d="M11.6 1.4 8.1 6.6h2.7l-.6 4 3.7-5.4h-2.7Z" fill="#fff" stroke="#000" stroke-width=".7" stroke-linejoin="round"/>' : ''}</svg>`;
+}
+function renderStatus() {
+  const m = state.mac;
+  els.stBattPct.textContent = Math.round(m.battery) + '%';
+  els.stBattIcon.innerHTML = battGlyph(m.battery, m.charging, true);
+  els.liveBatt.textContent = Math.round(m.battery) + '%';
+  els.liveBattIcon.innerHTML = battGlyph(m.battery, true, true);
+  els.extras.innerHTML = `${icon('search', 15)}${icon('wifi', 16)}${battGlyph(m.battery, m.charging, false)}${icon('cc', 15)}<span id="clock">${clockText()}</span>`;
+}
+function clockText() {
+  const d = new Date();
+  return `${d.toLocaleDateString('en-US', { weekday: 'short' })} ${d.getDate()} ${d.toLocaleDateString('en-US', { month: 'short' })}  ${d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+}
+
+/* ---------- the stash ---------- */
+let anchor = null, qlOpen = false, toastT = 0;
+function seedStash() {
+  const s = state.stash;
+  s.items = [mk(1, '2:14 PM'), mk(0, '2:15 PM'), mk(2, '2:17 PM'), mk(3, '2:21 PM')];
+  s.started = '2:14 PM'; s.sel = new Set([s.items[s.items.length - 1].id]); anchor = s.items[s.items.length - 1].id;
+}
+function renderBadge() { els.tabBadge.textContent = state.stash.unseen ? String(state.stash.unseen) : ''; }
+function renderStash() {
+  const s = state.stash, ok = s.permission === 'granted', n = s.items.length;
+  els.stashPrimer.hidden = ok;
+  if (!ok) {
+    const denied = s.permission === 'denied';
+    els.stashPrimer.className = 'primer' + (denied ? ' denied' : '');
+    els.stashPrimer.innerHTML = denied
+      ? `<span class="pi">${icon('lock', 18)}</span><div><h4>Folder access is off</h4><p>Turn it on in System Settings, Privacy &amp; Security, Files and Folders.</p></div><div class="acts"><button class="nbtn" data-act="settings">Open System Settings</button></div>`
+      : `<span class="pi">${icon('folder', 18)}</span><div><h4>Collect your screenshots here</h4><p>CamHaus reads the folder your screenshots are saved to, so new ones land in order.</p></div><div class="acts"><button class="nbtn" data-act="grant">Allow Access…</button><button class="nbtn ghost" data-act="notnow">Not Now</button></div>`;
+  }
+  els.strip.hidden = !ok || n === 0;
+  els.stashEmpty.hidden = !ok || n > 0;
+  els.stashFoot.hidden = !ok || n === 0;
+  [els.btnCopy, els.stackHandle, els.btnSend].forEach(b => { b.disabled = !ok || n === 0; });
+  els.stackTitle.textContent = `Stack ${s.no}`;
+  els.stackMeta.textContent = !ok ? 'Waiting for folder access' : n ? `${plural(n, 'screenshot')}, started ${s.started}` : 'No screenshots yet';
+  els.stackHandle.innerHTML = `${icon('stash', 13)}<span>${n}</span>`;
+  els.strip.innerHTML = s.items.map((it, i) => `<div class="thumb" role="option" data-id="${it.id}" aria-selected="${s.sel.has(it.id)}" aria-label="Screenshot ${i + 1}, ${it.t}"><span class="img">${shot(it.v)}</span><span class="n">${i + 1}</span><span class="x" data-del="${it.id}" title="Move to Trash">${icon('x', 10)}</span></div>`).join('');
+  els.capCount.textContent = n;
+  renderBadge();
+}
+function paintSel() { $$('.thumb', els.strip).forEach(t => t.setAttribute('aria-selected', String(state.stash.sel.has(+t.dataset.id)))); }
+function selectId(id, e) {
+  const s = state.stash, list = s.items.map(i => i.id);
+  if (e && e.shiftKey && anchor != null && list.includes(anchor)) {
+    const a = list.indexOf(anchor), b = list.indexOf(id);
+    s.sel = new Set(list.slice(Math.min(a, b), Math.max(a, b) + 1));
+  } else if (e && e.metaKey) { if (s.sel.has(id)) s.sel.delete(id); else s.sel.add(id); anchor = id; }
+  else { s.sel = new Set([id]); anchor = id; }
+  paintSel();
+}
+function moveSel(dir, extend) {
+  const s = state.stash, list = s.items.map(i => i.id); if (!list.length) return;
+  const cur = [...s.sel].map(id => list.indexOf(id)).filter(i => i >= 0);
+  const base = cur.length ? (dir > 0 ? Math.max(...cur) : Math.min(...cur)) : (dir > 0 ? -1 : list.length);
+  const next = list[clamp(base + dir, 0, list.length - 1)];
+  if (extend) s.sel.add(next); else { s.sel = new Set([next]); anchor = next; }
+  paintSel();
+  const el = els.strip.querySelector(`[data-id="${next}"]`);
+  if (el && el.scrollIntoView) el.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  if (qlOpen) showQL();
+}
+function selectAll() { state.stash.sel = new Set(state.stash.items.map(i => i.id)); paintSel(); }
+function capture() {
+  const s = state.stash;
+  if (s.permission !== 'granted') { openNotch('stash', { pinned: true }); return; }
+  const it = mk([0, 3, 2, 1][seq % 4], nowTime());
+  if (!s.items.length) s.started = it.t;
+  s.items.push(it); s.sel = new Set([it.id]); anchor = it.id;
+  if (!(state.ui.mode === 'open' && state.ui.tab === 'stash')) s.unseen += 1;
+  it.at = { x: pointer.x > 0 ? pointer.x : screenW / 2, y: pointer.y > 0 ? pointer.y : 270 };
+  renderStash();
+  els.miniShot.innerHTML = shot(it.v);
+  showTray(it);
+  const r = ROUTES[routeKey()];
+  announce(`Screenshot ${s.items.length} added to the stack. ${r.auto ? r.dest + '. ' + r.hint : ''}`);
+  if (state.ui.mode === 'open') {
+    if (state.ui.tab === 'stash') { const el = els.strip.querySelector(`[data-id="${it.id}"]`); if (el) { el.classList.add('arrive'); if (el.scrollIntoView) el.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } }
+    return;
+  }
+  flashLive('capture', 2400);
+}
+function trash(opts = {}) {
+  const s = state.stash; if (s.permission !== 'granted') return;
+  let target = opts.ids || (opts.last ? (s.items.length ? [s.items[s.items.length - 1].id] : []) : [...s.sel]);
+  target = target.filter(id => s.items.some(i => i.id === id));
+  if (!target.length) return;
+  const batch = target.map(id => ({ item: s.items.find(i => i.id === id), index: s.items.findIndex(i => i.id === id) })).sort((a, b) => a.index - b.index);
+  s.trash.push(batch);
+  const finish = () => {
+    s.items = s.items.filter(i => !target.includes(i.id));
+    const ni = Math.min(batch[0].index, s.items.length - 1);
+    s.sel = ni >= 0 ? new Set([s.items[ni].id]) : new Set();
+    anchor = ni >= 0 ? s.items[ni].id : null;
+    renderStash();
+  };
+  const visible = state.ui.mode === 'open' && state.ui.tab === 'stash';
+  if (visible && !state.motion.reduce) { target.forEach(id => { const el = els.strip.querySelector(`[data-id="${id}"]`); if (el) el.classList.add('leaving'); }); setTimeout(finish, 190); }
+  else finish();
+  const n = batch.length;
+  announce(n === 1 ? 'Moved 1 screenshot to Trash' : `Moved ${n} screenshots to Trash`);
+  if (visible) toast(n === 1 ? 'Moved to Trash' : `Moved ${n} to Trash`, true);
+  else { els.liveTrash.innerHTML = `${icon('trash', 14)}<span>${n === 1 ? 'Moved to Trash' : `${n} moved to Trash`}</span>`; if (state.ui.mode === 'open') closeNotch(); flashLive('trash', 3600); }
+}
+function undo() {
+  const s = state.stash, batch = s.trash.pop(); if (!batch) return;
+  batch.forEach(({ item, index }) => s.items.splice(Math.min(index, s.items.length), 0, item));
+  s.sel = new Set(batch.map(b => b.item.id)); anchor = batch[0].item.id;
+  renderStash(); hideToast();
+  if (transient === 'trash') { transient = null; clearTimeout(transientT); refresh(); }
+  if (state.ui.mode === 'open' && state.ui.tab === 'stash') batch.forEach(b => { const el = els.strip.querySelector(`[data-id="${b.item.id}"]`); if (el) el.classList.add('arrive'); });
+  announce('Restored from Trash');
+}
+function clearStack() { trash({ ids: state.stash.items.map(i => i.id) }); }
+function newStack() {
+  const s = state.stash; s.no += 1; s.items = []; s.sel = new Set(); s.started = nowTime();
+  renderStash(); toast(`Started stack ${s.no}`);
+}
+function copyStack() { const n = state.stash.items.length; if (n) toast(`Copied ${plural(n, 'screenshot')} in order`); }
+function toast(text, withUndo = false) {
+  els.ntoastText.textContent = text; els.ntoastUndo.hidden = !withUndo;
+  els.ntoast.classList.toggle('plain', !withUndo); els.ntoast.classList.add('on');
+  clearTimeout(toastT); toastT = setTimeout(hideToast, 4200);
+}
+function hideToast() { els.ntoast.classList.remove('on'); }
+function showQL() {
+  const s = state.stash, list = s.items.map(i => i.id);
+  const id = [...s.sel].pop() ?? list[0]; if (id == null) return;
+  const i = list.indexOf(id), it = s.items[i];
+  els.qlTitle.textContent = `Screenshot ${i + 1} of ${list.length}, ${it.t}`;
+  els.qlImg.innerHTML = shot(it.v);
+  els.ql.hidden = false; qlOpen = true; state.ui.pinned = true; clearTimeout(closeT);
+}
+function closeQL() { if (!qlOpen) return; els.ql.hidden = true; qlOpen = false; }
+els.strip.addEventListener('dblclick', e => { const t = e.target.closest('.thumb'); if (t) { selectId(+t.dataset.id); showQL(); } });
+
+/* ---------- screenshot tray ---------- */
+const ROUTES = {
+  hook:      { label: 'Send now',  dest: 'Claude Code · CamHaus', hint: 'Added to your next message', auto: true },
+  mcp:       { label: 'Send now',  dest: 'Claude Code · CamHaus', hint: 'Waiting for the session to ask', auto: true },
+  clipboard: { label: 'Copy',      dest: 'Copied to the clipboard', hint: 'Press \u2303V in Claude Code', auto: true },
+  off:       { label: 'Send to Claude Code', dest: 'Saved to the stash', hint: 'Drag it anywhere, or send it', auto: false }
+};
+let trayT = 0, trayItem = null, traySent = false;
+function routeKey() { return state.claude.enabled ? state.tray.route || state.claude.route : 'off'; }
+function placeTray() {
+  const t = els.tray, w = 290, h = t.offsetHeight || 112, m = 22;
+  let x, y;
+  if (state.tray.place === 'corner') { x = screenW - w - m; y = 560 - h - m; }
+  else {
+    const o = state.tray.place === 'pointer' ? pointer : (trayItem && trayItem.at) || pointer;
+    x = (o.x || screenW / 2) - w / 2; y = (o.y || 300) + 26;
+  }
+  t.style.left = clamp(x, m, Math.max(m, screenW - w - m)) + 'px';
+  t.style.top = clamp(y, state.device.notchH + 12, 560 - h - m) + 'px';
+}
+function showTray(it) {
+  if (!state.tray.enabled) return;
+  trayItem = it; traySent = false;
+  const r = ROUTES[routeKey()];
+  els.trayShot.innerHTML = shot(it.v);
+  els.trayTitle.textContent = `Screenshot ${state.stash.items.length}`;
+  els.trayDest.innerHTML = (r.auto && routeKey() !== 'clipboard' ? claudeTile(14) : icon('copy', 13)) + `<em>${r.dest}</em>`;
+  els.trayHint.textContent = r.hint;
+  paintTraySend(r.auto);
+  els.tray.classList.remove('hold');
+  els.tray.classList.add('on');
+  placeTray();
+  els.trayTimer.classList.remove('run'); void els.trayTimer.offsetWidth;
+  els.trayTimer.style.animationDuration = state.tray.dismiss + 's';
+  els.trayTimer.classList.add('run');
+  clearTimeout(trayT); trayT = setTimeout(hideTray, state.tray.dismiss * 1000);
+  if (r.auto) { traySent = true; state.claude.attached = 1; renderClaude(); }
+}
+function paintTraySend(done) {
+  const r = ROUTES[routeKey()];
+  els.traySend.classList.toggle('done', !!done);
+  els.traySend.innerHTML = done ? icon('check', 13) + (routeKey() === 'clipboard' ? 'Copied' : 'Sent') : (routeKey() === 'clipboard' ? icon('copy', 13) : claudeGlyph(13, '', '#fff')) + r.label;
+}
+function hideTray() { clearTimeout(trayT); els.tray.classList.remove('on'); }
+els.tray.addEventListener('pointerenter', () => { els.tray.classList.add('hold'); clearTimeout(trayT); });
+els.tray.addEventListener('pointerleave', () => {
+  if (!els.tray.classList.contains('on')) return;
+  els.tray.classList.remove('hold');
+  clearTimeout(trayT); trayT = setTimeout(hideTray, 1800);
+});
+
+/* ---------- drag screenshots into the chat window ---------- */
+let drag = null, chatAtt = [];
+function onDragDown(e) {
+  if (e.button !== 0) return;
+  const del = e.target.closest('[data-del]');
+  if (del) { e.stopPropagation(); e.preventDefault(); trash({ ids: [+del.dataset.del] }); return; }
+  const t = e.target.closest('.thumb, .handle'); if (!t || t.disabled) return;
+  const s = state.stash, isThumb = t.classList.contains('thumb'), id = isThumb ? +t.dataset.id : null;
+  const dragIds = isThumb ? (s.sel.has(id) && s.sel.size > 1 ? s.items.filter(i => s.sel.has(i.id)).map(i => i.id) : [id]) : s.items.map(i => i.id);
+  if (!dragIds.length) return;
+  drag = { ids: dragIds, x: e.clientX, y: e.clientY, active: false, pid: e.pointerId, thumb: id };
+  try { t.setPointerCapture(e.pointerId); } catch (_) {}
+}
+els.strip.addEventListener('pointerdown', onDragDown);
+els.trayShot.addEventListener('pointerdown', e => {
+  if (e.button !== 0 || !trayItem) return;
+  drag = { ids: [trayItem.id], x: e.clientX, y: e.clientY, active: false, pid: e.pointerId, thumb: null, fromTray: true };
+  try { els.trayShot.setPointerCapture(e.pointerId); } catch (_) {}
+  clearTimeout(trayT);
+});
+els.stackHandle.addEventListener('pointerdown', onDragDown);
+const overChat = e => { const r = els.chat.getBoundingClientRect(); return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom; };
+document.addEventListener('pointermove', e => {
+  if (!drag || e.pointerId !== drag.pid) return;
+  if (!drag.active && Math.hypot(e.clientX - drag.x, e.clientY - drag.y) > 4) {
+    drag.active = true; state.ui.pinned = true; clearTimeout(closeT);
+    const items = drag.ids.map(id => state.stash.items.find(i => i.id === id)).filter(Boolean);
+    els.ghost.innerHTML = items.slice(-3).map(it => `<div class="g">${shot(it.v)}</div>`).join('') + (items.length > 1 ? `<span class="count">${items.length}</span>` : '');
+    els.ghost.hidden = false;
+  }
+  if (drag.active) { const p = toScreen(e); els.ghost.style.left = p.x + 'px'; els.ghost.style.top = p.y + 'px'; els.chat.classList.toggle('target', overChat(e)); }
+});
+document.addEventListener('pointerup', e => {
+  if (!drag || e.pointerId !== drag.pid) return;
+  const d = drag; drag = null;
+  if (d.active) {
+    els.ghost.hidden = true; els.chat.classList.remove('target'); state.ui.pinned = false;
+    if (overChat(e)) { attach(d.ids); if (d.fromTray) hideTray(); }
+    else if (d.fromTray) { clearTimeout(trayT); trayT = setTimeout(hideTray, 2200); }
+    if (!hovering && state.ui.mode === 'open') closeT = setTimeout(closeNotch, state.opening.closeDelay);
+  } else if (d.thumb != null) selectId(d.thumb, e);
+});
+document.addEventListener('pointercancel', () => { if (drag && drag.active) { els.ghost.hidden = true; els.chat.classList.remove('target'); state.ui.pinned = false; } drag = null; });
+function attach(list) {
+  const items = list.map(id => state.stash.items.find(i => i.id === id)).filter(Boolean);
+  items.forEach(it => { if (!chatAtt.some(a => a.id === it.id)) chatAtt.push(it); });
+  renderChat();
+  announce(`${plural(items.length, 'screenshot')} attached to the chat`);
+}
+function renderChat() {
+  els.chatHint.hidden = chatAtt.length > 0; els.chatAtt.hidden = chatAtt.length === 0;
+  els.chatAtt.innerHTML = chatAtt.map((it, i) => `<span class="att"><b>${i + 1}</b>${shot(it.v)}</span>`).join('') + `<p>${plural(chatAtt.length, 'screenshot')} attached, in order. <button class="link" data-act="chatclear">Clear</button></p>`;
+}
+
+/* ---------- shelf: real files dragged in from Finder ---------- */
+let fileDrag = false, fileLeaveT = 0;
+const hasFiles = e => !!(e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files'));
+const fmtSize = b => b >= 1e6 ? `${(b / 1e6).toFixed(1)} MB` : b >= 1e3 ? `${Math.round(b / 1e3)} KB` : `${b} bytes`;
+function fileIcon(name) {
+  const ext = (String(name).includes('.') ? String(name).split('.').pop() : '').toLowerCase();
+  const col = ({ pdf: '#ff453a', fig: '#bf5af2', sketch: '#ff9f0a', png: '#0a84ff', jpg: '#0a84ff', jpeg: '#0a84ff', heic: '#0a84ff', gif: '#0a84ff', mov: '#64d2ff', mp4: '#64d2ff', zip: '#ffd60a', swift: '#ff9f0a' })[ext] || '#8e8e93';
+  return `<svg class="ic" width="22" height="28" viewBox="0 0 22 28" aria-hidden="true"><path d="M3 1h11l6 6v18a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2Z" fill="#f2f2f7"/><path d="M14 1v4a2 2 0 0 0 2 2h4Z" fill="#d1d1d6"/><rect x="1" y="16" width="20" height="7" style="fill:${col}"/><text x="11" y="21.6" text-anchor="middle" font-size="5.2" font-weight="700" fill="#fff" font-family="-apple-system,BlinkMacSystemFont,sans-serif">${esc(ext.slice(0, 4).toUpperCase() || 'FILE')}</text></svg>`;
+}
+function renderShelf() {
+  const f = state.shelf.files;
+  els.files.innerHTML = f.length
+    ? f.map((x, i) => `<div class="file" title="${esc(x.name)}">${fileIcon(x.name)}<span><b>${esc(x.name)}</b><small>${fmtSize(x.size)}</small></span><span class="x" data-rm="${i}" title="Remove from the shelf">${icon('x', 9)}</span></div>`).join('')
+    : '<div class="shelf-empty">Drop files here to keep them handy, then drag them out when you need them.</div>';
+}
+window.addEventListener('dragover', e => { if (hasFiles(e)) e.preventDefault(); });
+window.addEventListener('drop', e => { if (hasFiles(e)) e.preventDefault(); });
+els.screen.addEventListener('dragenter', e => {
+  if (!hasFiles(e)) return; e.preventDefault(); clearTimeout(fileLeaveT);
+  if (!fileDrag) { fileDrag = true; openNotch('shelf', { pinned: true }); els.files.classList.add('drop'); }
+});
+els.screen.addEventListener('dragover', e => {
+  if (!hasFiles(e)) return; e.preventDefault(); clearTimeout(fileLeaveT);
+  e.dataTransfer.dropEffect = 'copy';
+  els.airdrop.classList.toggle('drop', !!(e.target.closest && e.target.closest('#airdrop')));
+});
+els.screen.addEventListener('dragleave', e => { if (!hasFiles(e)) return; clearTimeout(fileLeaveT); fileLeaveT = setTimeout(() => endFileDrag(false), 90); });
+els.screen.addEventListener('drop', e => {
+  if (!hasFiles(e)) return; e.preventDefault();
+  const files = Array.from(e.dataTransfer.files || []);
+  const toAirDrop = !!(e.target.closest && e.target.closest('#airdrop'));
+  endFileDrag(true);
+  if (!files.length) return;
+  if (toAirDrop) { toast(`AirDrop would open for ${plural(files.length, 'file')}`); return; }
+  files.forEach(f => state.shelf.files.unshift({ name: f.name, size: f.size }));
+  renderShelf(); toast(`Added ${plural(files.length, 'file')} to the shelf`);
+});
+function endFileDrag(dropped) {
+  fileDrag = false; els.files.classList.remove('drop'); els.airdrop.classList.remove('drop');
+  state.ui.pinned = false;
+  if (!dropped && !hovering && state.ui.mode === 'open') closeT = setTimeout(closeNotch, state.opening.closeDelay);
+}
+els.files.addEventListener('click', e => {
+  const x = e.target.closest('[data-rm]'); if (!x) return;
+  state.shelf.files.splice(+x.dataset.rm, 1); renderShelf();
+});
+
+/* ---------- keyboard ---------- */
+const matches = (sc, e) => !!sc && e.code === sc.code && !!e.ctrlKey === !!sc.c && !!e.altKey === !!sc.a && !!e.shiftKey === !!sc.s && !!e.metaKey === !!sc.m;
+document.addEventListener('keydown', e => {
+  if (recording || state.view !== 'playground') return;
+  const sc = state.shortcuts;
+  if (matches(sc.open, e)) { e.preventDefault(); openNotch('stash', { pinned: true }); els.stage.focus({ preventScroll: true }); return; }
+  if (matches(sc.trashLast, e)) { e.preventDefault(); trash({ last: true }); return; }
+  if (matches(sc.clear, e)) { e.preventDefault(); clearStack(); return; }
+  if (e.target.closest && e.target.closest('.inspector, .toolbar, .scenarios')) return;
+  if (qlOpen) {
+    if (e.code === 'Space' || e.code === 'Escape') { e.preventDefault(); closeQL(); }
+    else if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') { e.preventDefault(); moveSel(e.code === 'ArrowRight' ? 1 : -1, false); }
+    return;
+  }
+  if (e.code === 'Escape' && state.ui.mode === 'open') { closeNotch(); return; }
+  if (e.metaKey && !e.shiftKey && e.code === 'KeyZ') { if (state.stash.trash.length) { e.preventDefault(); undo(); } return; }
+  if (state.ui.mode === 'open' && state.ui.tab === 'stash' && state.stash.permission === 'granted') {
+    if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') { e.preventDefault(); moveSel(e.code === 'ArrowRight' ? 1 : -1, e.shiftKey); }
+    else if (e.code === 'Backspace' || e.code === 'Delete') { e.preventDefault(); trash(); }
+    else if (e.code === 'Space') { e.preventDefault(); showQL(); }
+    else if (e.metaKey && e.code === 'KeyA') { e.preventDefault(); selectAll(); }
+    else if (e.metaKey && e.code === 'KeyC') { e.preventDefault(); copyStack(); }
+  }
+});
+
+/* ---------- effect demo ---------- */
+let inScreen = false, pulseT = [];
+els.screen.addEventListener('pointerenter', () => { inScreen = true; });
+els.screen.addEventListener('pointerleave', () => { inScreen = false; });
+function toggleEffect(kind) {
+  state.effect.kind = state.effect.kind === kind ? 'none' : kind;
+  transient = null; clearTimeout(transientT); state.music.playing = false;
+  prox = 0; closeNotch(); syncInputs(); renderMusic(); refresh();
+  if (state.effect.kind !== 'none') pulseEffect();
+}
+function pulseEffect() {
+  pulseT.forEach(clearTimeout); pulseT = [];
+  if (inScreen) return;
+  const cx = screenW / 2, y = state.device.notchH + 90;
+  const look = x => { pointer = { x, y }; if (state.effect.kind === 'eyemac') aimEyes(); };
+  prox = 1; look(cx); refresh();
+  pulseT.push(setTimeout(() => look(cx - 220), 450), setTimeout(() => look(cx + 220), 1000), setTimeout(() => look(cx), 1500));
+  pulseT.push(setTimeout(() => { if (!inScreen) { prox = 0; refresh(); } }, 2000));
+}
+
+const ROUTE_NOTES = {
+  hook: 'A UserPromptSubmit hook adds the path to your next message, so the live session sees it without you doing anything. CLI only \u2014 a known issue says it is dropped in the VS Code extension.',
+  mcp: 'CamHaus runs a small MCP server; the session pulls the shot with a tool call when it needs it. The most reliable of the four, but you have to ask.',
+  clipboard: 'The image goes on the clipboard and you press \u2303V. Works natively on macOS, but paste is known to fail silently now and then.',
+  off: 'Nothing is sent. The tray just sits there until you drag it somewhere or hit Send.'
+};
+function routeNote() {
+  const el = document.getElementById('routeNote'); if (!el) return;
+  el.textContent = state.claude.enabled ? ROUTE_NOTES[state.tray.route] : 'Claude sessions are off, so the tray only offers drag and copy.';
+}
+
+/* ---------- scenarios ---------- */
+const SC = {
+  idle: () => { transient = null; clearTimeout(transientT); clearTimeout(cardT); state.music.playing = false; state.effect.kind = 'none'; state.claude.phase = 'idle'; prox = 0; closeNotch(); syncInputs(); renderMusic(); renderClaude(); refresh(); },
+  music: () => { state.music.playing = true; state.music.live = true; closeNotch(); syncInputs(); renderMusic(); refresh(); },
+  capture: () => { closeNotch(); capture(); },
+  tray: () => { closeNotch(); if (!state.tray.enabled) { state.tray.enabled = true; syncInputs(); } if (trayItem) showTray(trayItem); else capture(); },
+  trash: () => { closeNotch(); if (state.stash.permission !== 'granted') { state.stash.permission = 'granted'; syncInputs(); } if (!state.stash.items.length) { seedStash(); renderStash(); } trash({ last: true }); },
+  pods: () => playConnect(),
+  charging: () => { state.mac.charging = true; syncInputs(); renderStatus(); closeNotch(); flashLive('charging', 2600); },
+  home: () => openNotch('home', { pinned: true }),
+  stash: () => openNotch('stash', { pinned: true }),
+  shelf: () => openNotch('shelf', { pinned: true }),
+  podcard: () => { state.pods.connected = true; syncInputs(); renderPods(); openNotch('airpods', { pinned: true }); },
+  claude: () => openNotch('claude', { pinned: true }),
+  settings: () => openNotch('settings', { pinned: true }),
+  claudework: () => { state.claude.enabled = true; state.claude.phase = 'working'; syncInputs(); renderClaude(); closeNotch(); flashLive('claude', 3200); },
+  claudewait: () => { state.claude.enabled = true; state.claude.phase = 'waiting'; syncInputs(); renderClaude(); closeNotch(); refresh(); },
+  expando: () => toggleEffect('expando'),
+  eyemac: () => toggleEffect('eyemac')
+};
+$$('[data-sc]').forEach(b => b.addEventListener('click', () => { if (b.dataset.sc !== 'pods') clearTimeout(cardT); SC[b.dataset.sc](); if (state.ui.mode === 'open') els.stage.focus({ preventScroll: true }); }));
+function syncChips() {
+  const ui = state.ui, open = ui.mode === 'open';
+  const on = {
+    idle: !open && !ui.live && state.effect.kind === 'none',
+    music: !open && ui.live === 'music', capture: !open && ui.live === 'capture', tray: els.tray.classList.contains('on'), trash: !open && ui.live === 'trash',
+    pods: !open && ui.live === 'airpods', charging: !open && ui.live === 'charging',
+    claudework: !open && ui.live === 'claude' && state.claude.phase === 'working',
+    claudewait: !open && ui.live === 'claude' && state.claude.phase === 'waiting',
+    home: open && ui.tab === 'home', stash: open && ui.tab === 'stash', shelf: open && ui.tab === 'shelf', podcard: open && ui.tab === 'airpods',
+    claude: open && ui.tab === 'claude', settings: open && ui.tab === 'settings',
+    expando: state.effect.kind === 'expando', eyemac: state.effect.kind === 'eyemac'
+  };
+  $$('[data-sc]').forEach(b => b.setAttribute('aria-pressed', String(!!on[b.dataset.sc])));
+}
+
+/* ---------- actions ---------- */
+const ACT = {
+  replay: () => { const tab = state.ui.tab === 'airpods' ? 'home' : state.ui.tab; closeNotch(); setTimeout(() => openNotch(tab, { pinned: true }), state.motion.reduce ? 200 : 520); },
+  capture: () => SC.capture(), newstack: newStack, copy: copyStack, undo: () => undo(), qlclose: closeQL, connect: playConnect,
+  play: () => { state.music.playing = !state.music.playing; syncInputs(); renderMusic(); refresh(); },
+  prev: () => nextTrack(-1), next: () => nextTrack(1),
+  chatclear: () => { chatAtt = []; renderChat(); },
+  grant: () => { state.stash.permission = 'granted'; syncInputs(); renderStash(); },
+  notnow: () => closeNotch(),
+  sendclaude: () => {
+    const n = state.stash.items.length; if (!n) return;
+    if (!state.claude.enabled) { toast('Claude sessions are off in Settings'); return; }
+    state.claude.attached = n; renderClaude();
+    toast(`Sent ${plural(n, 'screenshot')} to “CamHaus” — paths pasted into its prompt`);
+    announce(`${plural(n, 'screenshot')} sent to the CamHaus Claude session`);
+  },
+  traysend: () => { if (traySent) return; traySent = true; paintTraySend(true); state.claude.attached = 1; renderClaude(); clearTimeout(trayT); trayT = setTimeout(hideTray, 1400); },
+  traycopy: () => { paintTraySend(true); clearTimeout(trayT); trayT = setTimeout(hideTray, 1400); },
+  traytrash: () => { const it = trayItem; hideTray(); if (it) trash({ ids: [it.id] }); },
+  goclaude: () => { state.ui.tab = 'claude'; state.stash.unseen = state.stash.unseen; refresh(); },
+  settings: () => toast('System Settings would open here'),
+  appsettings: () => openNotch(state.ui.tab === 'settings' ? 'home' : 'settings', { pinned: true }),
+  airdrop: () => toast('Drop files on AirDrop to send them')
+};
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  const f = ACT[a.dataset.act]; if (f) f(a, e);
+});
+
+/* ---------- inspector binding ---------- */
+function fmtUnit(v, u) {
+  if (u === 's') return v.toFixed(2) + ' s';
+  if (u === 's0') return Math.round(v) + ' s';
+  if (u === 'ms') return Math.round(v) + ' ms';
+  if (u === '%') return Math.round(v) + '%';
+  if (u === 'x') return '×' + (1 + v).toFixed(2);
+  if (u === 'f') return v.toFixed(2);
+  return Math.round(v) + ' pt';
+}
+function syncInputs() {
+  $$('[data-path]').forEach(el => {
+    const v = getP(state, el.dataset.path);
+    if (el.classList.contains('seg')) $$('button', el).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.value === String(v))));
+    else if (el.type === 'checkbox') el.checked = !!v;
+    else el.value = String(v);
+  });
+  $$('output[data-for]').forEach(o => { o.textContent = fmtUnit(getP(state, o.dataset.for), o.dataset.unit); });
+}
+document.addEventListener('input', e => {
+  const el = e.target, path = el.dataset && el.dataset.path; if (!path) return;
+  const v = el.type === 'checkbox' ? el.checked : el.type === 'range' ? parseFloat(el.value) : el.tagName === 'SELECT' ? (isNaN(+el.value) ? el.value : +el.value) : el.value;
+  setP(state, path, v); changed(path);
+});
+document.addEventListener('click', e => {
+  const b = e.target.closest('.seg[data-path] button'); if (!b) return;
+  setP(state, b.parentElement.dataset.path, b.dataset.value); changed(b.parentElement.dataset.path);
+});
+function changed(path) {
+  const d = state.device, m = state.motion;
+  switch (path) {
+    case 'device.scaling': [d.notchW, d.notchH] = SCALING[d.scaling]; break;
+    case 'device.notchW': case 'device.notchH': d.scaling = 'custom'; break;
+    case 'motion.preset': [m.response, m.damping] = PRESETS[m.preset]; break;
+    case 'motion.response': case 'motion.damping': m.preset = 'custom'; break;
+    case 'music.track': state.music.art = TRACKS[state.music.track].lowRes ? 'low' : 'high'; state.music.pos = 30; renderMusic(); break;
+    case 'music.playing': case 'music.art': case 'music.lowRes': case 'music.live': renderMusic(); break;
+    case 'pods.connected': if (state.pods.connected) { playConnect(); return; } if (state.ui.mode === 'open' && state.ui.tab === 'airpods') closeNotch(); break;
+    case 'mac.charging': renderStatus(); if (state.mac.charging) flashLive('charging', 2600); break;
+    case 'mac.battery': renderStatus(); break;
+    case 'stash.permission': renderStash(); break;
+    case 'effect.kind': prox = 0; break;
+    case 'claude.enabled': case 'claude.onHome': case 'claude.phase': case 'claude.ctx': case 'claude.s5': renderClaude(); break;
+    case 'tray.route': routeNote(); if (els.tray.classList.contains('on') && trayItem) showTray(trayItem); break;
+    case 'tray.place': if (els.tray.classList.contains('on')) placeTray(); break;
+    case 'tray.enabled': if (!state.tray.enabled) hideTray(); break;
+    case 'wall': els.screen.dataset.wall = state.wall; break;
+  }
+  if (path.startsWith('pods.')) renderPods();
+  if (path.startsWith('claude.') || path.startsWith('tray.')) routeNote();
+  if (path.startsWith('claude.')) renderClaude();
+  syncInputs(); refresh(); renderSpecs();
+}
+
+/* ---------- views and appearance ---------- */
+function setView(v) {
+  state.view = v;
+  $$('[data-view]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.view === v)));
+  $$('.view').forEach(s => { s.hidden = s.id !== 'view-' + v; });
+  if (v === 'specs') renderSpecs();
+  if (v === 'playground') fit(); else closeNotch();
+}
+$$('[data-view]').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+$$('[data-theme-set]').forEach(b => b.addEventListener('click', () => {
+  const t = b.dataset.themeSet;
+  if (t === 'auto') root.removeAttribute('data-theme'); else root.dataset.theme = t;
+  $$('[data-theme-set]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+}));
+function fit() {
+  if (els.stage.offsetParent === null) return;
+  const avail = els.stage.clientWidth, minW = 780;
+  scale = avail && avail < minW ? avail / minW : 1;
+  screenW = scale < 1 ? minW : (avail || 1000);
+  els.screen.style.width = screenW + 'px';
+  els.screen.style.transform = scale < 1 ? `scale(${scale})` : '';
+  els.stage.style.height = Math.round(560 * scale) + 'px';
+  els.scaleNote.textContent = scale < 1 ? `Scaled to ${Math.round(scale * 100)}% to fit. Widen the window to see it at life size.` : 'Life-size at 100% browser zoom on a Mac: one point in the mock is one point on your screen.';
+  drawShape();
+}
+if ('ResizeObserver' in window) new ResizeObserver(() => fit()).observe(els.stage); else window.addEventListener('resize', fit);
+function announce(t) { els.announcer.textContent = ''; setTimeout(() => { els.announcer.textContent = t; }, 40); }
+
+/* ---------- onboarding ---------- */
+const OB = [{ next: 'Continue' }, { next: 'Continue' }, { next: 'Allow Access…', alt: 'Not Now', perm: 'files' }, { next: 'Allow Bluetooth…', alt: 'Not Now', perm: 'bt' }, { next: 'Continue' }, { next: 'Start Using CamHaus' }];
+let ob = 0;
+function renderOB() {
+  $$('.ob-step').forEach((s, i) => s.classList.toggle('on', i === ob));
+  els.obBack.style.visibility = ob === 0 ? 'hidden' : 'visible';
+  els.obNext.textContent = OB[ob].next;
+  els.obAlt.hidden = !OB[ob].alt; els.obAlt.textContent = OB[ob].alt || '';
+  $$('.dots i').forEach((d, i) => d.classList.toggle('on', i === ob));
+}
+function showAlert(kind) {
+  els.alertTitle.textContent = kind === 'files' ? '“CamHaus” would like to access files in your Desktop folder.' : '“CamHaus” would like to use Bluetooth.';
+  els.alertBody.textContent = kind === 'files' ? 'CamHaus collects new screenshots so you can keep them in order and drag them anywhere.' : 'CamHaus shows battery levels for your AirPods and their case.';
+  els.alertBack.dataset.kind = kind; els.alertBack.hidden = false; els.alertAllow.focus();
+}
+function closeAlert(allowed) {
+  if (els.alertBack.dataset.kind === 'files') { state.stash.permission = allowed ? 'granted' : 'denied'; renderStash(); syncInputs(); }
+  els.alertBack.hidden = true; ob = Math.min(OB.length - 1, ob + 1); renderOB(); els.obNext.focus();
+}
+els.obNext.addEventListener('click', () => { const s = OB[ob]; if (s.perm) { showAlert(s.perm); return; } if (ob === OB.length - 1) { ob = 0; renderOB(); setView('playground'); return; } ob += 1; renderOB(); });
+els.obAlt.addEventListener('click', () => { ob = Math.min(OB.length - 1, ob + 1); renderOB(); });
+els.obBack.addEventListener('click', () => { ob = Math.max(0, ob - 1); renderOB(); });
+els.alertAllow.addEventListener('click', () => closeAlert(true));
+els.alertDeny.addEventListener('click', () => closeAlert(false));
+document.addEventListener('keydown', e => {
+  if (state.view !== 'onboarding' || recording) return;
+  if (!els.alertBack.hidden) { if (e.code === 'Escape') { e.preventDefault(); closeAlert(false); } return; }
+  if (e.code === 'Enter' && !(e.target.closest && e.target.closest('button'))) { e.preventDefault(); els.obNext.click(); }
+});
+
+/* ---------- shortcut recorder ---------- */
+let recording = null;
+const KEYS = { Backspace: '⌫', Delete: '⌦', Space: 'Space', Enter: '↩', Tab: '⇥', ArrowLeft: '←', ArrowRight: '→', ArrowUp: '↑', ArrowDown: '↓', Escape: '⎋', Minus: '-', Equal: '=', BracketLeft: '[', BracketRight: ']', Semicolon: ';', Quote: "'", Comma: ',', Period: '.', Slash: '/', Backslash: '\\', Backquote: '`' };
+const keyLabel = code => KEYS[code] || (code.startsWith('Key') ? code.slice(3) : code.startsWith('Digit') ? code.slice(5) : code);
+const scLabel = sc => (sc.c ? '⌃' : '') + (sc.a ? '⌥' : '') + (sc.s ? '⇧' : '') + (sc.m ? '⌘' : '') + keyLabel(sc.code);
+function renderShortcuts() {
+  $$('.recorder').forEach(b => { if (b !== recording) b.textContent = scLabel(state.shortcuts[b.dataset.shortcut]); });
+  $$('[data-sclabel]').forEach(s => { s.textContent = scLabel(state.shortcuts[s.dataset.sclabel]); });
+  renderSpecs();
+}
+$$('.recorder').forEach(b => b.addEventListener('click', () => {
+  if (recording) { recording.classList.remove('rec'); }
+  recording = b; b.classList.add('rec'); b.textContent = 'Type a shortcut';
+}));
+document.addEventListener('keydown', e => {
+  if (!recording) return;
+  e.preventDefault(); e.stopPropagation();
+  if (e.code === 'Escape') { stopRec(); return; }
+  if (/^(Shift|Alt|Control|Meta)(Left|Right)$/.test(e.code)) return;
+  if (!(e.ctrlKey || e.altKey || e.metaKey)) { recording.textContent = 'Add ⌃, ⌥ or ⌘'; return; }
+  state.shortcuts[recording.dataset.shortcut] = { c: e.ctrlKey ? 1 : 0, a: e.altKey ? 1 : 0, s: e.shiftKey ? 1 : 0, m: e.metaKey ? 1 : 0, code: e.code };
+  stopRec();
+}, true);
+function stopRec() { if (!recording) return; recording.classList.remove('rec'); recording = null; renderShortcuts(); }
+
+/* ---------- specs ---------- */
+function renderSpecs() {
+  if (state.view !== 'specs') return;
+  const d = state.device, sc = 1.7, cw = 640, ch = 220;
+  const wS = d.notchW * sc, hS = d.notchH * sc, rS = d.r * sc, eS = d.ear * sc;
+  const x0 = (cw - wS) / 2 - eS, bx = x0 + eS, path = notchPath(wS, hS, rS, eS);
+  const mb = (d.notchH + 4) * sc, dimY = hS + 26, hx = bx + wS + eS + 26;
+  const txt = (x, y, s, a = 'middle', c = 'rgba(255,255,255,.82)', wgt = 600) => `<text x="${x}" y="${y}" text-anchor="${a}" font-size="12" font-weight="${wgt}" fill="${c}" font-family="-apple-system,BlinkMacSystemFont,sans-serif">${s}</text>`;
+  els.geoDiagram.innerHTML = `<svg viewBox="0 0 ${cw} ${ch}" role="img" aria-label="Notch geometry, ${d.notchW} by ${d.notchH} points">
+    <defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5d7fbf"/><stop offset="1" stop-color="#2b3550"/></linearGradient>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="2" height="6" fill="rgba(255,69,58,.6)"/></pattern>
+    <clipPath id="nclip"><path d="${path}" transform="translate(${x0},0)"/></clipPath></defs>
+    <rect width="${cw}" height="${ch}" fill="url(#dg)"/><rect width="${cw}" height="${mb}" fill="rgba(255,255,255,.12)"/>
+    <path d="${path}" transform="translate(${x0},0)" fill="#000"/>
+    <rect x="${bx}" y="0" width="${wS}" height="${hS}" fill="url(#hatch)" clip-path="url(#nclip)"/>
+    <g stroke="rgba(255,255,255,.75)" stroke-width="1"><path d="M${bx} ${dimY}H${bx + wS}M${bx} ${dimY - 5}v10M${bx + wS} ${dimY - 5}v10"/><path d="M${hx} 0V${hS}M${hx - 5} 0h10M${hx - 5} ${hS}h10"/><path d="M${bx + wS - rS * 0.3} ${hS - rS * 0.3}l38 34" stroke-dasharray="3 3"/><path d="M${x0 + eS * 0.35} ${eS * 0.35}l-40 30" stroke-dasharray="3 3"/></g>
+    ${txt(bx + wS / 2, dimY + 18, `W ${d.notchW} pt`)}${txt(bx + wS / 2, dimY + 34, 'right.minX − left.maxX', 'middle', 'rgba(255,255,255,.55)', 500)}
+    ${txt(hx + 10, hS / 2 + 4, `H ${d.notchH} pt`, 'start')}${txt(hx + 10, hS / 2 + 20, 'safeAreaInsets.top', 'start', 'rgba(255,255,255,.55)', 500)}
+    ${txt(bx + wS - rS * 0.3 + 42, hS - rS * 0.3 + 50, `r ${d.r} closed, ${d.rOpen} open`, 'start')}
+    ${txt(x0 + eS * 0.35 - 44, eS * 0.35 + 46, `ear ${d.ear}`, 'end')}
+    ${txt(cw / 2, ch - 14, 'Hatched: the camera housing. No pixels, so nothing is drawn there.', 'middle', 'rgba(255,255,255,.6)', 500)}
+  </svg>`;
+  const m = state.motion;
+  const rows = [['open', m.response, m.damping, '0 ms', 'The notch grows into a panel or live activity'], ['close', +(m.response * 0.85).toFixed(2), Math.min(1, +(m.damping + 0.06).toFixed(2)), '0 ms', 'Back to the housing, a little quicker'], ['contentIn', '—', '—', `${m.delay} ms`, 'Blur to sharp and scale 96% to 100% after the shape starts'], ['contentOut', '—', '—', '0 ms', 'Fades in 120 ms, before the shape shrinks']];
+  els.motionTable.innerHTML = `<tr><th>Token</th><th>Response</th><th>Damping</th><th>Delay</th><th>Use</th><th>Preview</th></tr>` + rows.map(([n, r, dmp, dl, use], i) => `<tr><td><code>${n}</code></td><td class="num">${typeof r === 'number' ? r.toFixed(2) + ' s' : r}</td><td class="num">${typeof dmp === 'number' ? dmp.toFixed(2) : dmp}</td><td class="num">${dl}</td><td>${use}</td><td>${i < 2 ? `<div class="demo"><button class="btn" data-demo="${i}">Play</button>&nbsp;&nbsp;<span id="demo${i}"></span></div>` : ''}</td></tr>`).join('');
+  els.kbdTable.innerHTML = `<tr><th>Keys</th><th>Where</th><th>Does</th></tr>` + [
+    [scLabel(state.shortcuts.open), 'Anywhere', 'Opens the stash'], [scLabel(state.shortcuts.trashLast), 'Anywhere', 'Moves the most recent screenshot to Trash'], [scLabel(state.shortcuts.clear), 'Anywhere', 'Moves the whole stack to Trash'],
+    ['← →', 'Stash', 'Moves the selection; add ⇧ to extend it'], ['⌫ or ⌘⌫', 'Stash', 'Moves the selection to Trash, no confirmation'], ['⌘Z', 'Stash', 'Puts the last deletion back where it was'],
+    ['Space', 'Stash', 'Quick Look'], ['⌘A, ⌘C', 'Stash', 'Selects all, copies the stack in order'], ['⎋', 'Open notch', 'Closes it']
+  ].map(([k, w, t]) => `<tr><td><span class="kb">${k}</span></td><td>${w}</td><td>${t}</td></tr>`).join('');
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-demo]'); if (!b) return;
+  const i = +b.dataset.demo, el = document.getElementById('demo' + i); if (!el) return;
+  const m = state.motion, resp = i === 0 ? m.response : m.response * 0.85, damp = i === 0 ? m.damping : Math.min(1, m.damping + 0.06);
+  const from = i === 0 ? 40 : 150, to = i === 0 ? 150 : 40;
+  if (state.motion.reduce) { el.style.width = to + 'px'; return; }
+  const { k, c } = springK(resp, damp); let x = from, v = 0, last = performance.now();
+  cancelAnimationFrame(el._raf); el.style.width = from + 'px';
+  const step = now => { const dt = clamp((now - last) / 1000, 0.001, 0.05); last = now; const n = Math.ceil(dt * 480), h = dt / n; for (let j = 0; j < n; j++) { const a = -k * (x - to) - c * v; v += a * h; x += v * h; } el.style.width = Math.max(4, x) + 'px'; if (Math.abs(x - to) > 0.05 || Math.abs(v) > 0.1) el._raf = requestAnimationFrame(step); else el.style.width = to + 'px'; };
+  el._raf = requestAnimationFrame(step);
+});
+function staticSpecs() {
+  const styles = [['Large Title', 26, 400], ['Title 1', 22, 400], ['Title 2', 17, 400], ['Title 3', 15, 400], ['Headline', 13, 700], ['Body', 13, 400], ['Callout', 12, 400], ['Subheadline', 11, 400], ['Footnote', 10, 400], ['Caption', 10, 400]];
+  els.typeSpec.innerHTML = styles.map(([n, s, w]) => `<div class="type-row"><small>${n}, ${s} pt</small><span style="font-size:${s}px;font-weight:${w}">Screenshots stay in order</span></div>`).join('') + '<p class="lede" style="margin-top:12px;max-width:none">In the notch: Headline for titles, Body for content, Subheadline for secondary lines, numbers tabular so they don’t jitter.</p>';
+  const sw = [['#000000', 'Notch black', 'The body, always. Matches the housing.'], ['#ffffff', 'Primary on notch', 'Titles and values'], ['rgba(255,255,255,.62)', 'Secondary on notch', 'Artist, metadata'], ['rgba(255,255,255,.15)', 'Raised fill', 'Selected tab, pills'], ['#30d158', 'Green, dark', 'Battery and charging'], ['#ff453a', 'Red, dark', 'Battery at 20% or less'], ['#ff9f0a', 'Orange, dark', 'Case light while charging'], ['#0a84ff', 'Blue, dark', 'Selection and primary buttons']];
+  els.swatches.innerHTML = sw.map(([c, n, u]) => `<div class="sw"><i style="background:${c}"></i><div><b>${n}</b><small>${c}<br>${u}</small></div></div>`).join('');
+  els.ringTiles.innerHTML = [[100, false], [52, false], [16, false], [64, true]].map(([p, ch]) => `<div class="tile">${meter(p, '', ch)}<small>${ch ? 'Charging' : p <= 20 ? 'Low' : 'Normal'}</small></div>`).join('');
+  els.anatomy.innerHTML = '<div style="flex:0 0 92px">Left slot</div><div class="mid" style="flex:1">Camera housing</div><div style="flex:0 0 92px">Right slot</div>';
+}
+
+/* ---------- init ---------- */
+els.brandIcon.innerHTML = appIcon(26);
+els.alertIcon.innerHTML = appIcon(56);
+els.obCheck.innerHTML = icon('check', 44);
+$$('.tab', els.openLayer).forEach(t => t.insertAdjacentHTML('afterbegin', t.dataset.tab === 'claude' ? claudeGlyph(15, '', CLAUDE_ORANGE) : icon({ home: 'home', stash: 'stash', shelf: 'shelf' }[t.dataset.tab] || 'home', 16)));
+els.gearBtn.innerHTML = icon('gear', 15);
+els.btnSend.innerHTML = `${claudeGlyph(12, '', CLAUDE_ORANGE)}Send to Claude`;
+els.trayCopyBtn.innerHTML = icon('copy', 12);
+els.trayTrashBtn.innerHTML = icon('trash', 12);
+routeNote();
+els.btnPrev.innerHTML = icon('prev', 18); els.btnNext.innerHTML = icon('next', 18);
+els.btnCopy.innerHTML = `${icon('copy', 12)}Copy all`;
+els.adIcon.innerHTML = icon('airdrop', 20);
+els.qlX.innerHTML = icon('x', 9);
+els.liveBolt.innerHTML = icon('bolt', 14);
+els.livePodsIcon.innerHTML = icon('pods', 16);
+els.stPodsIcon.innerHTML = icon('pods', 13);
+els.obStrip.innerHTML = [1, 0, 2].map((v, i) => `<span><b>${i + 1}</b>${shot(v)}</span>`).join('');
+els.obPods.innerHTML = `<div style="display:grid;justify-items:center;gap:8px"><div style="display:flex;gap:2px;align-items:center;height:62px">${budsGlyph('gen4', 0.58)}</div>${meter(84, '', false)}</div><div style="display:grid;justify-items:center;gap:8px"><div style="height:62px;display:flex;align-items:center">${caseGlyph('gen4', 'var(--norange)', 0.58)}</div>${meter(62, '', true)}</div>`;
+seedStash();
+renderStash(); renderShelf(); renderPods(); renderClaude(); renderSettings(); renderStatus(); renderMusic(); renderShortcuts(); renderChat(); staticSpecs();
+syncInputs(); drawShape(); fit(); refresh(); renderOB();
+setInterval(() => { const c = document.getElementById('clock'); if (c) c.textContent = clockText(); }, 30000);
+})();
+</script>
+</body>
+</html>
