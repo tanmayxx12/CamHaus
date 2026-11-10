@@ -112,7 +112,7 @@ button:disabled{opacity:.4}
 .ntoast.plain{padding-right:12px}
 
 /* home */
-.home{display:grid;grid-template-columns:minmax(0,1fr) 216px;gap:16px;height:100%}
+.home{display:grid;grid-template-columns:minmax(0,1fr) 188px;gap:16px;height:100%}
 .np{display:grid;grid-template-columns:88px minmax(0,1fr);gap:14px;align-items:center;min-width:0}
 .art{position:relative;width:88px;height:88px;border-radius:14px;overflow:hidden;background:#1c1c1e;box-shadow:0 10px 26px -10px rgba(0,0,0,.7)}
 .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
@@ -191,8 +191,7 @@ button:disabled{opacity:.4}
 .pods-grid{display:grid;grid-template-columns:1fr 1fr;align-items:center;justify-items:center;gap:8px;width:100%;max-width:368px}
 .pods-grid.solo{grid-template-columns:1fr}
 .pod2{display:grid;justify-items:center;gap:7px}
-.pod-art{height:86px;display:flex;align-items:center;justify-content:center;color:var(--on)}
-.pod-art.none{height:0}
+.pod-art{height:96px;display:flex;align-items:center;justify-content:center;gap:3px}
 .pod-art svg{display:block}
 .meters{display:flex;gap:14px;justify-content:center}
 .meter{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
@@ -224,52 +223,17 @@ button:disabled{opacity:.4}
 .cl-lim .t b{color:var(--on);font-weight:600;font-variant-numeric:tabular-nums}
 .cl-lim small{font-size:10px;color:var(--on-3)}
 .cl-att{display:flex;gap:5px;align-items:center;font-size:10.5px;color:var(--on-3)}
-.cg{display:block;flex:none}
-.cg.spin{animation:cgspin 4s linear infinite;transform-origin:50% 50%}
-@keyframes cgspin{to{transform:rotate(360deg)}}
-.cg.pulse{animation:cgpulse 1.8s ease-in-out infinite}
-@keyframes cgpulse{0%,100%{opacity:1}50%{opacity:.45}}
-.rm .cg.spin,.rm .cg.pulse{animation:none}
-.ctile{display:grid;place-items:center;flex:none;background:#D97757}
-
-/* Claude card on Home */
-.rail{display:grid;gap:8px;align-content:start;min-width:0}
-.cl-card{background:var(--nf);border-radius:14px;padding:9px 11px 10px;display:grid;gap:4px;min-width:0;text-align:left;border:0;color:inherit;font:inherit;width:100%}
-.cl-card:hover{background:var(--nf2)}
-.cl-card .r1{display:flex;align-items:center;gap:7px;min-width:0}
-.cl-card .r1 b{font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
-.cl-card .act{font-size:11.5px;color:var(--on-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cl-card.wait{box-shadow:inset 0 0 0 1px rgba(255,159,10,.55)}
-.cl-card .ctxrow{display:flex;align-items:center;gap:7px;font-size:10.5px;color:var(--on-3);font-variant-numeric:tabular-nums}
-.cl-card .ctxrow .bar{flex:1;height:3px}
-.cl-card .more{font-size:10.5px;color:var(--on-3)}
-.rail .side-card{padding:9px 11px}
-
-/* screenshot tray */
-.tray{position:absolute;z-index:11;width:290px;border-radius:16px;background:rgba(30,30,32,.8);-webkit-backdrop-filter:blur(32px) saturate(1.8);backdrop-filter:blur(32px) saturate(1.8);box-shadow:0 0 0 .5px rgba(255,255,255,.18),0 20px 48px -14px rgba(0,0,0,.75);color:#fff;overflow:hidden;opacity:0;transform:translateY(12px) scale(.95);pointer-events:none;transition:opacity .18s ease-out,transform .34s cubic-bezier(.2,.9,.25,1)}
-.tray.on{opacity:1;transform:none;pointer-events:auto}
-.rm .tray{transition:opacity .15s linear}
-.rm .tray.on{transform:none}
-.tray-main{display:grid;grid-template-columns:104px minmax(0,1fr);gap:11px;padding:11px 12px 9px;align-items:center}
-.tray-shot{position:relative;display:block;width:104px;height:66px;border-radius:8px;overflow:hidden;box-shadow:0 0 0 .5px rgba(255,255,255,.32);cursor:grab;touch-action:none}
-.tray-shot:active{cursor:grabbing}
-.tray-meta{min-width:0;display:grid;gap:2px}
-.tray-meta b{font-size:13px;font-weight:600}
-.tray-dest{font-size:11.5px;color:var(--on-2);display:flex;align-items:center;gap:5px;min-width:0}
-.tray-dest em{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tray-hint{font-size:11px;color:var(--on-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tray-acts{display:flex;gap:6px;align-items:center;padding:0 12px 11px}
-.tray-send{flex:1;border:0;border-radius:8px;padding:5px 10px;background:var(--nblue);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;min-width:0}
-.tray-send:hover{filter:brightness(1.08)}
-.tray-send.done{background:rgba(48,209,88,.2);color:var(--ngreen)}
-.tray-send.done:hover{filter:none}
-.tray-ic{border:0;background:var(--nf2);color:var(--on);width:30px;height:26px;border-radius:8px;display:grid;place-items:center;flex:none;padding:0}
-.tray-ic:hover{background:rgba(255,255,255,.24)}
-.tray-timer{height:2px;background:rgba(255,255,255,.1)}
-.tray-timer i{display:block;height:100%;width:100%;background:var(--on-3);transform-origin:0 50%}
-.tray-timer i.run{animation:drain linear forwards}
-.tray.hold .tray-timer i{animation-play-state:paused}
-@keyframes drain{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.crab{display:block}
+.crab .eye{transform-box:fill-box;transform-origin:center}
+.crab.anim .lgA{animation:crabA .48s steps(1) infinite}
+.crab.anim .lgB{animation:crabB .48s steps(1) infinite}
+.crab.anim .bod{animation:crabBob .96s steps(2) infinite}
+.crab.anim .eye{animation:crabBlink 3.4s infinite}
+@keyframes crabA{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.2px)}}
+@keyframes crabB{0%,100%{transform:translateY(-1.2px)}50%{transform:translateY(0)}}
+@keyframes crabBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-.5px)}}
+@keyframes crabBlink{0%,91%,100%{transform:scaleY(1)}93%,97%{transform:scaleY(.14)}}
+.rm .crab .lgA,.rm .crab .lgB,.rm .crab .bod,.rm .crab .eye{animation:none}
 
 /* settings */
 .set{height:100%;display:grid;grid-template-columns:1fr 1fr;gap:0 16px;align-content:start;overflow:auto;scrollbar-width:none}
@@ -546,7 +510,13 @@ code{font:12px/1.5 var(--mono)}
                         </div>
                       </div>
                     </div>
-                    <div class="rail" id="homeRail"></div>
+                    <div class="side-card">
+                      <h4>Next up</h4>
+                      <ul class="events">
+                        <li><i style="--c:var(--nblue)"></i><div><b>Design review</b><small>3:30 PM, 45 min</small></div></li>
+                        <li><i style="--c:var(--norange)"></i><div><b>Ship the notch shell</b><small>Tomorrow, all day</small></div></li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
 
@@ -618,18 +588,6 @@ code{font:12px/1.5 var(--mono)}
           <div class="ql-bar"><button class="ql-x" data-act="qlclose" aria-label="Close Quick Look" id="qlX"></button><span id="qlTitle"></span></div>
           <div class="ql-img" id="qlImg"></div>
         </div>
-        <div class="tray" id="tray" role="status" aria-live="polite">
-          <div class="tray-main">
-            <span class="tray-shot" id="trayShot" role="button" tabindex="0" aria-label="Drag this screenshot anywhere"></span>
-            <span class="tray-meta"><b id="trayTitle"></b><span class="tray-dest" id="trayDest"></span><span class="tray-hint" id="trayHint"></span></span>
-          </div>
-          <div class="tray-acts">
-            <button class="tray-send" id="traySend" data-act="traysend"></button>
-            <button class="tray-ic" data-act="traycopy" aria-label="Copy" id="trayCopyBtn"></button>
-            <button class="tray-ic" data-act="traytrash" aria-label="Move to Trash" id="trayTrashBtn"></button>
-          </div>
-          <div class="tray-timer"><i id="trayTimer"></i></div>
-        </div>
         <div class="ghost" id="ghost" hidden></div>
       </div>
     </div>
@@ -639,7 +597,6 @@ code{font:12px/1.5 var(--mono)}
         <button class="chip" data-sc="idle">Idle</button>
         <button class="chip" data-sc="music">Playing</button>
         <button class="chip" data-sc="capture">New screenshot</button>
-        <button class="chip" data-sc="tray">Tray only</button>
         <button class="chip" data-sc="trash">Moved to Trash</button>
         <button class="chip" data-sc="pods">AirPods connect</button>
         <button class="chip" data-sc="charging">Charging</button>
@@ -725,10 +682,6 @@ code{font:12px/1.5 var(--mono)}
       <div class="box">
         <div class="row"><label for="i-pm">Model</label><select id="i-pm" data-path="pods.model"><option value="gen2">AirPods (2nd gen)</option><option value="gen3">AirPods (3rd gen)</option><option value="gen4">AirPods 4</option><option value="pro2">AirPods Pro 2</option><option value="max">AirPods Max</option></select></div>
         <div class="row"><label for="i-pc">Connected</label><label class="switch"><input id="i-pc" type="checkbox" data-path="pods.connected"><span></span></label></div>
-        <div class="row"><span class="full">Artwork</span>
-          <div class="seg sm full" data-path="pods.art" role="group" aria-label="AirPods artwork"><button data-value="symbols">SF Symbols</button><button data-value="none">Rings only</button></div>
-          <p class="note">Apple's product renders ship with the OS and aren't available to other apps. SF Symbols is Apple's own glyph set, so it's the native-looking option.</p>
-        </div>
         <div class="row"><label for="i-pl">Left earbud</label><output data-for="pods.left" data-unit="%"></output><input id="i-pl" type="range" min="0" max="100" step="1" data-path="pods.left"></div>
         <div class="row"><label for="i-pr">Right earbud</label><output data-for="pods.right" data-unit="%"></output><input id="i-pr" type="range" min="0" max="100" step="1" data-path="pods.right"></div>
         <div class="row"><label for="i-pcase">Case</label><output data-for="pods.case" data-unit="%"></output><input id="i-pcase" type="range" min="0" max="100" step="1" data-path="pods.case"></div>
@@ -745,28 +698,11 @@ code{font:12px/1.5 var(--mono)}
         <div class="row"><span class="full">CamHaus session state</span>
           <div class="seg sm full" data-path="claude.phase" role="group" aria-label="Session state"><button data-value="working">Working</button><button data-value="waiting">Needs you</button><button data-value="idle">Idle</button></div>
         </div>
-        <div class="row"><label for="i-clh">Claude card on Home</label><label class="switch"><input id="i-clh" type="checkbox" data-path="claude.onHome"><span></span></label></div>
         <div class="row"><label for="i-clc">Context used</label><output data-for="claude.ctx" data-unit="%"></output><input id="i-clc" type="range" min="0" max="100" step="1" data-path="claude.ctx"></div>
         <div class="row"><label for="i-cl5">Session (5 h)</label><output data-for="claude.s5" data-unit="%"></output><input id="i-cl5" type="range" min="0" max="100" step="1" data-path="claude.s5"></div>
         <div class="row"><label for="i-clw">Weekly, all models</label><output data-for="claude.week" data-unit="%"></output><input id="i-clw" type="range" min="0" max="100" step="1" data-path="claude.week"></div>
         <div class="row"><label for="i-clf">Weekly, Fable</label><output data-for="claude.fable" data-unit="%"></output><input id="i-clf" type="range" min="0" max="100" step="1" data-path="claude.fable"></div>
         <div class="row"><span class="note">Context from the statusline JSON; limits from Claude Code's usage endpoint. Sources are in Specs.</span></div>
-      </div>
-    </section>
-
-    <section><h2>Screenshot tray</h2>
-      <div class="box">
-        <div class="row"><label for="i-tre">Show a tray after each capture</label><label class="switch"><input id="i-tre" type="checkbox" data-path="tray.enabled"><span></span></label></div>
-        <div class="row"><span class="full">Where it appears</span>
-          <div class="seg sm full" data-path="tray.place" role="group" aria-label="Tray placement"><button data-value="capture">By the capture</button><button data-value="corner">Bottom right</button><button data-value="pointer">At the pointer</button></div>
-          <p class="note">macOS puts its own thumbnail bottom right. Turn that one off in Screenshot's Options so you only get one.</p>
-        </div>
-        <div class="row"><label for="i-trd">Dismisses after</label><output data-for="tray.dismiss" data-unit="s0"></output><input id="i-trd" type="range" min="3" max="12" step="1" data-path="tray.dismiss"></div>
-        <div class="row"><span class="full">Where the screenshot goes</span>
-          <div class="seg sm full" data-path="tray.route" role="group" aria-label="Routing"><button data-value="hook">Hook</button><button data-value="mcp">MCP</button><button data-value="clipboard">Clipboard</button><button data-value="off">Manual</button></div>
-          <p class="note" id="routeNote"></p>
-        </div>
-        <div class="row"><span class="note">Needs Claude sessions on, above.</span><button class="btn primary" data-act="capture">Take a screenshot</button></div>
       </div>
     </section>
 
@@ -933,24 +869,6 @@ let notch = NSRect(x: left.maxX, y: screen.frame.maxY - h,
     </section>
 
     <section class="spec">
-      <div><h3>Getting a screenshot into Claude Code</h3><p class="lede">Four routes, each with a real failure mode. Switch between them in the inspector.</p></div>
-      <div>
-        <table>
-          <tr><th>Route</th><th>How it works</th><th>Catch</th></tr>
-          <tr><td>Hook</td><td>CamHaus installs a <code>UserPromptSubmit</code> hook that returns <code>hookSpecificOutput.additionalContext</code> naming the file, so the next thing you type carries the screenshot with it.</td><td>Fires on your next message, not the moment you capture. Reported to be dropped in the VS Code extension; the CLI is fine.</td></tr>
-          <tr><td>MCP</td><td>CamHaus runs a small MCP server with a <code>latest_screenshot</code> tool that returns an image content block. Whichever session is live pulls it.</td><td>The sturdiest of the four, but the session has to ask. Some clients show the image to the model and not to you.</td></tr>
-          <tr><td>Clipboard</td><td>The image goes on the pasteboard; you press ⌃V in the prompt.</td><td>Native on macOS, but paste is known to fail silently now and then.</td></tr>
-          <tr><td>Manual</td><td>The tray sits there. Drag it anywhere, or press Send.</td><td>Nothing automatic. The one that always works.</td></tr>
-        </table>
-        <ul class="rules">
-          <li>Typing into someone else's terminal is deliberately not on the list: it needs Accessibility, breaks on every terminal but the one you tested, and can't tell which pane holds the live session.</li>
-          <li>The tray appears where you captured. macOS shows its own thumbnail bottom right, so turn that one off in Screenshot's Options or you get two.</li>
-          <li>Routing never moves the original. Every screenshot is in the stash whichever route is on.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="spec">
       <div><h3>Keyboard</h3><p class="lede">Standard Mac keys inside the notch. Global shortcuts always use a modifier and can be changed.</p></div>
       <table id="kbdTable"></table>
     </section>
@@ -1015,9 +933,7 @@ let notch = NSRect(x: left.maxX, y: screen.frame.maxY - h,
         <tr><td>Glanceable widgets</td><td>Nook</td><td>One calm card beside Now Playing instead of a dashboard</td></tr>
         <tr><td>Expando and EyeMac</td><td>Notchmeister</td><td>Opt-in, drawn only outside the housing; EyeMac here is a stand-in until it's matched to the source</td></tr>
         <tr><td>Screenshot stash</td><td>CamHaus</td><td>Ordered stacks, instant delete with undo, drag a whole stack into a chat</td></tr>
-        <tr><td>Capture tray</td><td>macOS, CamHaus</td><td>Same idea as the system thumbnail, but it lands where you captured and routes the shot to Claude Code</td></tr>
-        <tr><td>Claude sessions</td><td>CamHaus</td><td>Live session, context and usage limits, with the active one summarised on Home</td></tr>
-        <tr><td>AirPods card</td><td>Apple's iOS case-open card (recreated)</td><td>Model detected from the Bluetooth product ID, then drawn as SF Symbols-style outline glyphs. The ID picks the glyph and never appears in the UI.</td></tr>
+        <tr><td>AirPods card</td><td>Apple's iOS case-open card (recreated)</td><td>Model detected from the Bluetooth product ID, original artwork per model, per-earbud and case battery with charging — drawn fresh, no Apple assets</td></tr>
         <tr><td>Claude sessions and limits</td><td>Nook (idea only; GPL-3.0, no code reused)</td><td>Sessions with phase and context, plus the 5-hour, weekly and Fable gauges from Claude Code's own usage data; calmer list, pure-black panel</td></tr>
         <tr><td>In-notch settings</td><td>Nook</td><td>Grouped macOS-Settings-style rows inside the notch; the full Settings window stays on ⌘,</td></tr>
       </table>
@@ -1080,23 +996,8 @@ const P = {
 const icon = (n, s = 16) => `<svg class="ic" width="${s}" height="${s}" viewBox="0 0 16 16" aria-hidden="true">${P[n]}</svg>`;
 /* Claude Code pixel mark — official path from @lobehub/icons-static-svg (MIT packaging; logo © Anthropic),
    rebuilt in layers (body / eyes / legs) so CamHaus can animate it. Brand color #D97757. */
-const CLAUDE_ORANGE = '#D97757';
-/* Stylised Claude mark: a radial burst of tapered spokes. Anthropic's trademark —
-   fine in a personal mockup, but check their brand guidelines before shipping. */
-function claudeGlyph(s = 16, anim = '', color = 'currentColor') {
-  const n = 11, cx = 12, cy = 12, r0 = 1.5, r1 = 10.2, w0 = 0.78, w1 = 2.1, f = v => v.toFixed(2);
-  let d = '';
-  for (let i = 0; i < n; i++) {
-    const a = (i / n) * Math.PI * 2 - Math.PI / 2;
-    const ca = Math.cos(a), sa = Math.sin(a), px = -sa, py = ca;
-    const ix = cx + ca * r0, iy = cy + sa * r0, ox = cx + ca * r1, oy = cy + sa * r1;
-    d += `M${f(ix + px * w0)} ${f(iy + py * w0)}L${f(ox + px * w1)} ${f(oy + py * w1)}`
-       + `A${w1} ${w1} 0 0 0 ${f(ox - px * w1)} ${f(oy - py * w1)}`
-       + `L${f(ix - px * w0)} ${f(iy - py * w0)}A${w0} ${w0} 0 0 0 ${f(ix + px * w0)} ${f(iy + py * w0)}Z`;
-  }
-  return `<svg class="cg${anim ? ' ' + anim : ''}" width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}" style="fill:${color}"/></svg>`;
-}
-const claudeTile = (s = 20) => `<span class="ctile" style="width:${s}px;height:${s}px;border-radius:${(s * .28).toFixed(1)}px">${claudeGlyph(Math.round(s * .74), '', '#fff')}</span>`;
+const CRAB_LEGS = [[4.487, 1.513], [7.488, 1.512], [15, 1.513], [18, 1.511]];
+const crabIcon = (s = 16, anim = false, eye = '#000') => `<svg class="crab${anim ? ' anim' : ''}" width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges"><g class="bod"><path fill="currentColor" d="M3 5h17.998v5.949H24v3.102h-3v3.028H3V14.05H0v-3.1h3V5Z"/><rect class="eye" x="6" y="8.102" width="1.488" height="2.847" style="fill:${eye}"/><rect class="eye" x="16.51" y="8.102" width="1.49" height="2.847" style="fill:${eye}"/></g>${CRAB_LEGS.map(([x, w], i) => `<rect class="${i % 2 ? 'lgB' : 'lgA'}" x="${x}" y="17.079" width="${w}" height="2.921" fill="currentColor"/>`).join('')}</svg>`;
 const appIcon = s => `<svg width="${s}" height="${s}" viewBox="0 0 64 64" aria-hidden="true"><rect x="2" y="2" width="60" height="60" rx="14" fill="url(#g-icon)"/><path d="M16 2h32v7a7 7 0 0 1-7 7H23a7 7 0 0 1-7-7Z" fill="#000"/><circle cx="32" cy="8.6" r="2.3" fill="#18223d"/><circle cx="31.3" cy="7.9" r=".75" fill="#7d96ff"/><path d="M20 45.5 32 35l12 10.5V53a2.5 2.5 0 0 1-2.5 2.5h-19A2.5 2.5 0 0 1 20 53Z" fill="none" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" opacity=".94"/></svg>`;
 
 /* ---------- fake screenshots (generic UIs) ---------- */
@@ -1112,7 +1013,7 @@ const shot = v => SHOTS[((v % SHOTS.length) + SHOTS.length) % SHOTS.length];
 /* ---------- data ---------- */
 const SCALING = { larger: [207, 36], default: [185, 32], more: [155, 27] };
 const PRESETS = { snappy: [0.3, 0.86], smooth: [0.42, 0.82], bouncy: [0.52, 0.64] };
-const OPEN = { home: [688, 232], stash: [660, 206], shelf: [600, 188], airpods: [480, 218], claude: [620, 212], settings: [560, 224] };
+const OPEN = { home: [640, 196], stash: [660, 206], shelf: [600, 188], airpods: [480, 218], claude: [620, 212], settings: [560, 224] };
 const TRACKS = [
   { title: 'Low Tide Radio', artist: 'Marlow & the Quiet Hours', dur: 252, badge: 'note', pal: ['#ff8a5c', '#5b2a86', '#ffd36e', '#ffffff'], tint: '#ffb27a', lowRes: false },
   { title: 'Paper Satellites', artist: 'Ines Okafor', dur: 228, badge: 'globe', pal: ['#2a5da8', '#0f1a2c', '#7fd3ff', '#9ad1ff'], tint: '#8fd5ff', lowRes: true },
@@ -1128,9 +1029,8 @@ const state = {
   a11y: { contrast: false },
   effect: { kind: 'none', strength: 0.55 },
   music: { playing: false, live: true, track: 0, art: 'high', lowRes: 'treat', pos: 96 },
-  pods: { connected: false, model: 'gen4', art: 'symbols', name: 'T’s AirPods', left: 84, right: 81, case: 62, caseCharging: true, inCase: false, card: true },
-  claude: { enabled: true, live: true, onHome: true, route: 'hook', phase: 'working', ctx: 38, s5: 34, week: 61, fable: 58, attached: 0 },
-  tray: { enabled: true, place: 'capture', dismiss: 6 },
+  pods: { connected: false, model: 'gen4', name: 'T’s AirPods', left: 84, right: 81, case: 62, caseCharging: true, inCase: false, card: true },
+  claude: { enabled: true, live: true, phase: 'working', ctx: 38, s5: 34, week: 61, fable: 58, attached: 0 },
   app: { login: true },
   mac: { battery: 82, charging: false },
   stash: { permission: 'granted', no: 2, started: '2:14 PM', items: [], sel: new Set(), trash: [], unseen: 0 },
@@ -1143,7 +1043,7 @@ const mk = (v, t) => ({ id: ++seq, v, t });
 const nowTime = () => new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 
 /* ---------- elements ---------- */
-const ids = ['stage', 'screen', 'notch', 'shapeSvg', 'shapePath', 'notchBody', 'openLayer', 'housing', 'grid', 'readout', 'chat', 'chatHint', 'chatAtt', 'ql', 'qlTitle', 'qlImg', 'qlX', 'ghost', 'scaleNote', 'extras', 'miniArt', 'miniShot', 'capCount', 'liveTrash', 'livePods', 'livePodsIcon', 'liveBolt', 'liveBatt', 'liveBattIcon', 'liveClaude', 'liveClaudeIcon', 'tabBadge', 'clBadge', 'stPods', 'stPodsIcon', 'stPodsPct', 'stBattPct', 'stBattIcon', 'gearBtn', 'art', 'npTitle', 'npArtist', 'npBar', 'npCur', 'npDur', 'npPlay', 'btnPrev', 'btnNext', 'stashPane', 'stackTitle', 'stackMeta', 'btnCopy', 'stackHandle', 'strip', 'stashEmpty', 'stashPrimer', 'stashFoot', 'btnSend', 'airdrop', 'adIcon', 'files', 'podsTitle', 'podsGrid', 'caseCol', 'budsIll', 'budMeters', 'caseIll', 'caseMeter', 'podFoot', 'clSessions', 'clLimits', 'setPane', 'homeRail', 'tray', 'trayShot', 'trayTitle', 'trayDest', 'trayHint', 'traySend', 'trayCopyBtn', 'trayTrashBtn', 'trayTimer', 'ntoast', 'ntoastText', 'ntoastUndo', 'eyes', 'artNote', 'announcer', 'brandIcon', 'obBack', 'obAlt', 'obNext', 'alertBack', 'alertIcon', 'alertTitle', 'alertBody', 'alertAllow', 'alertDeny', 'obStrip', 'obPods', 'obCheck', 'geoDiagram', 'motionTable', 'typeSpec', 'swatches', 'ringTiles', 'anatomy', 'kbdTable'];
+const ids = ['stage', 'screen', 'notch', 'shapeSvg', 'shapePath', 'notchBody', 'openLayer', 'housing', 'grid', 'readout', 'chat', 'chatHint', 'chatAtt', 'ql', 'qlTitle', 'qlImg', 'qlX', 'ghost', 'scaleNote', 'extras', 'miniArt', 'miniShot', 'capCount', 'liveTrash', 'livePods', 'livePodsIcon', 'liveBolt', 'liveBatt', 'liveBattIcon', 'liveClaude', 'liveClaudeIcon', 'tabBadge', 'clBadge', 'stPods', 'stPodsIcon', 'stPodsPct', 'stBattPct', 'stBattIcon', 'gearBtn', 'art', 'npTitle', 'npArtist', 'npBar', 'npCur', 'npDur', 'npPlay', 'btnPrev', 'btnNext', 'stashPane', 'stackTitle', 'stackMeta', 'btnCopy', 'stackHandle', 'strip', 'stashEmpty', 'stashPrimer', 'stashFoot', 'btnSend', 'airdrop', 'adIcon', 'files', 'podsTitle', 'podsGrid', 'caseCol', 'budsIll', 'budMeters', 'caseIll', 'caseMeter', 'podFoot', 'clSessions', 'clLimits', 'setPane', 'ntoast', 'ntoastText', 'ntoastUndo', 'eyes', 'artNote', 'announcer', 'brandIcon', 'obBack', 'obAlt', 'obNext', 'alertBack', 'alertIcon', 'alertTitle', 'alertBody', 'alertAllow', 'alertDeny', 'obStrip', 'obPods', 'obCheck', 'geoDiagram', 'motionTable', 'typeSpec', 'swatches', 'ringTiles', 'anatomy', 'kbdTable'];
 const els = {};
 ids.forEach(id => { els[id] = document.getElementById(id); });
 els.layers = $$('.layer', els.notchBody);
@@ -1414,61 +1314,86 @@ const meter = (p, label, charging) => `<span class="meter">${ringSVG(p, battColo
 
 /* ---------- AirPods: original CamHaus artwork, keyed by model ---------- */
 const PODS_MODELS = {
-  /* pid is how CamHaus tells the models apart from the Bluetooth record. It never reaches the UI. */
   gen2: { label: 'AirPods (2nd gen)', pid: '0x200F' },
   gen3: { label: 'AirPods (3rd gen)', pid: '0x2013' },
   gen4: { label: 'AirPods 4', pid: '0x2019' },
   pro2: { label: 'AirPods Pro 2', pid: '0x2024' },
   max: { label: 'AirPods Max', pid: '0x201F' }
 };
-const GS = 'fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"';
-/* Outline glyphs in the shape of Apple's own SF Symbols AirPods set — in the real app
-   these are Image(systemName: "airpods.gen4") and friends, not hand-drawn paths. */
-function budPath(cx, cy, R, stemLen, flip) {
-  const xL = 1.2, xR = R * 0.84, rc = 2.3;
-  const yl = Math.sqrt(R * R - xL * xL), yr = Math.sqrt(R * R - xR * xR), yB = stemLen;
-  const f = v => v.toFixed(2);
-  const d = `M${xL} ${f(yl)}V${f(yB - rc)}a${rc} ${rc} 0 0 0 ${rc} ${rc}h${f(xR - xL - 2 * rc)}`
-    + `a${rc} ${rc} 0 0 0 ${rc} ${-rc}V${f(yr)}A${R} ${R} 0 1 0 ${xL} ${f(yl)}Z`;
-  return `<g transform="translate(${cx},${cy})${flip ? ' scale(-1,1)' : ''}"><path d="${d}" ${GS}/></g>`;
+const BUD_SPEC = {
+  gen2: { hr: 11.5, vr: 10.5, stem: 40, sw: 8.6, tilt: -10, tip: false },
+  gen3: { hr: 14, vr: 12, stem: 26, sw: 10.6, tilt: -13, tip: false },
+  gen4: { hr: 14.5, vr: 12.5, stem: 22, sw: 10.8, tilt: -13, tip: false },
+  pro2: { hr: 15.2, vr: 13.2, stem: 17, sw: 11.6, tilt: -14, tip: true }
+};
+function budSVG(model, right, s = 1) {
+  const b = BUD_SPEC[model] || BUD_SPEC.gen4;
+  const W = 50, cx = 24, cy = 19;
+  const stemY = cy + b.vr * 0.35, stemH = b.stem + 16;
+  const H = Math.round(stemY + stemH + 12);
+  const k = (84 / H) * s;
+  const mesh = b.tip
+    ? `<ellipse cx="${cx + b.hr * 0.74}" cy="${cy - 0.5}" rx="7" ry="8.6" fill="url(#g-tip)"/><ellipse cx="${cx + b.hr * 0.9}" cy="${cy - 0.5}" rx="3.4" ry="4.8" fill="#2e3036"/>`
+    : `<ellipse cx="${cx + b.hr * 0.58}" cy="${cy + 0.5}" rx="4.4" ry="5.8" fill="#3c3e46"/><ellipse cx="${cx + b.hr * 0.58}" cy="${cy + 0.5}" rx="4.4" ry="5.8" fill="none" stroke="rgba(255,255,255,.3)" stroke-width=".7"/>`;
+  const inner = `
+    <ellipse cx="${cx}" cy="${H - 5}" rx="13" ry="3.6" fill="url(#g-shadow)"/>
+    <g transform="rotate(${b.tilt} ${cx} ${cy})">
+      <rect x="${cx - b.sw / 2}" y="${stemY}" width="${b.sw}" height="${stemH}" rx="${b.sw / 2}" fill="url(#g-stem)"/>
+      <rect x="${cx - b.sw / 2 + 1.2}" y="${stemY + stemH - 3.6}" width="${b.sw - 2.4}" height="2.2" rx="1.1" fill="#aeb3bd"/>
+      <ellipse cx="${cx}" cy="${cy}" rx="${b.hr}" ry="${b.vr}" fill="url(#g-bud)"/>
+      <ellipse cx="${cx + b.hr * 0.3}" cy="${cy + 0.8}" rx="${b.hr * 0.58}" ry="${b.vr * 0.8}" fill="url(#g-bud)"/>
+      ${mesh}
+      <ellipse cx="${cx - b.hr * 0.36}" cy="${cy - b.vr * 0.48}" rx="${b.hr * 0.32}" ry="${b.vr * 0.18}" fill="#fff" opacity=".8"/>
+    </g>`;
+  return `<svg width="${Math.round(W * k)}" height="${Math.round(H * k)}" viewBox="0 0 ${W} ${H}" aria-hidden="true">${right ? `<g transform="translate(${W},0) scale(-1,1)">${inner}</g>` : inner}</svg>`;
 }
-function budsGlyph(model, s = 1) {
-  const pro = model === 'pro2', R = pro ? 8 : 7.4, stem = pro ? 15 : 19.5;
-  const tip = (cx, flip) => pro ? `<ellipse cx="${cx + (flip ? 5.6 : -5.6)}" cy="-1.2" rx="3.4" ry="4.4" ${GS}/>` : '';
-  const h = 10 + stem + 4, w = 42;
-  return `<svg width="${Math.round(w * 2.1 * s)}" height="${Math.round(h * 2.1 * s)}" viewBox="0 0 ${w} ${h}" aria-hidden="true">`
-    + `<g transform="translate(0,9.5)">${budPath(12, 0, R, stem, false)}${tip(12, false)}${budPath(30, 0, R, stem, true)}${tip(30, true)}</g></svg>`;
+const CASE_SPEC = {
+  gen2: { w: 56, h: 72, rx: 18, seam: 0.42 },
+  gen3: { w: 82, h: 64, rx: 23, seam: 0.38 },
+  gen4: { w: 80, h: 62, rx: 23, seam: 0.38 },
+  pro2: { w: 88, h: 64, rx: 24, seam: 0.38 }
+};
+function caseSVG(model, light, s = 1) {
+  const c = CASE_SPEC[model] || CASE_SPEC.gen4;
+  const pad = 9, W = c.w + pad * 2, H = c.h + pad + 14;
+  const x = pad, y = 6, seamY = y + c.h * c.seam, k = (82 / H) * s;
+  const lid = `M${x} ${seamY} L${x} ${y + c.rx} Q${x} ${y} ${x + c.rx} ${y} L${x + c.w - c.rx} ${y} Q${x + c.w} ${y} ${x + c.w} ${y + c.rx} L${x + c.w} ${seamY} Z`;
+  return `<svg width="${Math.round(W * k)}" height="${Math.round(H * k)}" viewBox="0 0 ${W} ${H}" aria-hidden="true">
+    <ellipse cx="${W / 2}" cy="${y + c.h + 6}" rx="${c.w * 0.44}" ry="4.2" fill="url(#g-shadow)"/>
+    <rect x="${x}" y="${y}" width="${c.w}" height="${c.h}" rx="${c.rx}" fill="url(#g-case2)"/>
+    <path d="${lid}" fill="url(#g-lid)"/>
+    <path d="M${x + 1} ${seamY} h${c.w - 2}" stroke="#b6bac3" stroke-width="1.1"/>
+    <path d="M${x + 2} ${seamY + 1.3} h${c.w - 4}" stroke="rgba(255,255,255,.75)" stroke-width=".8"/>
+    <ellipse cx="${x + c.w * 0.3}" cy="${y + 6.5}" rx="${c.w * 0.18}" ry="3.8" fill="#fff" opacity=".7"/>
+    ${light ? `<circle cx="${W / 2}" cy="${seamY + (y + c.h - seamY) * 0.46}" r="5.5" style="fill:${light}" opacity=".3"/><circle cx="${W / 2}" cy="${seamY + (y + c.h - seamY) * 0.46}" r="2.4" style="fill:${light}"/>` : ''}
+  </svg>`;
 }
-function caseGlyph(model, light, s = 1) {
-  const tall = model === 'gen2';
-  const w = tall ? 26 : 36, h = tall ? 32 : 27, rx = tall ? 9.5 : 8.5, seam = h * 0.34;
-  const W = w + 6, H = h + 6, x = 3, y = 3;
-  const dot = light ? `<circle cx="${W / 2}" cy="${y + seam + (h - seam) * 0.5}" r="1.9" style="fill:${light};stroke:none"/>` : '';
-  return `<svg width="${Math.round(W * 2.1 * s)}" height="${Math.round(H * 2.1 * s)}" viewBox="0 0 ${W} ${H}" aria-hidden="true">`
-    + `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" ${GS}/><path d="M${x + 0.6} ${y + seam}H${x + w - 0.6}" ${GS}/>${dot}</svg>`;
-}
-function maxGlyph(s = 1) {
-  const W = 42, H = 40;
-  return `<svg width="${Math.round(W * 2.1 * s)}" height="${Math.round(H * 2.1 * s)}" viewBox="0 0 ${W} ${H}" aria-hidden="true">`
-    + `<path d="M8 21v-5a13 13 0 0 1 26 0v5" ${GS}/>`
-    + `<rect x="3.5" y="19" width="9.5" height="17.5" rx="4.75" ${GS}/>`
-    + `<rect x="29" y="19" width="9.5" height="17.5" rx="4.75" ${GS}/></svg>`;
+function maxSVG(s = 1) {
+  const W = 116, H = 96, k = (92 / H) * s;
+  const cup = (cx, flip) => `
+    <rect x="${cx - 13}" y="48" width="26" height="37" rx="12.5" fill="url(#g-cup)"${flip ? ` transform="translate(${2 * cx},0) scale(-1,1)"` : ''}/>
+    <ellipse cx="${cx + (flip ? 3 : -3)}" cy="66" rx="7.5" ry="12.5" fill="#c6cad3" opacity=".55"/>
+    <ellipse cx="${cx - (flip ? 4 : -4)}" cy="56" rx="5" ry="3.4" fill="#fff" opacity=".65"/>
+    <rect x="${cx - 2}" y="39" width="4" height="11" rx="2" fill="#b7bbc4"/>`;
+  return `<svg width="${Math.round(W * k)}" height="${Math.round(H * k)}" viewBox="0 0 ${W} ${H}" aria-hidden="true">
+    <ellipse cx="58" cy="90" rx="36" ry="4.2" fill="url(#g-shadow)"/>
+    <path d="M24 50v-6c0-18.2 15.2-31 34-31s34 12.8 34 31v6" fill="none" stroke="url(#g-stem)" stroke-width="10" stroke-linecap="round"/>
+    <path d="M30 49v-5c0-15.4 12.5-26 28-26s28 10.6 28 26v5" fill="none" stroke="#a9aeb8" stroke-width="3.6" stroke-linecap="round" opacity=".6"/>
+    ${cup(37, false)}${cup(79, true)}
+  </svg>`;
 }
 function renderPods() {
   const a = state.pods, M = PODS_MODELS[a.model] || PODS_MODELS.gen4;
   const solo = a.model === 'max', budsCharging = a.inCase && !solo;
-  const art = a.art !== 'none';
   els.podsGrid.classList.toggle('solo', solo);
   els.caseCol.hidden = solo;
-  els.budsIll.classList.toggle('none', !art);
-  els.caseIll.classList.toggle('none', !art);
-  els.budsIll.innerHTML = !art ? '' : solo ? maxGlyph() : budsGlyph(a.model);
-  if (!solo) els.caseIll.innerHTML = !art ? '' : caseGlyph(a.model, a.caseCharging ? (a.case >= 100 ? 'var(--ngreen)' : 'var(--norange)') : null);
+  els.budsIll.innerHTML = solo ? maxSVG() : budSVG(a.model, false) + budSVG(a.model, true);
+  if (!solo) els.caseIll.innerHTML = caseSVG(a.model, a.caseCharging ? (a.case >= 100 ? 'var(--ngreen)' : 'var(--norange)') : null);
   els.budMeters.innerHTML = solo
     ? meter(a.left, '', a.caseCharging)
     : (Math.abs(a.left - a.right) <= 5 ? meter(Math.min(a.left, a.right), '', budsCharging) : meter(a.left, 'L', budsCharging) + meter(a.right, 'R', budsCharging));
   els.caseMeter.innerHTML = solo ? '' : meter(a.case, '', a.caseCharging);
-  let foot = M.label;
+  let foot = `${M.label} · ${M.pid}`;
   if (solo) foot += a.caseCharging ? ' · Charging' : ' · Connected to this Mac';
   else if (a.caseCharging && a.inCase) foot += ' · Earbuds and case charging';
   else if (a.caseCharging) foot += ' · Case charging';
@@ -1485,32 +1410,14 @@ function renderPods() {
 
 /* ---------- Claude sessions and limits ---------- */
 const limColor = p => (p >= 90 ? 'var(--nred)' : p >= 75 ? 'var(--norange)' : 'var(--on)');
-function claudeSessions() {
+function renderClaude() {
   const c = state.claude;
-  return [
+  const sessions = [
     { name: 'CamHaus', model: 'Fable 5', phase: c.phase, ctx: c.ctx, t: '12m', act: c.phase === 'waiting' ? 'Approval needed: run xcodebuild test' : c.phase === 'working' ? 'Editing NotchGeometry.swift' : 'Finished: notch shell geometry spec' },
     { name: 'lunazone-api', model: 'Sonnet 5.5', phase: 'idle', ctx: 71, t: '1h 8m', act: 'Finished: fixed the flaky auth test' }
   ];
-}
-const phaseDot = p => (p === 'working' ? 'work' : p === 'waiting' ? 'wait' : 'done');
-function renderHomeRail() {
-  const c = state.claude, show = c.enabled && c.onHome, S = claudeSessions(), a = S[0];
-  const card = !show ? '' : `<button class="cl-card${a.phase === 'waiting' ? ' wait' : ''}" data-act="goclaude">
-      <span class="r1">${claudeTile(18)}<b>${a.name}</b><i class="cl-dot ${phaseDot(a.phase)}"></i></span>
-      <span class="act">${a.act}</span>
-      <span class="ctxrow"><span class="bar"><i style="width:${a.ctx}%;background:${limColor(a.ctx)}"></i></span>${Math.round(a.ctx)}%</span>
-      <span class="more">+${S.length - 1} more · ${Math.round(c.s5)}% of the 5 h window</span>
-    </button>`;
-  const ev = [['var(--nblue)', 'Design review', '3:30 PM, 45 min'], ['var(--norange)', 'Ship the notch shell', 'Tomorrow, all day']].slice(0, show ? 1 : 2);
-  els.homeRail.innerHTML = card + `<div class="side-card"><h4>Next up</h4><ul class="events">`
-    + ev.map(([col, t, w]) => `<li><i style="--c:${col}"></i><div><b>${t}</b><small>${w}</small></div></li>`).join('') + `</ul></div>`;
-}
-function renderClaude() {
-  const c = state.claude;
-  const sessions = claudeSessions();
-  renderHomeRail();
   els.clSessions.innerHTML = sessions.map((s, i) => {
-    const dot = phaseDot(s.phase);
+    const dot = s.phase === 'working' ? 'work' : s.phase === 'waiting' ? 'wait' : 'done';
     const att = i === 0 && c.attached ? `<div class="cl-att">${icon('stash', 11)}${plural(c.attached, 'screenshot')} from the stash, pasted into the prompt in order</div>` : '';
     return `<div class="cl-sess${s.phase === 'waiting' ? ' wait' : ''}"><div class="cl-top"><i class="cl-dot ${dot}"></i><b>${s.name}</b><span class="cl-chip">${s.model}</span><time>${s.t}</time></div><div class="cl-act">${s.act}</div>${att}<div class="cl-ctx"><span>Context</span><div class="bar"><i style="width:${s.ctx}%;background:${limColor(s.ctx)}"></i></div><span>${Math.round(s.ctx)}% of 200k</span></div></div>`;
   }).join('');
@@ -1518,7 +1425,7 @@ function renderClaude() {
   els.clLimits.innerHTML = '<h4>Usage limits</h4>' + lims.map(([n, p, r]) => `<div class="cl-lim"><div class="t"><span>${n}</span><b>${Math.round(p)}%</b></div><div class="bar"><i style="width:${p}%;background:${limColor(p)}"></i></div><small>${r}</small></div>`).join('');
   const waiting = c.enabled && c.phase === 'waiting';
   els.clBadge.textContent = waiting ? '1' : '';
-  els.liveClaudeIcon.innerHTML = `<span style="color:#D97757;display:flex">${claudeGlyph(17, c.phase === 'working' ? 'spin' : c.phase === 'waiting' ? 'pulse' : '')}</span>`;
+  els.liveClaudeIcon.innerHTML = `<span style="color:#D97757;display:flex">${crabIcon(17, c.phase === 'working')}</span>`;
   els.liveClaude.innerHTML = waiting ? '<span style="color:var(--norange)">Needs you</span>' : c.phase === 'working' ? '<span>Working…</span>' : '<span class="dim">Idle</span>';
 }
 
@@ -1533,7 +1440,7 @@ function renderSettings() {
         ${row(icon('sliders', 12), '#8e8e93', 'Open on', 'Hover · 140 ms ' + chev)}
         ${row(icon('note', 12), '#ff2d55', 'Now Playing while closed', sw('music.live'))}
         ${row(icon('pods', 12), '#0a84ff', 'AirPods card on connect', sw('pods.card'))}
-        ${row(claudeGlyph(12, '', '#fff'), '#D97757', 'Claude sessions', sw('claude.enabled'))}
+        ${row(crabIcon(12, false, '#D97757'), '#D97757', 'Claude sessions', sw('claude.enabled'))}
       </div>
     </div>
     <div>
@@ -1630,12 +1537,9 @@ function capture() {
   if (!s.items.length) s.started = it.t;
   s.items.push(it); s.sel = new Set([it.id]); anchor = it.id;
   if (!(state.ui.mode === 'open' && state.ui.tab === 'stash')) s.unseen += 1;
-  it.at = { x: pointer.x > 0 ? pointer.x : screenW / 2, y: pointer.y > 0 ? pointer.y : 270 };
   renderStash();
   els.miniShot.innerHTML = shot(it.v);
-  showTray(it);
-  const r = ROUTES[routeKey()];
-  announce(`Screenshot ${s.items.length} added to the stack. ${r.auto ? r.dest + '. ' + r.hint : ''}`);
+  announce(`Screenshot ${s.items.length} added to the stack`);
   if (state.ui.mode === 'open') {
     if (state.ui.tab === 'stash') { const el = els.strip.querySelector(`[data-id="${it.id}"]`); if (el) { el.classList.add('arrive'); if (el.scrollIntoView) el.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } }
     return;
@@ -1696,57 +1600,6 @@ function showQL() {
 function closeQL() { if (!qlOpen) return; els.ql.hidden = true; qlOpen = false; }
 els.strip.addEventListener('dblclick', e => { const t = e.target.closest('.thumb'); if (t) { selectId(+t.dataset.id); showQL(); } });
 
-/* ---------- screenshot tray ---------- */
-const ROUTES = {
-  hook:      { label: 'Send now',  dest: 'Claude Code · CamHaus', hint: 'Added to your next message', auto: true },
-  mcp:       { label: 'Send now',  dest: 'Claude Code · CamHaus', hint: 'Waiting for the session to ask', auto: true },
-  clipboard: { label: 'Copy',      dest: 'Copied to the clipboard', hint: 'Press \u2303V in Claude Code', auto: true },
-  off:       { label: 'Send to Claude Code', dest: 'Saved to the stash', hint: 'Drag it anywhere, or send it', auto: false }
-};
-let trayT = 0, trayItem = null, traySent = false;
-function routeKey() { return state.claude.enabled ? state.tray.route || state.claude.route : 'off'; }
-function placeTray() {
-  const t = els.tray, w = 290, h = t.offsetHeight || 112, m = 22;
-  let x, y;
-  if (state.tray.place === 'corner') { x = screenW - w - m; y = 560 - h - m; }
-  else {
-    const o = state.tray.place === 'pointer' ? pointer : (trayItem && trayItem.at) || pointer;
-    x = (o.x || screenW / 2) - w / 2; y = (o.y || 300) + 26;
-  }
-  t.style.left = clamp(x, m, Math.max(m, screenW - w - m)) + 'px';
-  t.style.top = clamp(y, state.device.notchH + 12, 560 - h - m) + 'px';
-}
-function showTray(it) {
-  if (!state.tray.enabled) return;
-  trayItem = it; traySent = false;
-  const r = ROUTES[routeKey()];
-  els.trayShot.innerHTML = shot(it.v);
-  els.trayTitle.textContent = `Screenshot ${state.stash.items.length}`;
-  els.trayDest.innerHTML = (r.auto && routeKey() !== 'clipboard' ? claudeTile(14) : icon('copy', 13)) + `<em>${r.dest}</em>`;
-  els.trayHint.textContent = r.hint;
-  paintTraySend(r.auto);
-  els.tray.classList.remove('hold');
-  els.tray.classList.add('on');
-  placeTray();
-  els.trayTimer.classList.remove('run'); void els.trayTimer.offsetWidth;
-  els.trayTimer.style.animationDuration = state.tray.dismiss + 's';
-  els.trayTimer.classList.add('run');
-  clearTimeout(trayT); trayT = setTimeout(hideTray, state.tray.dismiss * 1000);
-  if (r.auto) { traySent = true; state.claude.attached = 1; renderClaude(); }
-}
-function paintTraySend(done) {
-  const r = ROUTES[routeKey()];
-  els.traySend.classList.toggle('done', !!done);
-  els.traySend.innerHTML = done ? icon('check', 13) + (routeKey() === 'clipboard' ? 'Copied' : 'Sent') : (routeKey() === 'clipboard' ? icon('copy', 13) : claudeGlyph(13, '', '#fff')) + r.label;
-}
-function hideTray() { clearTimeout(trayT); els.tray.classList.remove('on'); }
-els.tray.addEventListener('pointerenter', () => { els.tray.classList.add('hold'); clearTimeout(trayT); });
-els.tray.addEventListener('pointerleave', () => {
-  if (!els.tray.classList.contains('on')) return;
-  els.tray.classList.remove('hold');
-  clearTimeout(trayT); trayT = setTimeout(hideTray, 1800);
-});
-
 /* ---------- drag screenshots into the chat window ---------- */
 let drag = null, chatAtt = [];
 function onDragDown(e) {
@@ -1761,12 +1614,6 @@ function onDragDown(e) {
   try { t.setPointerCapture(e.pointerId); } catch (_) {}
 }
 els.strip.addEventListener('pointerdown', onDragDown);
-els.trayShot.addEventListener('pointerdown', e => {
-  if (e.button !== 0 || !trayItem) return;
-  drag = { ids: [trayItem.id], x: e.clientX, y: e.clientY, active: false, pid: e.pointerId, thumb: null, fromTray: true };
-  try { els.trayShot.setPointerCapture(e.pointerId); } catch (_) {}
-  clearTimeout(trayT);
-});
 els.stackHandle.addEventListener('pointerdown', onDragDown);
 const overChat = e => { const r = els.chat.getBoundingClientRect(); return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom; };
 document.addEventListener('pointermove', e => {
@@ -1784,8 +1631,7 @@ document.addEventListener('pointerup', e => {
   const d = drag; drag = null;
   if (d.active) {
     els.ghost.hidden = true; els.chat.classList.remove('target'); state.ui.pinned = false;
-    if (overChat(e)) { attach(d.ids); if (d.fromTray) hideTray(); }
-    else if (d.fromTray) { clearTimeout(trayT); trayT = setTimeout(hideTray, 2200); }
+    if (overChat(e)) attach(d.ids);
     if (!hovering && state.ui.mode === 'open') closeT = setTimeout(closeNotch, state.opening.closeDelay);
   } else if (d.thumb != null) selectId(d.thumb, e);
 });
@@ -1893,23 +1739,11 @@ function pulseEffect() {
   pulseT.push(setTimeout(() => { if (!inScreen) { prox = 0; refresh(); } }, 2000));
 }
 
-const ROUTE_NOTES = {
-  hook: 'A UserPromptSubmit hook adds the path to your next message, so the live session sees it without you doing anything. CLI only \u2014 a known issue says it is dropped in the VS Code extension.',
-  mcp: 'CamHaus runs a small MCP server; the session pulls the shot with a tool call when it needs it. The most reliable of the four, but you have to ask.',
-  clipboard: 'The image goes on the clipboard and you press \u2303V. Works natively on macOS, but paste is known to fail silently now and then.',
-  off: 'Nothing is sent. The tray just sits there until you drag it somewhere or hit Send.'
-};
-function routeNote() {
-  const el = document.getElementById('routeNote'); if (!el) return;
-  el.textContent = state.claude.enabled ? ROUTE_NOTES[state.tray.route] : 'Claude sessions are off, so the tray only offers drag and copy.';
-}
-
 /* ---------- scenarios ---------- */
 const SC = {
   idle: () => { transient = null; clearTimeout(transientT); clearTimeout(cardT); state.music.playing = false; state.effect.kind = 'none'; state.claude.phase = 'idle'; prox = 0; closeNotch(); syncInputs(); renderMusic(); renderClaude(); refresh(); },
   music: () => { state.music.playing = true; state.music.live = true; closeNotch(); syncInputs(); renderMusic(); refresh(); },
   capture: () => { closeNotch(); capture(); },
-  tray: () => { closeNotch(); if (!state.tray.enabled) { state.tray.enabled = true; syncInputs(); } if (trayItem) showTray(trayItem); else capture(); },
   trash: () => { closeNotch(); if (state.stash.permission !== 'granted') { state.stash.permission = 'granted'; syncInputs(); } if (!state.stash.items.length) { seedStash(); renderStash(); } trash({ last: true }); },
   pods: () => playConnect(),
   charging: () => { state.mac.charging = true; syncInputs(); renderStatus(); closeNotch(); flashLive('charging', 2600); },
@@ -1929,7 +1763,7 @@ function syncChips() {
   const ui = state.ui, open = ui.mode === 'open';
   const on = {
     idle: !open && !ui.live && state.effect.kind === 'none',
-    music: !open && ui.live === 'music', capture: !open && ui.live === 'capture', tray: els.tray.classList.contains('on'), trash: !open && ui.live === 'trash',
+    music: !open && ui.live === 'music', capture: !open && ui.live === 'capture', trash: !open && ui.live === 'trash',
     pods: !open && ui.live === 'airpods', charging: !open && ui.live === 'charging',
     claudework: !open && ui.live === 'claude' && state.claude.phase === 'working',
     claudewait: !open && ui.live === 'claude' && state.claude.phase === 'waiting',
@@ -1956,10 +1790,6 @@ const ACT = {
     toast(`Sent ${plural(n, 'screenshot')} to “CamHaus” — paths pasted into its prompt`);
     announce(`${plural(n, 'screenshot')} sent to the CamHaus Claude session`);
   },
-  traysend: () => { if (traySent) return; traySent = true; paintTraySend(true); state.claude.attached = 1; renderClaude(); clearTimeout(trayT); trayT = setTimeout(hideTray, 1400); },
-  traycopy: () => { paintTraySend(true); clearTimeout(trayT); trayT = setTimeout(hideTray, 1400); },
-  traytrash: () => { const it = trayItem; hideTray(); if (it) trash({ ids: [it.id] }); },
-  goclaude: () => { state.ui.tab = 'claude'; state.stash.unseen = state.stash.unseen; refresh(); },
   settings: () => toast('System Settings would open here'),
   appsettings: () => openNotch(state.ui.tab === 'settings' ? 'home' : 'settings', { pinned: true }),
   airdrop: () => toast('Drop files on AirDrop to send them')
@@ -1972,7 +1802,6 @@ document.addEventListener('click', e => {
 /* ---------- inspector binding ---------- */
 function fmtUnit(v, u) {
   if (u === 's') return v.toFixed(2) + ' s';
-  if (u === 's0') return Math.round(v) + ' s';
   if (u === 'ms') return Math.round(v) + ' ms';
   if (u === '%') return Math.round(v) + '%';
   if (u === 'x') return '×' + (1 + v).toFixed(2);
@@ -2011,14 +1840,9 @@ function changed(path) {
     case 'mac.battery': renderStatus(); break;
     case 'stash.permission': renderStash(); break;
     case 'effect.kind': prox = 0; break;
-    case 'claude.enabled': case 'claude.onHome': case 'claude.phase': case 'claude.ctx': case 'claude.s5': renderClaude(); break;
-    case 'tray.route': routeNote(); if (els.tray.classList.contains('on') && trayItem) showTray(trayItem); break;
-    case 'tray.place': if (els.tray.classList.contains('on')) placeTray(); break;
-    case 'tray.enabled': if (!state.tray.enabled) hideTray(); break;
     case 'wall': els.screen.dataset.wall = state.wall; break;
   }
   if (path.startsWith('pods.')) renderPods();
-  if (path.startsWith('claude.') || path.startsWith('tray.')) routeNote();
   if (path.startsWith('claude.')) renderClaude();
   syncInputs(); refresh(); renderSpecs();
 }
@@ -2161,12 +1985,9 @@ function staticSpecs() {
 els.brandIcon.innerHTML = appIcon(26);
 els.alertIcon.innerHTML = appIcon(56);
 els.obCheck.innerHTML = icon('check', 44);
-$$('.tab', els.openLayer).forEach(t => t.insertAdjacentHTML('afterbegin', t.dataset.tab === 'claude' ? claudeGlyph(15, '', CLAUDE_ORANGE) : icon({ home: 'home', stash: 'stash', shelf: 'shelf' }[t.dataset.tab] || 'home', 16)));
+$$('.tab', els.openLayer).forEach(t => t.insertAdjacentHTML('afterbegin', t.dataset.tab === 'claude' ? crabIcon(15) : icon({ home: 'home', stash: 'stash', shelf: 'shelf' }[t.dataset.tab] || 'home', 16)));
 els.gearBtn.innerHTML = icon('gear', 15);
-els.btnSend.innerHTML = `${claudeGlyph(12, '', CLAUDE_ORANGE)}Send to Claude`;
-els.trayCopyBtn.innerHTML = icon('copy', 12);
-els.trayTrashBtn.innerHTML = icon('trash', 12);
-routeNote();
+els.btnSend.innerHTML = `${crabIcon(12)}Send to Claude`;
 els.btnPrev.innerHTML = icon('prev', 18); els.btnNext.innerHTML = icon('next', 18);
 els.btnCopy.innerHTML = `${icon('copy', 12)}Copy all`;
 els.adIcon.innerHTML = icon('airdrop', 20);
@@ -2175,7 +1996,7 @@ els.liveBolt.innerHTML = icon('bolt', 14);
 els.livePodsIcon.innerHTML = icon('pods', 16);
 els.stPodsIcon.innerHTML = icon('pods', 13);
 els.obStrip.innerHTML = [1, 0, 2].map((v, i) => `<span><b>${i + 1}</b>${shot(v)}</span>`).join('');
-els.obPods.innerHTML = `<div style="display:grid;justify-items:center;gap:8px"><div style="display:flex;gap:2px;align-items:center;height:62px">${budsGlyph('gen4', 0.58)}</div>${meter(84, '', false)}</div><div style="display:grid;justify-items:center;gap:8px"><div style="height:62px;display:flex;align-items:center">${caseGlyph('gen4', 'var(--norange)', 0.58)}</div>${meter(62, '', true)}</div>`;
+els.obPods.innerHTML = `<div style="display:grid;justify-items:center;gap:8px"><div style="display:flex;gap:2px;align-items:center;height:62px">${budSVG('gen4', false, 0.72)}${budSVG('gen4', true, 0.72)}</div>${meter(84, '', false)}</div><div style="display:grid;justify-items:center;gap:8px"><div style="height:62px;display:flex;align-items:center">${caseSVG('gen4', 'var(--norange)', 0.72)}</div>${meter(62, '', true)}</div>`;
 seedStash();
 renderStash(); renderShelf(); renderPods(); renderClaude(); renderSettings(); renderStatus(); renderMusic(); renderShortcuts(); renderChat(); staticSpecs();
 syncInputs(); drawShape(); fit(); refresh(); renderOB();
